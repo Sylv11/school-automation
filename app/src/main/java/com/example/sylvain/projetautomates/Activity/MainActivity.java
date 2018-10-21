@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        // On récupère les composants du layout main
-        et_main_email = (EditText)findViewById(R.id.et_main_email);
-        et_main_password = (EditText)findViewById(R.id.et_main_password);
-
         if(!this.prefs_datas.contains("super_user_created")) {
             Intent intentSuperUserRegister = new Intent(this,SuperUserRegisterActivity.class);
             startActivity(intentSuperUserRegister);
@@ -41,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
 
+        // On récupère les composants du layout main
+        et_main_email = (EditText)findViewById(R.id.et_main_email);
+        et_main_password = (EditText)findViewById(R.id.et_main_password);
 
     }
 
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_main_register:
                 Intent intentRegister = new Intent(this,RegisterActivity.class);
                 startActivity(intentRegister);
+                finish();
                 break;
         }
     }

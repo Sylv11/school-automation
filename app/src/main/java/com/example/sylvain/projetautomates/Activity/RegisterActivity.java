@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
             case R.id.btn_register_toLogin :
                 Intent toLoginIntent = new Intent(this,MainActivity.class);
                 startActivity(toLoginIntent);
+                finish();
                 break;
 
             case R.id.btn_register_registerAction:
