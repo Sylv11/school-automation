@@ -14,24 +14,31 @@
         android:textSize="30dp"/>
 
     <EditText
+        android:inputType="text"
+        android:maxLines="1"
         android:id="@+id/et_register_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/nom"/>
 
     <EditText
+        android:inputType="text"
+        android:maxLines="1"
         android:id="@+id/et_register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/prenom"/>
 
     <EditText
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
         android:id="@+id/et_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"/>
 
     <EditText
+        android:maxLines="1"
         android:id="@+id/et_register_password"
         android:inputType="textPassword"
         android:layout_width="match_parent"
@@ -46,6 +53,9 @@
         android:background="@drawable/primary_btn"
         android:textColor="#FFF"
         android:id="@+id/btn_register_registerAction"
+        android:drawableLeft="@drawable/register"
+        android:paddingLeft="5dp"
+        android:paddingEnd="30dp"
         android:onClick="onRegisterClickManager"/>
 
     <Button

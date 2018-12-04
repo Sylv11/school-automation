@@ -62,15 +62,24 @@ public class RegisterActivity extends AppCompatActivity {
                 if(firstname.length() >= 3){
                     if(email.length() >= 3){
                         if(password.length() >= 3){
-                            User user = new User(lastname, firstname, email, password, 1);
+
                             UserAccessDB userDB = new UserAccessDB(this);
-                            userDB.openForWrite();
-                            userDB.insertUser(user);
+                            userDB.openForRead();
+                            User userCheckExist = userDB.getUser(email);
                             userDB.Close();
 
-                            Intent intentToLogin = new Intent(this,MainActivity.class);
-                            startActivity(intentToLogin);
-                            Toast.makeText(this.getApplicationContext(),"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                            if(userCheckExist == null){
+                                User user = new User(lastname, firstname, email, password, 1);
+                                userDB.openForWrite();
+                                userDB.insertUser(user);
+                                userDB.Close();
+
+                                Intent intentToLogin = new Intent(this,MainActivity.class);
+                                startActivity(intentToLogin);
+                                Toast.makeText(this.getApplicationContext(),"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(getApplicationContext(), "Cette adresse email est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                            }
                         }else{
                             Toast.makeText(this.getApplicationContext(),"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
                         }

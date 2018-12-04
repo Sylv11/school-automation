@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:gravity="center">
+    android:gravity="center"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -14,14 +15,17 @@
         android:textSize="30dp"/>
 
     <EditText
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
         android:id="@+id/et_main_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"/>
 
     <EditText
-        android:id="@+id/et_main_password"
         android:inputType="textPassword"
+        android:maxLines="1"
+        android:id="@+id/et_main_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/mot_de_passe"/>
@@ -34,6 +38,9 @@
         android:background="@drawable/primary_btn"
         android:textColor="#FFF"
         android:id="@+id/btn_main_login"
+        android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+        android:paddingLeft="5dp"
+        android:paddingEnd="30dp"
         android:onClick="onMainClickManager"/>
 
     <Button

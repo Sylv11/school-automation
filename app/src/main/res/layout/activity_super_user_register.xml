@@ -13,19 +13,32 @@
         android:gravity="center_horizontal"
         android:textSize="30dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/super_user"
+        android:gravity="center_horizontal"
+        android:textSize="30dp"/>
+
     <EditText
+        android:inputType="text"
+        android:maxLines="1"
         android:id="@+id/et_super_user_register_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/nom"/>
 
     <EditText
+        android:inputType="text"
+        android:maxLines="1"
         android:id="@+id/et_super_user_register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/prenom"/>
 
     <EditText
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
         android:id="@+id/et_super_user_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +47,7 @@
     <EditText
         android:id="@+id/et_super_user_register_password"
         android:inputType="textPassword"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/mot_de_passe"/>
@@ -46,6 +60,9 @@
         android:background="@drawable/primary_btn"
         android:textColor="#FFF"
         android:id="@+id/btn_super_user_register"
+        android:drawableLeft="@drawable/register"
+        android:paddingLeft="5dp"
+        android:paddingEnd="30dp"
         android:onClick="onSuperUserRegisterClickManager"/>
 
 </LinearLayout>

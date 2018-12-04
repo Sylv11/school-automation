@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sylvain.projetautomates.DB.User;
+import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.R;
+import com.example.sylvain.projetautomates.Session;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_main_email;
     private EditText et_main_password;
 
+    private Session session;
     // Objet SharedPreferences pour la persistance des données
     // Je l'utilise ici pour vérifier si c'est le premier utilisateur que l'on crée (superutilisateur)
 
@@ -66,7 +70,27 @@ public class MainActivity extends AppCompatActivity {
         if(!email.isEmpty() && !password.isEmpty()) {
             if(email.length() >= 3){
                 if(password.length() >= 3){
-                    Toast.makeText(getApplicationContext(),"Vers le dashboard", Toast.LENGTH_SHORT).show();
+                    UserAccessDB userDB = new UserAccessDB(this);
+                    userDB.openForRead();
+                    User user = userDB.getUser(email);
+                    userDB.Close();
+
+                    if(user != null){
+                        if(password.equals(user.getPassword())){
+                            session = new Session(getApplication());
+                            session.setUser(user.getLastname(), user.getFirstname(), user.getEmail(), user.getPassword(), user.getRank());
+
+                            Intent DashboardIntent = new Intent(this, DashboardActivity.class);
+                            startActivity(DashboardIntent);
+                            finish();
+                            Toast.makeText(getApplicationContext(),"Vers le dashboard", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Cette adresse email n'est attribuée à aucun compte", Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
                     Toast.makeText(getApplicationContext(),"Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
                 }

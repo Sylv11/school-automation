@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ProjetAutomates</string>
     <string name="bienvenue">Bienvenue</string>
+    <string name="super_user">Enregistrement du super utilisateur</string>
     <string name="connexion">Connexion</string>
     <string name="inscription">Inscription</string>
     <string name="prenom">Prénom</string>

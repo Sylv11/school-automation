@@ -80,7 +80,7 @@ public class UserAccessDB {
     }
 
     public int removeUser(String email) {
-        return db.delete(TABLE_USER, COL_EMAIL + " = \"" + email + "\"", null);
+        return this.db.delete(TABLE_USER, COL_EMAIL + " = \"" + email + "\"", null);
     }
 
     public ArrayList<User> getUsers() {
@@ -103,10 +103,10 @@ public class UserAccessDB {
         return users;
     }
 
-    public User getUser(String username) {
+    public User getUser(String email) {
         Cursor c = this.db.query(TABLE_USER,
-                new String[] {COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_PASSWORD, COL_RANK },
-                COL_EMAIL + " LIKE \"" + username + "\"",
+                new String[] {COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_EMAIL, COL_PASSWORD, COL_RANK },
+                COL_EMAIL + " LIKE \"" + email + "\"",
                 null, null, null, COL_EMAIL
         );
 

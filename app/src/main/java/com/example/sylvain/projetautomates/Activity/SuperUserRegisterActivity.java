@@ -65,10 +65,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
                             SharedPreferences.Editor editeur_datas = prefs_datas.edit();
 
                             // Les valeurs à transmettre de type String
-                            editeur_datas.putBoolean("super_user_created", true);
-
-                            // Sauvegarde les nouvelles valeurs
-                            editeur_datas.commit();
+                            editeur_datas.putBoolean("super_user_created", true).commit();
 
                             Intent intentToLogin = new Intent(this,MainActivity.class);
                             startActivity(intentToLogin);
