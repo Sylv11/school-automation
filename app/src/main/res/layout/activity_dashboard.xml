@@ -13,4 +13,17 @@
         android:gravity="center_horizontal"
         android:textSize="30dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/se_deconnecter"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/primary_btn"
+        android:textColor="#FFF"
+        android:id="@+id/btn_dashboard_logout"
+        android:drawableLeft="@drawable/power"
+        android:paddingLeft="5dp"
+        android:paddingEnd="30dp"
+        android:onClick="onDashboardClickManager"/>
+
 </LinearLayout>

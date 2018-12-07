@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs_datas = PreferenceManager.getDefaultSharedPreferences(this);
 
         et_register_lastname = (EditText)findViewById(R.id.et_register_lastname);
         et_register_firstname = (EditText)findViewById(R.id.et_register_firstname);
@@ -76,24 +76,24 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 Intent intentToLogin = new Intent(this,MainActivity.class);
                                 startActivity(intentToLogin);
-                                Toast.makeText(this.getApplicationContext(),"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                                Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
                             }else {
-                                Toast.makeText(getApplicationContext(), "Cette adresse email est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Cette adresse email est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(this.getApplicationContext(),"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this,"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(this.getApplicationContext(),"Votre adresse email est trop courte",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Votre adresse email est trop courte",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(this.getApplicationContext(),"Votre prénom est trop court",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Votre prénom est trop court",Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(this.getApplicationContext(),"Votre nom est trop court",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Votre nom est trop court",Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this.getApplicationContext(),"Veuillez remplir tous les champs !",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Veuillez remplir tous les champs !",Toast.LENGTH_SHORT).show();
         }
     }
 }

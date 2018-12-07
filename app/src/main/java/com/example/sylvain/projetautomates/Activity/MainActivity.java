@@ -25,20 +25,27 @@ public class MainActivity extends AppCompatActivity {
     // Objet SharedPreferences pour la persistance des données
     // Je l'utilise ici pour vérifier si c'est le premier utilisateur que l'on crée (superutilisateur)
 
-    SharedPreferences prefs_datas;
+    private SharedPreferences prefs_datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        this.prefs_datas = PreferenceManager.getDefaultSharedPreferences(this);
+        this.session = new Session(this);
 
         if(!this.prefs_datas.contains("super_user_created")) {
             Intent intentSuperUserRegister = new Intent(this,SuperUserRegisterActivity.class);
             startActivity(intentSuperUserRegister);
         }else {
-            setContentView(R.layout.activity_main);
+            if(this.session.isLogged()) {
+                Intent dashboardIntent = new Intent(this, DashboardActivity.class);
+                startActivity(dashboardIntent);
+                finish();
+            }else {
+                setContentView(R.layout.activity_main);
+            }
         }
 
         // On récupère les composants du layout main
@@ -77,28 +84,26 @@ public class MainActivity extends AppCompatActivity {
 
                     if(user != null){
                         if(password.equals(user.getPassword())){
-                            session = new Session(getApplication());
-                            session.setUser(user.getLastname(), user.getFirstname(), user.getEmail(), user.getPassword(), user.getRank());
+                            this.session.setUser(user.getEmail());
 
-                            Intent DashboardIntent = new Intent(this, DashboardActivity.class);
-                            startActivity(DashboardIntent);
+                            Intent dashboardIntent = new Intent(this, DashboardActivity.class);
+                            startActivity(dashboardIntent);
                             finish();
-                            Toast.makeText(getApplicationContext(),"Vers le dashboard", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(getApplicationContext(),"Mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this,"Mot de passe incorrect", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),"Cette adresse email n'est attribuée à aucun compte", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Cette adresse email n'est attribuée à aucun compte", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
-                    Toast.makeText(getApplicationContext(),"Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(getApplicationContext(),"Votre adresse email est trop courte", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Votre adresse email est trop courte", Toast.LENGTH_SHORT).show();
             }
         }else {
-            Toast.makeText(getApplicationContext(),"Veuillez remplir tous les champs !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Veuillez remplir tous les champs !", Toast.LENGTH_SHORT).show();
         }
     }
 
