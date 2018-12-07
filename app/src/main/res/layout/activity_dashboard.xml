@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:gravity="center">
+    tools:context=".Activity.DashboardActivity">
+
+    <include layout="@layout/action_bar"/>
 
     <TextView
         android:id="@+id/tv_dashboard_welcome"
@@ -12,18 +14,5 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="30dp"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/se_deconnecter"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/primary_btn"
-        android:textColor="#FFF"
-        android:id="@+id/btn_dashboard_logout"
-        android:drawableLeft="@drawable/power"
-        android:paddingLeft="5dp"
-        android:paddingEnd="30dp"
-        android:onClick="onDashboardClickManager"/>
 
 </LinearLayout>

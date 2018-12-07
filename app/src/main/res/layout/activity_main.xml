@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
     android:gravity="center"
-    >
+    tools:context=".Activity.MainActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -20,7 +21,8 @@
         android:id="@+id/et_main_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email"/>
+        android:hint="@string/email"
+        android:backgroundTint="@color/colorMauve"/>
 
     <EditText
         android:inputType="textPassword"
@@ -28,7 +30,8 @@
         android:id="@+id/et_main_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mot_de_passe"/>
+        android:hint="@string/mot_de_passe"
+        android:backgroundTint="@color/colorMauve"/>
 
     <Button
         android:layout_width="match_parent"
@@ -52,7 +55,7 @@
         android:onClick="onMainClickManager"
         android:text="@string/enregistrer"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorMauve"
         android:textSize="15sp" />
 
 </LinearLayout>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:gravity="center">
+    android:gravity="center"
+    tools:context=".Activity.RegisterActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,7 +21,8 @@
         android:id="@+id/et_register_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/nom"/>
+        android:hint="@string/nom"
+        android:backgroundTint="@color/colorMauve"/>
 
     <EditText
         android:inputType="text"
@@ -27,7 +30,8 @@
         android:id="@+id/et_register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/prenom"/>
+        android:hint="@string/prenom"
+        android:backgroundTint="@color/colorMauve"/>
 
     <EditText
         android:inputType="textEmailAddress"
@@ -35,7 +39,8 @@
         android:id="@+id/et_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email"/>
+        android:hint="@string/email"
+        android:backgroundTint="@color/colorMauve"/>
 
     <EditText
         android:maxLines="1"
@@ -43,7 +48,8 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mot_de_passe"/>
+        android:hint="@string/mot_de_passe"
+        android:backgroundTint="@color/colorMauve"/>
 
     <Button
         android:layout_width="match_parent"
@@ -67,7 +73,7 @@
         android:onClick="onRegisterClickManager"
         android:text="@string/se_connecter"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorMauve"
         android:textSize="15sp" />
 
 </LinearLayout>

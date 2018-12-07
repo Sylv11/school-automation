@@ -11,4 +11,5 @@
     <string name="se_connecter">Se connecter</string>
     <string name="se_deconnecter">Se déconnecter</string>
     <string name="enregistrer">S\'enregistrer</string>
+    <string name="dashboard_title">TABLEAU DE BORD</string>
 </resources>
