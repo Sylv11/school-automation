@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:text="@string/connexion"
         android:gravity="center_horizontal"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:fontFamily="serif-monospace"/>
 
     <EditText
         android:inputType="textEmailAddress"

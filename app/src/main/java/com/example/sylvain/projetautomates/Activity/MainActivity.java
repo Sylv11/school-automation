@@ -16,14 +16,10 @@ import com.example.sylvain.projetautomates.Session;
 
 public class MainActivity extends AppCompatActivity {
 
-    // On déclare des attributs correspondants au layout main
-
     private EditText et_main_email;
     private EditText et_main_password;
 
     private Session session;
-    // Objet SharedPreferences pour la persistance des données
-    // Je l'utilise ici pour vérifier si c'est le premier utilisateur que l'on crée (superutilisateur)
 
     private SharedPreferences prefs_datas;
 
@@ -48,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // On récupère les composants du layout main
         et_main_email = (EditText)findViewById(R.id.et_main_email);
         et_main_password = (EditText)findViewById(R.id.et_main_password);
 
@@ -76,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkLogin(String email, String password){
         if(!email.isEmpty() && !password.isEmpty()) {
             if(email.length() >= 3){
-                if(password.length() >= 3){
+                if(password.length() >= 4){
                     UserAccessDB userDB = new UserAccessDB(this);
                     userDB.openForRead();
                     User user = userDB.getUser(email);

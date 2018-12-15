@@ -55,7 +55,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
             if(lastname.length() >= 3){
                 if(firstname.length() >= 3){
                     if(email.length() >= 3){
-                        if(password.length() >= 3){
+                        if(password.length() >= 4){
                             User user = new User(lastname, firstname, email, password, 2);
                             UserAccessDB userDB = new UserAccessDB(this);
                             userDB.openForWrite();

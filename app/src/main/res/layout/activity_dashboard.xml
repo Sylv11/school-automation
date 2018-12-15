@@ -9,10 +9,129 @@
     <include layout="@layout/action_bar"/>
 
     <TextView
-        android:id="@+id/tv_dashboard_welcome"
+        android:id="@+id/tv_dashboard_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="30dp"/>
+        android:textSize="20dp"
+        android:text="Une erreur est survenue"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorRed"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_infoTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:text="Informations"
+        android:fontFamily="sans-serif-smallcaps"
+        android:drawableTop="@drawable/info"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dashboard_numCPUTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        android:text="Référence du CPU : "
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_numCPU"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:text="Chargement..."/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_modelTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        android:text="Modèle du CPU : "
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_modelPU"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:text="Chargement..."/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_statusCPUTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        android:text="État du CPU : "
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_dashboard_statusCPU"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:text="Chargement..."
+        android:layout_marginBottom="10dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_dashboard_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:backgroundTint="@color/colorMauve"
+        android:drawableLeft="@drawable/refresh"
+        android:textColor="@color/colorWhite"
+        android:onClick="refreshInfo"
+        android:text="Rafraîchir"
+        android:background="@drawable/primary_btn"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_dashboard_powerPLC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:background="@drawable/secondary_btn"
+        android:backgroundTint="@color/colorGreen"
+        android:drawableLeft="@drawable/run"
+        android:onClick="togglePLCStatus"
+        android:text="Run"
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>

@@ -19,7 +19,8 @@
         android:textSize="18sp"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:fontFamily="sans-serif-smallcaps"/>
 
     <Button
         android:layout_width="match_parent"

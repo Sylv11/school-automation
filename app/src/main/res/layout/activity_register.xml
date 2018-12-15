@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/bienvenue"
         android:gravity="center_horizontal"
+        android:fontFamily="serif-monospace"
         android:textSize="30dp"/>
 
     <EditText
