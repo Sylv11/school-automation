@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.PharmaActivity">
+
+    <include layout="@layout/action_bar"/>
+
+    <Button
+        android:id="@+id/btn_pharma_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/secondary_btn"
+        android:backgroundTint="@color/colorGreen"
+        android:onClick="connectAutomaton"
+        android:layout_marginTop="10dp"
+        android:text="Se connecter à l'automate"
+        android:textColor="@color/colorWhite" />
+
+    <CheckBox
+        android:id="@+id/ch_pharma_convoyeur"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorDark"
+        android:background="@color/colorGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:onClick="onPharmaClickManager"
+        android:text=" Mettre en marche le convoyeur "
+        android:visibility="invisible"/>
+
+</LinearLayout>

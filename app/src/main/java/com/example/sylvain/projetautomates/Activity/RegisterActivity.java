@@ -1,8 +1,6 @@
 package com.example.sylvain.projetautomates.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,36 +13,35 @@ import com.example.sylvain.projetautomates.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    // EditText user informations
+
     private EditText et_register_lastname;
     private EditText et_register_firstname;
     private EditText et_register_email;
     private EditText et_register_password;
-
-    SharedPreferences prefs_datas;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        prefs_datas = PreferenceManager.getDefaultSharedPreferences(this);
-
-        et_register_lastname = (EditText)findViewById(R.id.et_register_lastname);
-        et_register_firstname = (EditText)findViewById(R.id.et_register_firstname);
-        et_register_email = (EditText)findViewById(R.id.et_register_email);
-        et_register_password = (EditText)findViewById(R.id.et_register_password);
+        this.et_register_lastname = (EditText)findViewById(R.id.et_register_lastname);
+        this.et_register_firstname = (EditText)findViewById(R.id.et_register_firstname);
+        this.et_register_email = (EditText)findViewById(R.id.et_register_email);
+        this.et_register_password = (EditText)findViewById(R.id.et_register_password);
     }
 
     public void onRegisterClickManager(View v){
 
         switch(v.getId()){
+            // Redirect to login
             case R.id.btn_register_toLogin :
                 Intent toLoginIntent = new Intent(this,MainActivity.class);
                 startActivity(toLoginIntent);
                 finish();
                 break;
 
+            // User registration
             case R.id.btn_register_registerAction:
                 String lastname = et_register_lastname.getText().toString();
                 String firstname = et_register_firstname.getText().toString();
@@ -63,17 +60,20 @@ public class RegisterActivity extends AppCompatActivity {
                     if(email.length() >= 3){
                         if(password.length() >= 4){
 
+                            // Check user informations and if user already exists
                             UserAccessDB userDB = new UserAccessDB(this);
                             userDB.openForRead();
                             User userCheckExist = userDB.getUser(email);
                             userDB.Close();
 
                             if(userCheckExist == null){
+                                // Store new user
                                 User user = new User(lastname, firstname, email, password, 1);
                                 userDB.openForWrite();
                                 userDB.insertUser(user);
                                 userDB.Close();
 
+                                // Redirect to login
                                 Intent intentToLogin = new Intent(this,MainActivity.class);
                                 startActivity(intentToLogin);
                                 Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 public class ToastService
 {
+    // Make a toast by context
     public static void show(final Context context, final String toast) {
         ((Activity)context).runOnUiThread(new Runnable() {
             @Override

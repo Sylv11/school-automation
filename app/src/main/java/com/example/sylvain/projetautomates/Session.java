@@ -12,6 +12,7 @@ import com.example.sylvain.projetautomates.DB.UserAccessDB;
 
 public class Session
 {
+    // SharedPreferences to store the user and DB to get it
     private SharedPreferences prefs;
     private UserAccessDB userDB;
     private Context context;
@@ -24,6 +25,7 @@ public class Session
         this.editor = prefs.edit();
     }
 
+    // Start the user session
     public void setUser(String email) {
         this.editor.putBoolean("IS_LOGGED", true);
         this.editor.putString("email", email);
@@ -31,6 +33,7 @@ public class Session
         this.editor.apply();
     }
 
+    // Get the logged user
     public User getUser() {
 
         if(this.isLogged()) {
@@ -49,6 +52,7 @@ public class Session
         return null;
     }
 
+    // Close the user session and redirect to login
     public void closeSession() {
         this.editor.remove("email");
         this.editor.remove("IS_LOGGED");
@@ -63,6 +67,7 @@ public class Session
         ((Activity)this.context).finish();
     }
 
+    // Check if the user is connected
     public boolean isLogged() {
         boolean logged = this.prefs.getBoolean("IS_LOGGED",false);
 

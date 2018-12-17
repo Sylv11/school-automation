@@ -15,11 +15,14 @@ import com.example.sylvain.projetautomates.R;
 
 public class SuperUserRegisterActivity extends AppCompatActivity {
 
+    // EditText user informations
+
     private EditText et_super_user_register_lastname;
     private EditText et_super_user_register_firstname;
     private EditText et_super_user_register_email;
     private EditText et_super_user_register_password;
 
+    // SharedPreferences to store superuser
     SharedPreferences prefs_datas;
 
 
@@ -39,6 +42,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
     public void onSuperUserRegisterClickManager(View v){
 
         switch(v.getId()){
+            // Superuser registration
             case R.id.btn_super_user_register:
                 String lastname = et_super_user_register_lastname.getText().toString();
                 String firstname = et_super_user_register_firstname.getText().toString();
@@ -56,6 +60,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
                 if(firstname.length() >= 3){
                     if(email.length() >= 3){
                         if(password.length() >= 4){
+                            // Store superuser in SharedPreferences
                             User user = new User(lastname, firstname, email, password, 2);
                             UserAccessDB userDB = new UserAccessDB(this);
                             userDB.openForWrite();
@@ -64,9 +69,9 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
 
                             SharedPreferences.Editor editeur_datas = prefs_datas.edit();
 
-                            // Les valeurs à transmettre de type String
                             editeur_datas.putBoolean("super_user_created", true).commit();
 
+                            // Redirect to login
                             Intent intentToLogin = new Intent(this,MainActivity.class);
                             startActivity(intentToLogin);
                             Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();

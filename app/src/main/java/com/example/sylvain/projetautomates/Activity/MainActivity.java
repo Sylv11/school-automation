@@ -16,11 +16,15 @@ import com.example.sylvain.projetautomates.Session;
 
 public class MainActivity extends AppCompatActivity {
 
+    // EditText of login and password of the user
+
     private EditText et_main_email;
     private EditText et_main_password;
 
+    // User session
     private Session session;
 
+    // SharedPreferences to store superuser creation
     private SharedPreferences prefs_datas;
 
     @Override
@@ -31,11 +35,17 @@ public class MainActivity extends AppCompatActivity {
         this.prefs_datas = PreferenceManager.getDefaultSharedPreferences(this);
         this.session = new Session(this);
 
+        // Check if superuser is already created
+
         if(!this.prefs_datas.contains("super_user_created")) {
             Intent intentSuperUserRegister = new Intent(this,SuperUserRegisterActivity.class);
             startActivity(intentSuperUserRegister);
         }else {
+            //Check if connected
+
             if(this.session.isLogged()) {
+                // to Dashboard
+
                 Intent dashboardIntent = new Intent(this, DashboardActivity.class);
                 startActivity(dashboardIntent);
                 finish();
@@ -44,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        et_main_email = (EditText)findViewById(R.id.et_main_email);
-        et_main_password = (EditText)findViewById(R.id.et_main_password);
+        this.et_main_email = (EditText)findViewById(R.id.et_main_email);
+        this.et_main_password = (EditText)findViewById(R.id.et_main_password);
 
     }
 
@@ -53,12 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
         switch(v.getId()){
 
+            // User check password
+
             case R.id.btn_main_login:
                 String email = et_main_email.getText().toString();
                 String password = et_main_password.getText().toString();
 
                 checkLogin(email,password);
                 break;
+
+            // User registration
 
             case R.id.btn_main_register:
                 Intent intentRegister = new Intent(this,RegisterActivity.class);
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         if(!email.isEmpty() && !password.isEmpty()) {
             if(email.length() >= 3){
                 if(password.length() >= 4){
+                    // Get user by email
                     UserAccessDB userDB = new UserAccessDB(this);
                     userDB.openForRead();
                     User user = userDB.getUser(email);
@@ -79,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(user != null){
                         if(password.equals(user.getPassword())){
+                            // Start user session and redirect to dashboard
                             this.session.setUser(user.getEmail());
 
                             Intent dashboardIntent = new Intent(this, DashboardActivity.class);

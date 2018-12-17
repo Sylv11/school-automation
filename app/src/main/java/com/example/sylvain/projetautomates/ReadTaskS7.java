@@ -2,7 +2,6 @@ package com.example.sylvain.projetautomates;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -14,13 +13,9 @@ import android.widget.TextView;
 import com.example.sylvain.projetautomates.SimaticS7.IntByRef;
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
-import com.example.sylvain.projetautomates.SimaticS7.S7CpInfo;
 import com.example.sylvain.projetautomates.SimaticS7.S7CpuInfo;
 import com.example.sylvain.projetautomates.SimaticS7.S7OrderCode;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -29,6 +24,7 @@ public class ReadTaskS7
 {
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
+    // TextView and Button of dashboard
     private AtomicBoolean isRunning = new AtomicBoolean(false);
     private TextView tv_dashboard_numCPU;
     private TextView tv_dashboard_modelPU;
@@ -38,9 +34,11 @@ public class ReadTaskS7
 
     private Context context;
 
+    // Thread and Automate class to communicate with
     private AutomateS7 plcS7;
     private Thread readThread;
 
+    // S7Client
     private S7Client comS7;
     private String[] param = new String[10];
 
@@ -58,12 +56,14 @@ public class ReadTaskS7
 
     }
 
+    // Stop the thread and disconnect to the automaton
     public void stop() {
         this.isRunning.set(false);
         this.comS7.Disconnect();
         this.readThread.interrupt();
     }
 
+    // Connection informations
     public void start(String ip, String rack, String slot) {
 
         if (!this.readThread.isAlive()) {
@@ -75,6 +75,7 @@ public class ReadTaskS7
         }
     }
 
+    // Send the informations to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Object obj) {
         ArrayList<String> data = ((ArrayList<String>)obj);
@@ -104,6 +105,9 @@ public class ReadTaskS7
                 this.tv_dashboard_modelPU.setText(" ⚠️Impossible de récupérer le modèle");
                 this.tv_dashboard_statusCPU.setText("⚠️Impossible de récupérer le statut");
                 this.tv_dashboard_error.setVisibility(View.VISIBLE);
+                this.btn_dashboard_powerPLC.setEnabled(false);
+                this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorDarkGray));
+                ToastService.show(this.context,"La connexion à l'automate a échoué");
             }
             this.stop();
         }catch(Exception e) {
@@ -112,6 +116,7 @@ public class ReadTaskS7
     }
 
 
+    // Run method according to the message
     @SuppressLint("HandlerLeak")
     private Handler myHandler = new Handler() {
         @Override
@@ -137,6 +142,7 @@ public class ReadTaskS7
         @Override
         public void run() {
 
+            // Connection to the automaton
             try {
                 comS7.SetConnectionType(S7.S7_BASIC);
                 this.res = comS7.ConnectTo(param[0],Integer.valueOf(param[1]),Integer.valueOf(param[2]));
@@ -144,8 +150,10 @@ public class ReadTaskS7
                 e.printStackTrace();
             }
 
+            // If the connection succeed
             if(this.res.equals(0)) {
 
+                // Get CPU order code
                 try {
                     S7OrderCode orderCode = new S7OrderCode();
                     Integer result = comS7.GetOrderCode(orderCode);
@@ -160,6 +168,7 @@ public class ReadTaskS7
                     e.printStackTrace();
                 }
 
+                // Get CPU status
                 try {
                     String state = "Undefined";
                     IntByRef ref = new IntByRef();
@@ -184,6 +193,7 @@ public class ReadTaskS7
                     e.printStackTrace();
                 }
 
+                // Get CPU model
                 try {
                     StringBuilder builderInfos = new StringBuilder();
                     S7CpuInfo cpuInfo = new S7CpuInfo();
@@ -209,6 +219,7 @@ public class ReadTaskS7
             }
         }
 
+        // Send message to the handler
         private void sendPreExecuteMessage(List<String> data) {
             Message preExecuteMsg = new Message();
             preExecuteMsg.what = MESSAGE_PRE_EXECUTE;

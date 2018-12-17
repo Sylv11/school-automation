@@ -1,6 +1,6 @@
 package com.example.sylvain.projetautomates.DB;
 
-// Classe User (table user)
+// User class (user table)
 public class User
 {
     private int id;

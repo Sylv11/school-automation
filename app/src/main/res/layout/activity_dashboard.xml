@@ -132,6 +132,7 @@
         android:drawableLeft="@drawable/run"
         android:onClick="togglePLCStatus"
         android:text="Run"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:visibility="visible"/>
 
 </LinearLayout>

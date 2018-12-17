@@ -1,11 +1,8 @@
 package com.example.sylvain.projetautomates;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.SimaticS7.S7;
@@ -16,13 +13,17 @@ public class TogglePLCStatusTask {
 
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
+    // Thread and Automate class to communicate with
     private AutomateS7 plcS7;
     private Thread readThread;
 
+    // S7Client
     private S7Client comS7;
     private String[] param = new String[10];
 
     private boolean CPLstatus;
+
+    // TextView of dashboard
     private TextView tv_dashboard_statusCPU;
 
     public TogglePLCStatusTask(boolean CPLstatus, TextView tv_dashboard_statusCPU) {
@@ -35,11 +36,13 @@ public class TogglePLCStatusTask {
 
     }
 
+    // Stop the thread and disconnect to the automaton
     public void stop() {
         this.comS7.Disconnect();
         this.readThread.interrupt();
     }
 
+    // Connection informations
     public void start(String ip, String rack, String slot) {
 
         if (!this.readThread.isAlive()) {
@@ -50,6 +53,7 @@ public class TogglePLCStatusTask {
         }
     }
 
+    // Send the informations to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Integer status) {
 
@@ -68,7 +72,7 @@ public class TogglePLCStatusTask {
         }
     }
 
-
+    // Run method according to the message
     @SuppressLint("HandlerLeak")
     private Handler myHandler = new Handler() {
         @Override
@@ -91,6 +95,7 @@ public class TogglePLCStatusTask {
         @Override
         public void run() {
 
+            // Connection to the automaton
             try {
                 comS7.SetConnectionType(S7.S7_BASIC);
                 this.res = comS7.ConnectTo(param[0],Integer.valueOf(param[1]),Integer.valueOf(param[2]));
@@ -99,9 +104,8 @@ public class TogglePLCStatusTask {
             }
 
             if(this.res.equals(0)) {
-
                 if(CPLstatus) {
-
+                    // Change CPU status to STOP
                     try {
                         Integer response = comS7.PlcStop();
 
@@ -115,6 +119,7 @@ public class TogglePLCStatusTask {
                         e.printStackTrace();
                     }
                 }else {
+                    // Change CPU status to RUN
                     try {
                         Integer response = comS7.PlcColdStart();
 
@@ -132,6 +137,7 @@ public class TogglePLCStatusTask {
             }
         }
 
+        // Send message to the handler
         private void sendPreExecuteMessage(Integer status) {
             Message preExecuteMsg = new Message();
             preExecuteMsg.what = MESSAGE_PRE_EXECUTE;

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sylvain.projetautomates">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.SuperUserRegisterActivity" />
-        <activity android:name=".Activity.DashboardActivity"></activity>
+        <activity android:name=".Activity.DashboardActivity" />
+        <activity android:name=".Activity.PharmaActivity"></activity>
     </application>
 
 </manifest>

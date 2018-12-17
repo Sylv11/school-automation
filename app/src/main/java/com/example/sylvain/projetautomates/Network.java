@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import java.util.TimerTask;
-
 public class Network {
 
     private Context context;
@@ -20,6 +18,7 @@ public class Network {
         this.connexStatus = (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
         try {
             this.network = this.connexStatus.getActiveNetworkInfo();
+            // return true if there is a network connectivity
             return this.network != null && this.network.isConnectedOrConnecting();
         }catch(Exception e) {
             e.printStackTrace();
