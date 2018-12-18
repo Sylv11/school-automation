@@ -112,7 +112,7 @@ public class TogglePLCStatusTask {
                         if(response.equals(0)) {
                             sendPreExecuteMessage(0);
                         }else {
-                            System.out.println("An error occured when shutting down PLC");
+                            System.out.println("An error has occured when shutting down PLC");
                         }
 
                     }catch (Exception e) {
@@ -126,7 +126,7 @@ public class TogglePLCStatusTask {
                         if(response.equals(0)) {
                             sendPreExecuteMessage(1);
                         }else {
-                            System.out.println("An error occured when starting PLC");
+                            System.out.println("An error has occured when starting PLC");
                         }
                     }catch (Exception e) {
                         e.printStackTrace();

@@ -9,6 +9,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WriteTaskS7
 {
+    private final int DB_NUMBER = 5;
+    private final int START = 5;
+    private int bit;
+
     private AtomicBoolean isRunning = new AtomicBoolean(false);
 
     // Thread and Automate class to communicate with
@@ -37,15 +41,11 @@ public class WriteTaskS7
 
     // Connection informations
     public void start(String ip, String rack, String slot){
-        System.out.println("AVANT START");
         if (!writeThread.isAlive()) {
-            System.out.println("DANS IF");
             parConnexion[0] = ip;
             parConnexion[1] = rack;
             parConnexion[2] = slot;
-            System.out.println("MDR");
             writeThread.start();
-            System.out.println("LOOL");
             isRunning.set(true);
         }
     }
@@ -67,14 +67,13 @@ public class WriteTaskS7
             }
 
             while(isRunning.get() && (response.equals(0))){
-
                 // Write request in API variable
                 // WriteArea(memoryArea, datablock address, variable lcoation, number of variable to transfer, data)
-                Integer writePLC = comS7.WriteArea(S7.S7AreaDB,5,0,1,wordCommand);
+                Integer writePLC = comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, START,1,wordCommand);
 
                 // If the request succeed
                 if(writePLC.equals(0)) {
-                    Log.i("ret WRITE : ", String.valueOf(response) + "****" + String.valueOf(writePLC));
+                    Log.i("Writting in ", "DB" + String.valueOf(DB_NUMBER) + ".DBB" + String.valueOf(START) + "." + String.valueOf(bit));
                 }
             }
         }
@@ -82,6 +81,7 @@ public class WriteTaskS7
 
     public void setWriteBool(int b, int v){
     // Masking
+        this.bit = (b == 1) ? 0 : b / 2;
         // Activate ( | => OR)
         if(v==1) wordCommand[0] = (byte)(b | wordCommand[0]);
         // Deactivate ( ~ => dual, & => AND)

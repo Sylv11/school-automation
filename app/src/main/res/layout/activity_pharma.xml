@@ -25,13 +25,77 @@
         android:id="@+id/ch_pharma_convoyeur"
         android:layout_margin="10dp"
         android:textStyle="bold"
-        android:textColor="@color/colorDark"
-        android:background="@color/colorGray"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorMauve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"
+        android:focusedByDefault="false"
         android:onClick="onPharmaClickManager"
-        android:text=" Mettre en marche le convoyeur "
+        android:text=" Activer le convoyeur "
+        android:buttonTint="@color/colorWhite"
         android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_pharma_numberTabletTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        android:text="Nombre de comprimés"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:visibility="invisible"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_pharma_pills5"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorMauve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onPharmaClickManager"
+            android:text=" 5 "
+            android:buttonTint="@color/colorWhite"
+            android:visibility="invisible"
+            android:focusedByDefault="false"/>
+
+        <RadioButton
+            android:id="@+id/rb_pharma_pills10"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorMauve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onPharmaClickManager"
+            android:text=" 10 "
+            android:buttonTint="@color/colorWhite"
+            android:visibility="invisible"
+            android:focusedByDefault="false"/>
+
+        <RadioButton
+            android:id="@+id/rb_pharma_pills15"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorMauve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onPharmaClickManager"
+            android:text=" 15 "
+            android:buttonTint="@color/colorWhite"
+            android:visibility="invisible"
+            android:focusedByDefault="false"/>
+
+        </RadioGroup>
 
 </LinearLayout>

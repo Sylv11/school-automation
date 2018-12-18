@@ -12,6 +12,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.LoadProperties;
@@ -27,6 +28,10 @@ public class PharmaActivity extends AppCompatActivity {
     private TextView action_bar_title;
     private CheckBox ch_pharma_convoyeur;
     private Button btn_pharma_connect;
+    private TextView tv_pharma_numberTabletTitle;
+    private RadioButton rb_pharma_pills5;
+    private RadioButton rb_pharma_pills10;
+    private RadioButton rb_pharma_pills15;
     // User session and Network connectivity
     private Session session;
     private Network network;
@@ -50,6 +55,11 @@ public class PharmaActivity extends AppCompatActivity {
         this.action_bar_title = (TextView)findViewById(R.id.action_bar_title);
         this.ch_pharma_convoyeur = (CheckBox)findViewById(R.id.ch_pharma_convoyeur);
         this.btn_pharma_connect = (Button)findViewById(R.id.btn_pharma_connect);
+        this.tv_pharma_numberTabletTitle = (TextView) findViewById(R.id.tv_pharma_numberTabletTitle);
+        this.rb_pharma_pills5 = (RadioButton)findViewById(R.id.rb_pharma_pills5);
+        this.rb_pharma_pills10 = (RadioButton)findViewById(R.id.rb_pharma_pills10);
+        this.rb_pharma_pills15 = (RadioButton)findViewById(R.id.rb_pharma_pills15);
+
 
         this.session = new Session(this);
         this.network = new Network(this);
@@ -118,19 +128,36 @@ public class PharmaActivity extends AppCompatActivity {
     }
 
     public void onPharmaClickManager (View v) {
-        switch (v.getId()){
-            case R.id.ch_pharma_convoyeur :
-                // Check if there is a network connectivity
-                if(this.network.checkNetwork()) {
-                    // Check if the user is connected
-                    if(this.session.isLogged()) {
+        if(this.network.checkNetwork()) {
+            // Check if the user is connected
+            if(this.session.isLogged()) {
+                switch (v.getId()){
+                    case R.id.ch_pharma_convoyeur :
                         writeS7.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
-                    }
-                }else {
-                    this.session.closeSession();
-                    ToastService.show(this, "Action impossible ! Vous n'êtes connecté à aucun réseau");
+                        break;
+
+                    case R.id.rb_pharma_pills5 :
+                        writeS7.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                        break;
+
+                    case R.id.rb_pharma_pills10 :
+                        writeS7.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                        break;
+
+                    case R.id.rb_pharma_pills15 :
+                        writeS7.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                        writeS7.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                        break;
                 }
-                break;
+            }
+        }else {
+            this.session.closeSession();
+            ToastService.show(this, "Vous n'êtes connecté à aucun réseau");
         }
     }
 
@@ -147,26 +174,48 @@ public class PharmaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     this.writeS7 = new WriteTaskS7();
+                    // Connection to the automaton
                     this.writeS7.start(this.ipAddress, this.rack, this.slot);
+
+                    this.ch_pharma_convoyeur.setChecked(false);
+                    this.rb_pharma_pills5.setChecked(false);
+                    this.rb_pharma_pills10.setChecked(false);
+                    this.rb_pharma_pills15.setChecked(false);
+
+                    writeS7.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
+                    writeS7.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                    writeS7.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                    writeS7.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
 
                     this.btn_pharma_connect.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorRed));
                     this.btn_pharma_connect.setText("Se déconnecter de l'automate");
                     this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds( R.drawable.stop, 0, 0, 0);
                     this.ch_pharma_convoyeur.setVisibility(View.VISIBLE);
+                    this.tv_pharma_numberTabletTitle.setVisibility(View.VISIBLE);
+                    this.rb_pharma_pills5.setVisibility(View.VISIBLE);
+                    this.rb_pharma_pills10.setVisibility(View.VISIBLE);
+                    this.rb_pharma_pills15.setVisibility(View.VISIBLE);
                     ToastService.show(this, "Connecté à l'automate");
                 }else {
+
                     try {
                         Thread.sleep(1000);
                     }
                     catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    // Disconnect to the automaton
                     this.writeS7.stop();
 
                     this.btn_pharma_connect.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGreen));
                     this.btn_pharma_connect.setText("Se connecter à l'automate");
                     this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds( R.drawable.run, 0, 0, 0);
                     this.ch_pharma_convoyeur.setVisibility(View.INVISIBLE);
+                    this.tv_pharma_numberTabletTitle.setVisibility(View.INVISIBLE);
+                    this.rb_pharma_pills5.setVisibility(View.INVISIBLE);
+                    this.rb_pharma_pills10.setVisibility(View.INVISIBLE);
+                    this.rb_pharma_pills15.setVisibility(View.INVISIBLE);
                     ToastService.show(this, "Déconnecté de l'automate");
                 }
             }
