@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class WriteTaskS7
 {
     private final int DB_NUMBER = 5;
-    private final int START = 5;
     private int bit;
+    int start;
 
     private AtomicBoolean isRunning = new AtomicBoolean(false);
 
@@ -26,7 +26,8 @@ public class WriteTaskS7
     private String[] parConnexion = new String[10];
     private byte[] wordCommand = new byte[10];
 
-    public WriteTaskS7(){
+    public WriteTaskS7(int start){
+        this.start = start;
         comS7 = new S7Client();
         plcS7 = new AutomateS7();
         writeThread = new Thread(plcS7);
@@ -69,18 +70,18 @@ public class WriteTaskS7
             while(isRunning.get() && (response.equals(0))){
                 // Write request in API variable
                 // WriteArea(memoryArea, datablock address, variable lcoation, number of variable to transfer, data)
-                Integer writePLC = comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, START,1,wordCommand);
+                Integer writePLC = comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, start,1,wordCommand);
 
                 // If the request succeed
                 if(writePLC.equals(0)) {
-                    Log.i("Writting in ", "DB" + String.valueOf(DB_NUMBER) + ".DBB" + String.valueOf(START) + "." + String.valueOf(bit));
+                    Log.i("Writting in ", "DB" + String.valueOf(DB_NUMBER) + ".DBB" + String.valueOf(start) + "." + String.valueOf(bit));
                 }
             }
         }
     }
 
     public void setWriteBool(int b, int v){
-    // Masking
+        // Masking
         this.bit = (b == 1) ? 0 : b / 2;
         // Activate ( | => OR)
         if(v==1) wordCommand[0] = (byte)(b | wordCommand[0]);

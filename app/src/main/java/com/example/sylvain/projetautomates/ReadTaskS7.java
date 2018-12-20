@@ -101,18 +101,23 @@ public class ReadTaskS7
                 this.tv_dashboard_statusCPU.setText(String.valueOf(data.get(1)));
                 this.tv_dashboard_modelPU.setText(String.valueOf(data.get(2)));
             }else {
-                this.tv_dashboard_numCPU.setText(" ⚠️Impossible de récupérer le numéro");
-                this.tv_dashboard_modelPU.setText(" ⚠️Impossible de récupérer le modèle");
-                this.tv_dashboard_statusCPU.setText("⚠️Impossible de récupérer le statut");
-                this.tv_dashboard_error.setVisibility(View.VISIBLE);
-                this.btn_dashboard_powerPLC.setEnabled(false);
-                this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorDarkGray));
-                ToastService.show(this.context,"La connexion à l'automate a échoué");
+                this.errorDisplay();
             }
             this.stop();
         }catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void errorDisplay() {
+        this.tv_dashboard_numCPU.setText(" ⚠️Impossible de récupérer le numéro");
+        this.tv_dashboard_modelPU.setText(" ⚠️Impossible de récupérer le modèle");
+        this.tv_dashboard_statusCPU.setText("⚠️Impossible de récupérer le statut");
+        this.tv_dashboard_error.setVisibility(View.VISIBLE);
+        this.btn_dashboard_powerPLC.setEnabled(false);
+        this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorDarkGray));
+        ToastService.show(this.context,"La connexion à l'automate a échoué");
     }
 
 
@@ -175,7 +180,7 @@ public class ReadTaskS7
                     Integer response = comS7.GetPlcStatus(ref);
 
                     if(response.equals(0)) {
-                        cplStatus = Integer.valueOf(ref.Value);
+                        cplStatus = ref.Value;
 
                         switch(cplStatus) {
                             case S7.S7CpuStatusRun :
@@ -200,11 +205,11 @@ public class ReadTaskS7
                     Integer response = comS7.GetCpuInfo(cpuInfo);
 
                     if(response.equals(0)) {
-                        builderInfos.append(cpuInfo.ASName() + "\n");
-                        builderInfos.append(cpuInfo.Copyright() + "\n");
-                        builderInfos.append(cpuInfo.SerialNumber() + "\n");
-                        builderInfos.append(cpuInfo.ModuleTypeName() + "\n");
-                        builderInfos.append(cpuInfo.ModuleName() + "\n");
+                        builderInfos.append(cpuInfo.ASName()).append("\n");
+                        builderInfos.append(cpuInfo.Copyright()).append("\n");
+                        builderInfos.append(cpuInfo.SerialNumber()).append("\n");
+                        builderInfos.append(cpuInfo.ModuleTypeName()).append("\n");
+                        builderInfos.append(cpuInfo.ModuleName()).append("\n");
 
                         this.data.add(builderInfos.toString());
                     }
@@ -214,7 +219,7 @@ public class ReadTaskS7
 
                 sendPreExecuteMessage(data);
             }else {
-                System.out.printf("Connection to automaton failed");
+                System.out.print("Connection to automaton failed");
                 sendPreExecuteMessage(data);
             }
         }

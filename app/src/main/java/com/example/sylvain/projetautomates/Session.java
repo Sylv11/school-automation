@@ -1,5 +1,6 @@
 package com.example.sylvain.projetautomates;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ public class Session
     private Context context;
     private SharedPreferences.Editor editor;
 
+    @SuppressLint("CommitPrefEdits")
     public Session(Context context) {
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.userDB = new UserAccessDB(context);

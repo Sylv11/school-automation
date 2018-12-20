@@ -69,7 +69,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
 
                             SharedPreferences.Editor editeur_datas = prefs_datas.edit();
 
-                            editeur_datas.putBoolean("super_user_created", true).commit();
+                            editeur_datas.putBoolean("super_user_created", true).apply();
 
                             // Redirect to login
                             Intent intentToLogin = new Intent(this,MainActivity.class);

@@ -22,7 +22,8 @@
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.SuperUserRegisterActivity" />
         <activity android:name=".Activity.DashboardActivity" />
-        <activity android:name=".Activity.PharmaActivity"></activity>
+        <activity android:name=".Activity.PharmaActivity" />
+        <activity android:name=".Activity.AdminActivity"></activity>
     </application>
 
 </manifest>

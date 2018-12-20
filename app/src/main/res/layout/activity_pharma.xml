@@ -29,7 +29,6 @@
         android:background="@color/colorMauve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="false"
         android:focusedByDefault="false"
         android:onClick="onPharmaClickManager"
         android:text=" Activer le convoyeur "
@@ -97,5 +96,33 @@
             android:focusedByDefault="false"/>
 
         </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/ch_pharma_bottle"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorMauve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusedByDefault="false"
+        android:onClick="onPharmaClickManager"
+        android:text=" Activer l'arrivée des flacons vides "
+        android:buttonTint="@color/colorWhite"
+        android:visibility="invisible"/>
+
+    <CheckBox
+        android:id="@+id/ch_pharma_resetCounter"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorMauve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusedByDefault="false"
+        android:onClick="onPharmaClickManager"
+        android:text=" Reset le compteur des flacons "
+        android:buttonTint="@color/colorWhite"
+        android:visibility="invisible"/>
 
 </LinearLayout>

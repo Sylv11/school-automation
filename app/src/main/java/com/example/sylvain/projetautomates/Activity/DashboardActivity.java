@@ -118,9 +118,16 @@ public class DashboardActivity extends AppCompatActivity {
                 ToastService.show(this,"Déconnecté");
                 break;
             //  Redirect to pharma activity
-            case R.id.item_pharmaeutical:
+            case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 startActivity(pharmaIntent);
+                finish();
+                break;
+            // Redirect to admin activity
+            case R.id.item_admin :
+                Intent adminIntent = new Intent(this, AdminActivity.class);
+                adminIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(adminIntent);
                 finish();
                 break;
         }
@@ -166,6 +173,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void setRunButton () {
         // Change the run/stop button properties
         this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGreen));
@@ -173,6 +181,7 @@ public class DashboardActivity extends AppCompatActivity {
         this.btn_dashboard_powerPLC.setCompoundDrawablesWithIntrinsicBounds( R.drawable.run, 0, 0, 0);
     }
 
+    @SuppressLint("SetTextI18n")
     public void setStopButton () {
         // Change the run/stop button properties
         this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorRed));

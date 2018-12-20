@@ -17,6 +17,7 @@ public class Network {
     public boolean checkNetwork() {
         this.connexStatus = (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
         try {
+            assert this.connexStatus != null;
             this.network = this.connexStatus.getActiveNetworkInfo();
             // return true if there is a network connectivity
             return this.network != null && this.network.isConnectedOrConnecting();
