@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
+import com.example.sylvain.projetautomates.EmailValidator;
 import com.example.sylvain.projetautomates.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -55,30 +56,34 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void checkRegistration(String lastname, String firstname, String email, String password){
         if(!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            if(lastname.length() >= 3){
-                if(firstname.length() >= 3){
-                    if(email.length() >= 3){
+            if(lastname.trim().length() >= 3){
+                if(firstname.trim().length() >= 3){
+                    if(email.trim().length() >= 3){
                         if(password.length() >= 4){
-
-                            // Check user informations and if user already exists
-                            UserAccessDB userDB = new UserAccessDB(this);
-                            userDB.openForRead();
-                            User userCheckExist = userDB.getUser(email);
-                            userDB.Close();
-
-                            if(userCheckExist == null){
-                                // Store new user
-                                User user = new User(lastname, firstname, email, password, 1);
-                                userDB.openForWrite();
-                                userDB.insertUser(user);
+                            if(EmailValidator.isValidEmail(email)) {
+                                // Check user informations and if user already exists
+                                UserAccessDB userDB = new UserAccessDB(this);
+                                userDB.openForRead();
+                                User userCheckExist = userDB.getUser(email);
                                 userDB.Close();
 
-                                // Redirect to login
-                                Intent intentToLogin = new Intent(this,MainActivity.class);
-                                startActivity(intentToLogin);
-                                Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                                if(userCheckExist == null){
+                                    // Store new user
+                                    User user = new User(lastname, firstname, email, password, 1);
+                                    userDB.openForWrite();
+                                    userDB.insertUser(user);
+                                    userDB.Close();
+
+                                    // Redirect to login
+                                    Intent intentToLogin = new Intent(this,MainActivity.class);
+                                    startActivity(intentToLogin);
+                                    finish();
+                                    Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                                }else {
+                                    Toast.makeText(this, "Cette adresse email est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                                }
                             }else {
-                                Toast.makeText(this, "Cette adresse email est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Cette adresse email est non conforme", Toast.LENGTH_SHORT).show();
                             }
                         }else{
                             Toast.makeText(this,"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();

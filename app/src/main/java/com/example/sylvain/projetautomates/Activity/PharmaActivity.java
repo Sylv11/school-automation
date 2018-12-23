@@ -86,12 +86,9 @@ public class PharmaActivity extends AppCompatActivity {
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
-
-                // If the thread is running, stop it
-                if(isRunning) {
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-                }
+            }else {
+                session.closeSession();
+                ToastService.show(this, "Vous n'êtes pas connecté");
             }
         }else {
             this.session.closeSession();
@@ -115,32 +112,17 @@ public class PharmaActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Redirect to dashboard activity
             case R.id.item_dashboard:
-                // If the thread is running, stop it
-                if(isRunning) {
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-                }
                 Intent dashboardIntent = new Intent(this, DashboardActivity.class);
                 startActivity(dashboardIntent);
                 finish();
                 break;
             // Logout and close user session
             case R.id.item_logout :
-                // If the thread is running, stop it
-                if(isRunning) {
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-                }
                 this.session.closeSession();
                 ToastService.show(this,"Déconnecté");
                 break;
             // Redirect to pharma activity
             case R.id.item_pharmaceutical:
-                // If the thread is running, stop it
-                if(isRunning) {
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-                }
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
@@ -148,11 +130,6 @@ public class PharmaActivity extends AppCompatActivity {
                 break;
             // Redirect to admin activity
             case R.id.item_admin :
-                // If the thread is running, stop it
-                if(isRunning) {
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-                }
                 Intent adminIntent = new Intent(this, AdminActivity.class);
                 adminIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(adminIntent);
@@ -175,13 +152,8 @@ public class PharmaActivity extends AppCompatActivity {
             if(this.session.isLogged()) {
                 switch (v.getId()){
                     case R.id.ch_pharma_convoyeur :
-                        // If the tablets amount is chosen, write in DB to active the conveyor
-                        if(this.rb_pharma_pills5.isChecked() || this.rb_pharma_pills10.isChecked() || this.rb_pharma_pills15.isChecked()) {
-                            writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
-                        }else {
-                            this.ch_pharma_convoyeur.setChecked(false);
-                            ToastService.show(this,"Veuillez choisir le nombre de comprimés");
-                        }
+                        // Write in DB to active the conveyor
+                        writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
                         break;
 
                     case R.id.rb_pharma_pills5 :
@@ -236,7 +208,7 @@ public class PharmaActivity extends AppCompatActivity {
                     // Connection to the automaton
                     this.writeS7DBB5.start(this.ipAddress, this.rack, this.slot);
 
-                    // Wait 0.2 second
+                    // Wait 0.1 second
                     try {
                         Thread.sleep(100);
                     }catch (Exception e) {
@@ -256,10 +228,6 @@ public class PharmaActivity extends AppCompatActivity {
                     ToastService.show(this, "Connecté à l'automate");
                 }else {
 
-                    // Disconnect to the automaton
-                    this.writeS7DBB5.stop();
-                    this.writeS7DBB6.stop();
-
                     this.isRunning = false;
 
                     // Set components invisible
@@ -274,6 +242,17 @@ public class PharmaActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(isRunning) {
+            writeS7DBB5.stop();
+            writeS7DBB6.stop();
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     public void connectDisplay() {

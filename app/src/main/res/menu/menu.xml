@@ -4,22 +4,22 @@
     tools:context=".Activity.DashboardActivity">
 
     <item android:id="@+id/item_dashboard"
-        android:title="Tableau de bord"
+        android:title="@string/dashboard_title"
         android:icon="@drawable/dashboard">
     </item>
 
     <item android:id="@+id/item_pharmaceutical"
-        android:title="Automate pharmaceutique"
+        android:title="@string/pharma"
         android:icon="@drawable/pharmaceutic">
     </item>
 
     <item android:id="@+id/item_admin"
-        android:title="Gestion utilisateurs"
+        android:title="@string/users_management"
         android:icon="@drawable/admin">
     </item>
 
     <item android:id="@+id/item_logout"
-        android:title="@string/se_deconnecter"
+        android:title="@string/disconnect"
         android:icon="@drawable/power">
     </item>
 </menu>

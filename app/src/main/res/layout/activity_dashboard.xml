@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="20dp"
-        android:text="Une erreur est survenue"
+        android:textSize="20sp"
+        android:text="@string/error"
         android:textColor="@color/colorWhite"
         android:background="@color/colorRed"
         android:visibility="invisible"/>
@@ -24,8 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="25dp"
-        android:text="Informations"
+        android:textSize="25sp"
+        android:textAllCaps="true"
+        android:text="@string/informations"
         android:fontFamily="sans-serif-smallcaps"
         android:drawableTop="@drawable/info"
         android:textStyle="bold" />
@@ -35,24 +36,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:paddingTop="10dp"
-        android:text="Référence du CPU : "
+        android:text="@string/cpu_reference"
         android:fontFamily="monospace"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
 
     <TextView
         android:id="@+id/tv_dashboard_numCPU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="20dp"
-        android:text="Chargement..."/>
+        android:textSize="20sp"
+        android:text="@string/loading"/>
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#c0c0c0"/>
 
     <TextView
@@ -60,24 +61,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:paddingTop="10dp"
-        android:text="Modèle du CPU : "
+        android:text="@string/cpu_model"
         android:fontFamily="monospace"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
 
     <TextView
         android:id="@+id/tv_dashboard_modelPU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="20dp"
-        android:text="Chargement..."/>
+        android:textSize="20sp"
+        android:text="@string/loading"/>
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#c0c0c0"/>
 
     <TextView
@@ -85,25 +86,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:paddingTop="10dp"
-        android:text="État du CPU : "
+        android:text="@string/cpu_status"
         android:fontFamily="monospace"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
 
     <TextView
         android:id="@+id/tv_dashboard_statusCPU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="20dp"
-        android:text="Chargement..."
+        android:textSize="20sp"
+        android:text="@string/loading"
         android:layout_marginBottom="10dp"/>
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#c0c0c0"
         android:layout_marginBottom="10dp"/>
 
@@ -114,10 +115,10 @@
         android:layout_marginLeft="120dp"
         android:layout_marginRight="120dp"
         android:backgroundTint="@color/colorMauve"
-        android:drawableLeft="@drawable/refresh"
+        android:drawableStart="@drawable/refresh"
         android:textColor="@color/colorWhite"
         android:onClick="refreshInfo"
-        android:text="Rafraîchir"
+        android:text="@string/refresh_button"
         android:background="@drawable/primary_btn"
         android:layout_marginBottom="10dp"/>
 
@@ -129,9 +130,9 @@
         android:layout_marginRight="120dp"
         android:background="@drawable/secondary_btn"
         android:backgroundTint="@color/colorGreen"
-        android:drawableLeft="@drawable/run"
+        android:drawableStart="@drawable/run"
         android:onClick="togglePLCStatus"
-        android:text="Run"
+        android:text="@string/run_button"
         android:textColor="@color/colorWhite"
         android:visibility="visible"/>
 

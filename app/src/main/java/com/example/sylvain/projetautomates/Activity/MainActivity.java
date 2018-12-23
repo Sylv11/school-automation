@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLogin(String email, String password){
         if(!email.isEmpty() && !password.isEmpty()) {
-            if(email.length() >= 3){
+            if(email.trim().length() >= 3){
                 if(password.length() >= 4){
                     // Get user by email
                     UserAccessDB userDB = new UserAccessDB(this);

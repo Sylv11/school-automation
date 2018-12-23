@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
+import com.example.sylvain.projetautomates.EmailValidator;
 import com.example.sylvain.projetautomates.R;
 
 public class SuperUserRegisterActivity extends AppCompatActivity {
@@ -56,29 +57,33 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
 
     private void checkRegistration(String lastname, String firstname, String email, String password){
         if(!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            if(lastname.length() >= 3){
-                if(firstname.length() >= 3){
-                    if(email.length() >= 3){
+            if(lastname.trim().length() >= 3){
+                if(firstname.trim().length() >= 3){
+                    if(email.trim().length() >= 3){
                         if(password.length() >= 4){
-                            // Store superuser in SharedPreferences
-                            User user = new User(lastname, firstname, email, password, 2);
-                            UserAccessDB userDB = new UserAccessDB(this);
-                            userDB.openForWrite();
-                            userDB.insertUser(user);
-                            userDB.Close();
+                            if(EmailValidator.isValidEmail(email)) {
+                                // Store superuser in SharedPreferences
+                                User user = new User(lastname, firstname, email, password, 2);
+                                UserAccessDB userDB = new UserAccessDB(this);
+                                userDB.openForWrite();
+                                userDB.insertUser(user);
+                                userDB.Close();
 
-                            SharedPreferences.Editor editeur_datas = prefs_datas.edit();
+                                SharedPreferences.Editor editeur_datas = prefs_datas.edit();
 
-                            editeur_datas.putBoolean("super_user_created", true).apply();
+                                editeur_datas.putBoolean("super_user_created", true).apply();
 
-                            // Redirect to login
-                            Intent intentToLogin = new Intent(this,MainActivity.class);
-                            startActivity(intentToLogin);
-                            Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
-                            finish();
-                    }else{
-                            Toast.makeText(this,"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
-                        }
+                                // Redirect to login
+                                Intent intentToLogin = new Intent(this,MainActivity.class);
+                                startActivity(intentToLogin);
+                                Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                                finish();
+                            }else {
+                                Toast.makeText(this, "Cette adresse email est non conforme", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                                Toast.makeText(this,"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
+                            }
                     }else{
                         Toast.makeText(this,"Votre adresse email est trop courte",Toast.LENGTH_SHORT).show();
                     }

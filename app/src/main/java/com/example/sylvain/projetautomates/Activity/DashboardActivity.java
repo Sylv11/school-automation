@@ -23,6 +23,8 @@ import com.example.sylvain.projetautomates.TogglePLCStatusTask;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    private final static int BASIC_RANK = 1;
+
     // Textview, Button and Toolbar (informations about CPU)
     private TextView tv_dashboard_numCPU;
     private TextView tv_dashboard_statusCPU;
@@ -82,9 +84,12 @@ public class DashboardActivity extends AppCompatActivity {
                 this.readS7.start(this.ipAddress, this.rack, this.slot);
 
                 // Run and stop button only for the superuser
-                if(session.getUser().getRank() == 1) {
+                if(session.getUser().getRank() == this.BASIC_RANK) {
                     this.btn_dashboard_powerPLC.setVisibility(View.INVISIBLE);
                 }
+            }else {
+                session.closeSession();
+                ToastService.show(this, "Vous n'êtes pas connecté");
             }
         }else {
             this.session.closeSession();

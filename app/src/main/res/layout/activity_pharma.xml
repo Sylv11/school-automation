@@ -18,21 +18,46 @@
         android:backgroundTint="@color/colorGreen"
         android:onClick="connectAutomaton"
         android:layout_marginTop="10dp"
-        android:text="Se connecter à l'automate"
+        android:text="@string/pharma_connection_button"
         android:textColor="@color/colorWhite" />
 
     <CheckBox
         android:id="@+id/ch_pharma_convoyeur"
         android:layout_margin="10dp"
         android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:background="@color/colorMauve"
+        android:textColor="@color/colorMauve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusedByDefault="false"
         android:onClick="onPharmaClickManager"
-        android:text=" Activer le convoyeur "
-        android:buttonTint="@color/colorWhite"
+        android:text="@string/active_conveyor"
+        android:buttonTint="@color/colorMauve"
+        android:visibility="invisible"/>
+
+    <CheckBox
+        android:id="@+id/ch_pharma_bottle"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorMauve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusedByDefault="false"
+        android:onClick="onPharmaClickManager"
+        android:text="@string/empty_bottles_arrival"
+        android:buttonTint="@color/colorMauve"
+        android:visibility="invisible"/>
+
+    <CheckBox
+        android:id="@+id/ch_pharma_resetCounter"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorMauve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusedByDefault="false"
+        android:onClick="onPharmaClickManager"
+        android:text="@string/reset_bottles_counter"
+        android:buttonTint="@color/colorMauve"
         android:visibility="invisible"/>
 
     <TextView
@@ -40,89 +65,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:paddingTop="10dp"
-        android:text="Nombre de comprimés"
+        android:text="@string/tablets_number"
         android:fontFamily="monospace"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:visibility="invisible"/>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_pharma_pills5"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorMauve"
+            android:textColor="@color/colorMauve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onPharmaClickManager"
-            android:text=" 5 "
-            android:buttonTint="@color/colorWhite"
-            android:visibility="invisible"
-            android:focusedByDefault="false"/>
+            android:text="@string/tablets_5"
+            android:buttonTint="@color/colorMauve"
+            android:visibility="invisible"/>
 
         <RadioButton
             android:id="@+id/rb_pharma_pills10"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorMauve"
+            android:textColor="@color/colorMauve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onPharmaClickManager"
-            android:text=" 10 "
-            android:buttonTint="@color/colorWhite"
-            android:visibility="invisible"
-            android:focusedByDefault="false"/>
+            android:text="@string/tablets_10"
+            android:buttonTint="@color/colorMauve"
+            android:visibility="invisible"/>
 
         <RadioButton
             android:id="@+id/rb_pharma_pills15"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorMauve"
+            android:textColor="@color/colorMauve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onPharmaClickManager"
-            android:text=" 15 "
-            android:buttonTint="@color/colorWhite"
-            android:visibility="invisible"
-            android:focusedByDefault="false"/>
+            android:text="@string/tablets_15"
+            android:buttonTint="@color/colorMauve"
+            android:visibility="invisible"/>
 
-        </RadioGroup>
-
-    <CheckBox
-        android:id="@+id/ch_pharma_bottle"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:background="@color/colorMauve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusedByDefault="false"
-        android:onClick="onPharmaClickManager"
-        android:text=" Activer l'arrivée des flacons vides "
-        android:buttonTint="@color/colorWhite"
-        android:visibility="invisible"/>
-
-    <CheckBox
-        android:id="@+id/ch_pharma_resetCounter"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:background="@color/colorMauve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusedByDefault="false"
-        android:onClick="onPharmaClickManager"
-        android:text=" Reset le compteur des flacons "
-        android:buttonTint="@color/colorWhite"
-        android:visibility="invisible"/>
+    </RadioGroup>
 
 </LinearLayout>

@@ -11,10 +11,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bienvenue"
+        android:text="@string/welcome"
         android:gravity="center_horizontal"
         android:fontFamily="serif-monospace"
-        android:textSize="30dp"/>
+        android:textSize="30sp"/>
 
     <EditText
         android:inputType="text"
@@ -22,7 +22,7 @@
         android:id="@+id/et_register_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/nom"
+        android:hint="@string/lastname"
         android:backgroundTint="@color/colorMauve"/>
 
     <EditText
@@ -31,7 +31,7 @@
         android:id="@+id/et_register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/prenom"
+        android:hint="@string/firstname"
         android:backgroundTint="@color/colorMauve"/>
 
     <EditText
@@ -49,19 +49,19 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mot_de_passe"
+        android:hint="@string/password"
         android:backgroundTint="@color/colorMauve"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enregistrer"
+        android:text="@string/register"
         android:layout_marginTop="20dp"
         android:background="@drawable/primary_btn"
         android:textColor="#FFF"
         android:id="@+id/btn_register_registerAction"
-        android:drawableLeft="@drawable/register"
-        android:paddingLeft="5dp"
+        android:drawableStart="@drawable/register"
+        android:paddingStart="5dp"
         android:paddingEnd="30dp"
         android:onClick="onRegisterClickManager"/>
 
@@ -72,7 +72,7 @@
         android:layout_marginTop="40dip"
         android:background="@null"
         android:onClick="onRegisterClickManager"
-        android:text="@string/se_connecter"
+        android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@color/colorMauve"
         android:textSize="15sp" />
