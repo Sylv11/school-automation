@@ -73,12 +73,12 @@ public class WriteTaskS7
                 Integer writePLC = comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, start,1,wordCommand);
 
                 // If the request succeed
-                if(writePLC.equals(0)) {
+                /*if(writePLC.equals(0)) {
                     Log.i("Writting in ", "DB" + String.valueOf(DB_NUMBER) + ".DBB" + String.valueOf(start) + "." + String.valueOf(bit));
-                }
+                }*/
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(400);
                 }catch (Exception e) {e.printStackTrace();}
             }
         }

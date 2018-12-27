@@ -25,7 +25,6 @@ public class ReadTaskS7
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
     // TextView and Button of dashboard
-    private AtomicBoolean isRunning = new AtomicBoolean(false);
     private TextView tv_dashboard_numCPU;
     private TextView tv_dashboard_modelPU;
     private TextView tv_dashboard_statusCPU;
@@ -58,7 +57,6 @@ public class ReadTaskS7
 
     // Stop the thread and disconnect to the automaton
     public void stop() {
-        this.isRunning.set(false);
         this.comS7.Disconnect();
         this.readThread.interrupt();
     }
@@ -71,7 +69,6 @@ public class ReadTaskS7
             this.param[1] = rack;
             this.param[2] = slot;
             this.readThread.start();
-            this.isRunning.set(true);
         }
     }
 
@@ -83,9 +80,11 @@ public class ReadTaskS7
         try {
             if(data.size() > 0) {
                 this.tv_dashboard_numCPU.setText(String.valueOf(data.get(0)));
+                this.tv_dashboard_numCPU.setTextColor(Color.GRAY);
+
 
                 if(String.valueOf(data.get(1)).equals("En fonctionnement")) {
-                    this.tv_dashboard_statusCPU.setTextColor(android.graphics.Color.GREEN);
+                    this.tv_dashboard_statusCPU.setTextColor(Color.GREEN);
 
                     this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorRed));
                     this.btn_dashboard_powerPLC.setText("Stop");
@@ -99,7 +98,9 @@ public class ReadTaskS7
                     this.tv_dashboard_statusCPU.setTextColor(Color.RED);
                 }
                 this.tv_dashboard_statusCPU.setText(String.valueOf(data.get(1)));
+
                 this.tv_dashboard_modelPU.setText(String.valueOf(data.get(2)));
+                this.tv_dashboard_modelPU.setTextColor(Color.GRAY);
             }else {
                 this.errorDisplay();
             }
@@ -112,8 +113,14 @@ public class ReadTaskS7
     @SuppressLint("SetTextI18n")
     private void errorDisplay() {
         this.tv_dashboard_numCPU.setText(" ⚠️Impossible de récupérer le numéro");
+        this.tv_dashboard_numCPU.setTextColor(Color.GRAY);
+
         this.tv_dashboard_modelPU.setText(" ⚠️Impossible de récupérer le modèle");
+        this.tv_dashboard_modelPU.setTextColor(Color.GRAY);
+
         this.tv_dashboard_statusCPU.setText("⚠️Impossible de récupérer le statut");
+        this.tv_dashboard_statusCPU.setTextColor(Color.GRAY);
+
         this.tv_dashboard_error.setVisibility(View.VISIBLE);
         this.btn_dashboard_powerPLC.setEnabled(false);
         this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorDarkGray));
@@ -141,8 +148,8 @@ public class ReadTaskS7
 
         private ArrayList<String> data = new ArrayList<String>();
         private Integer res;
-        String numCPU="";
-        int cplStatus=-1;
+        String numCPU = "";
+        int cplStatus = -1;
 
         @Override
         public void run() {

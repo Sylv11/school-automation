@@ -31,4 +31,5 @@
     <string name="error">Une erreur est survenue</string>
     <string name="pharma">Automate pharmaceutique</string>
     <string name="users_management">Gestion utilisateurs</string>
+    <string name="conveyor_status">État du convoyeur</string>
 </resources>

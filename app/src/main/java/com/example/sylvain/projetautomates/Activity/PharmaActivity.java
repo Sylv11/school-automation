@@ -18,9 +18,12 @@ import android.widget.TextView;
 import com.example.sylvain.projetautomates.LoadProperties;
 import com.example.sylvain.projetautomates.Network;
 import com.example.sylvain.projetautomates.R;
+import com.example.sylvain.projetautomates.ReadDBTask;
 import com.example.sylvain.projetautomates.Session;
 import com.example.sylvain.projetautomates.ToastService;
 import com.example.sylvain.projetautomates.WriteTaskS7;
+
+import org.w3c.dom.Text;
 
 public class PharmaActivity extends AppCompatActivity {
 
@@ -35,6 +38,13 @@ public class PharmaActivity extends AppCompatActivity {
     private CheckBox ch_pharma_bottle;
     private CheckBox ch_pharma_resetCounter;
 
+    private View line_pharma;
+
+    private TextView tv_pharma_conveyor_state;
+    private TextView tv_pharma_conveyor_state_title;
+    private TextView tv_pharma_read_number_tablets_title;
+    private TextView tv_pharma_read_number_tablets;
+
     // User session and Network connectivity
     private Session session;
     private Network network;
@@ -46,6 +56,9 @@ public class PharmaActivity extends AppCompatActivity {
 
     private WriteTaskS7 writeS7DBB5;
     private WriteTaskS7 writeS7DBB6;
+
+    private ReadDBTask readS7DBB0;
+    private ReadDBTask readS7DBB4;
 
     boolean isRunning = false;
 
@@ -67,6 +80,13 @@ public class PharmaActivity extends AppCompatActivity {
         this.rb_pharma_pills15 = (RadioButton)findViewById(R.id.rb_pharma_pills15);
         this.ch_pharma_bottle = (CheckBox)findViewById(R.id.ch_pharma_bottle);
         this.ch_pharma_resetCounter = (CheckBox) findViewById(R.id.ch_pharma_resetCounter);
+
+        this.line_pharma = (View)findViewById(R.id.line_pharma);
+
+        this.tv_pharma_conveyor_state = (TextView) findViewById(R.id.tv_pharma_conveyor_state);
+        this.tv_pharma_conveyor_state_title = (TextView) findViewById(R.id.tv_pharma_conveyor_state_title);
+        this.tv_pharma_read_number_tablets_title = (TextView) findViewById(R.id.tv_pharma_read_number_tablets_title);
+        this.tv_pharma_read_number_tablets = (TextView) findViewById(R.id.tv_pharma_read_number_tablets);
 
         this.session = new Session(this);
         this.network = new Network(this);
@@ -205,6 +225,13 @@ public class PharmaActivity extends AppCompatActivity {
                     // WriteTask for DB5.DBB6
                     this.writeS7DBB6 = new WriteTaskS7(6);
 
+                    // ReadTask for DB5.DBB0
+                    this.readS7DBB0 = new ReadDBTask(0, tv_pharma_conveyor_state, tv_pharma_read_number_tablets);
+
+                    // ReadTask for DB5.DBB4
+                    this.readS7DBB4 = new ReadDBTask(4, tv_pharma_conveyor_state, tv_pharma_read_number_tablets);
+
+
                     // Connection to the automaton
                     this.writeS7DBB5.start(this.ipAddress, this.rack, this.slot);
 
@@ -218,6 +245,24 @@ public class PharmaActivity extends AppCompatActivity {
                     // Connection to the automaton
                     this.writeS7DBB6.start(this.ipAddress, this.rack, this.slot);
 
+                    // Wait 0.1 second
+                    try {
+                        Thread.sleep(100);
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    this.readS7DBB0.start(this.ipAddress, this.rack, this.slot);
+
+                    // Wait 0.1 second
+                    try {
+                        Thread.sleep(100);
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    this.readS7DBB4.start(this.ipAddress, this.rack, this.slot);
+
                     this.isRunning = true;
                     // Reinitiate the values in DB
                     this.reinitiateDB();
@@ -227,6 +272,11 @@ public class PharmaActivity extends AppCompatActivity {
 
                     ToastService.show(this, "Connecté à l'automate");
                 }else {
+
+                    this.writeS7DBB5.stop();
+                    this.writeS7DBB6.stop();
+                    this.readS7DBB0.stop();
+                    this.readS7DBB4.stop();
 
                     this.isRunning = false;
 
@@ -248,8 +298,9 @@ public class PharmaActivity extends AppCompatActivity {
         super.onDestroy();
 
         if(isRunning) {
-            writeS7DBB5.stop();
-            writeS7DBB6.stop();
+            this.writeS7DBB5.stop();
+            this.writeS7DBB6.stop();
+            this.readS7DBB0.stop();
         }
     }
 
@@ -266,6 +317,11 @@ public class PharmaActivity extends AppCompatActivity {
         this.rb_pharma_pills15.setVisibility(View.VISIBLE);
         this.ch_pharma_bottle.setVisibility(View.VISIBLE);
         this.ch_pharma_resetCounter.setVisibility(View.VISIBLE);
+        this.tv_pharma_conveyor_state.setVisibility(View.VISIBLE);
+        this.tv_pharma_conveyor_state_title.setVisibility(View.VISIBLE);
+        this.line_pharma.setVisibility(View.VISIBLE);
+        this.tv_pharma_read_number_tablets_title.setVisibility(View.VISIBLE);
+        this.tv_pharma_read_number_tablets.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("SetTextI18n")
@@ -280,6 +336,11 @@ public class PharmaActivity extends AppCompatActivity {
         this.rb_pharma_pills15.setVisibility(View.INVISIBLE);
         this.ch_pharma_bottle.setVisibility(View.INVISIBLE);
         this.ch_pharma_resetCounter.setVisibility(View.INVISIBLE);
+        this.tv_pharma_conveyor_state.setVisibility(View.INVISIBLE);
+        this.tv_pharma_conveyor_state_title.setVisibility(View.INVISIBLE);
+        this.line_pharma.setVisibility(View.INVISIBLE);
+        this.tv_pharma_read_number_tablets_title.setVisibility(View.INVISIBLE);
+        this.tv_pharma_read_number_tablets.setVisibility(View.INVISIBLE);
     }
 
     public void reinitiateDB() {

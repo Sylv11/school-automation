@@ -38,7 +38,6 @@ public class AdminActivity extends AppCompatActivity {
 
     // User session and Network connectivity
     private Session session;
-    private Network network;
 
     private Context context = this;
     private User userSession;
@@ -55,7 +54,6 @@ public class AdminActivity extends AppCompatActivity {
         this.action_bar_title = (TextView)findViewById(R.id.action_bar_title);
 
         this.session = new Session(this);
-        this.network = new Network(this);
 
         // Check if the user is connected
         if(this.session.isLogged()) {
@@ -149,7 +147,7 @@ public class AdminActivity extends AppCompatActivity {
             this.createUserTextView(currentUser, linearLayoutVertical);
 
             // If it is the connected user or if it is not an admin, we don't show the buttons
-            if(!userSession.getEmail().equals(currentUser.getEmail()) && !(userSession.getRank() == this.BASIC_RANK)) {
+            if(!userSession.getEmail().equals(currentUser.getEmail()) && !(userSession.getRank() == BASIC_RANK)) {
 
                 // Create the delete Button
                 this.createDeleteButton(linearLayoutVertical, currentUser);
@@ -257,6 +255,7 @@ public class AdminActivity extends AppCompatActivity {
         linearLayout.addView(line);
     }
 
+    @SuppressLint("SetTextI18n")
     private void createUserTextView(User currentUser, LinearLayout linearLayoutVertical) {
         // TextView that contains a user
         TextView dynamicTextView = new TextView(this);
@@ -264,7 +263,7 @@ public class AdminActivity extends AppCompatActivity {
         dynamicTextView.setGravity(Gravity.START);
         dynamicTextView.setTextSize(18);
         dynamicTextView.setPadding(70,30,100,30);
-        if(currentUser.getRank() == this.ADMIN_RANK) {
+        if(currentUser.getRank() == ADMIN_RANK) {
             dynamicTextView.setText("[Admin] ");
             dynamicTextView.setTypeface(null, Typeface.BOLD);
 
