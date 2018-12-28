@@ -17,13 +17,13 @@
     <string name="run_button">Run</string>
     <string name="pharma_connection_button">Se connecter à l\'automate</string>
     <string name="active_conveyor">Activer le convoyeur </string>
-    <string name="tablets_number">Nombre de comprimés</string>
+    <string name="tablets_number">Choix du nombre de comprimés</string>
     <string name="tablets_5">5 </string>
     <string name="tablets_10">10 </string>
     <string name="tablets_15">15 </string>
     <string name="empty_bottles_arrival">Activer l\'arrivée des flacons vides </string>
     <string name="reset_bottles_counter">Reset le compteur des flacons </string>
-    <string name="loading">Chargement...</string>
+    <string name="loading">Chargement…</string>
     <string name="cpu_status">État du CPU :</string>
     <string name="cpu_model">Modèle du CPU :</string>
     <string name="cpu_reference">Référence du CPU :</string>
@@ -31,5 +31,10 @@
     <string name="error">Une erreur est survenue</string>
     <string name="pharma">Automate pharmaceutique</string>
     <string name="users_management">Gestion utilisateurs</string>
-    <string name="conveyor_status">État du convoyeur</string>
+    <string name="conveyor_status">État du convoyeur : </string>
+    <string name="bottles_arrival_status">État de l\'arrivée des flacons : </string>
+    <string name="live_tablets_number">Nombre de comprimés en flacon : </string>
+    <string name="tablets_number_read">Choix du nombre de comprimés :</string>
+    <string name="filled_bottles_number">Nombre de flacons remplis : </string>
+    <string name="item_servo_level">Automate d\'asservissement</string>
 </resources>

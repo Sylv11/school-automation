@@ -1,7 +1,6 @@
 package com.example.sylvain.projetautomates.Activity;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,10 +20,9 @@ import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
-import com.example.sylvain.projetautomates.Network;
 import com.example.sylvain.projetautomates.R;
-import com.example.sylvain.projetautomates.Session;
-import com.example.sylvain.projetautomates.ToastService;
+import com.example.sylvain.projetautomates.Utils.Session;
+import com.example.sylvain.projetautomates.Utils.ToastService;
 
 import java.util.ArrayList;
 
@@ -98,6 +96,13 @@ public class AdminActivity extends AppCompatActivity {
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
+                finish();
+                break;
+            // Redirect to servo level activity
+            case R.id.item_servo_level:
+                Intent servoIntent = new Intent(this, LevelServoActivity.class);
+                servoIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(servoIntent);
                 finish();
                 break;
             // Redirect to admin activity

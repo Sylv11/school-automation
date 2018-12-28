@@ -13,6 +13,11 @@
         android:icon="@drawable/pharmaceutic">
     </item>
 
+    <item android:id="@+id/item_servo_level"
+        android:title="@string/item_servo_level"
+        android:icon="@drawable/level_servo">
+    </item>
+
     <item android:id="@+id/item_admin"
         android:title="@string/users_management"
         android:icon="@drawable/admin">

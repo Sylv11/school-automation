@@ -40,7 +40,7 @@ public class WriteTaskS7
         writeThread.interrupt();
     }
 
-    // Connection informations
+    // Connection data
     public void start(String ip, String rack, String slot){
         if (!writeThread.isAlive()) {
             parConnexion[0] = ip;
@@ -68,8 +68,8 @@ public class WriteTaskS7
             }
 
             while(isRunning.get() && (response.equals(0))){
-                // Write request in API variable
-                // WriteArea(memoryArea, datablock address, variable lcoation, number of variable to transfer, data)
+                // Write request in A.P.I. variable
+                // WriteArea(memoryArea, datablock address, variable location, number of variable to transfer, data)
                 Integer writePLC = comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, start,1,wordCommand);
 
                 // If the request succeed
@@ -77,9 +77,9 @@ public class WriteTaskS7
                     Log.i("Writting in ", "DB" + String.valueOf(DB_NUMBER) + ".DBB" + String.valueOf(start) + "." + String.valueOf(bit));
                 }*/
 
-                try {
-                    Thread.sleep(400);
-                }catch (Exception e) {e.printStackTrace();}
+                /*try {
+                    Thread.sleep(1000);
+                }catch (Exception e) {e.printStackTrace();}*/
             }
         }
     }

@@ -15,10 +15,10 @@ import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
 import com.example.sylvain.projetautomates.SimaticS7.S7CpuInfo;
 import com.example.sylvain.projetautomates.SimaticS7.S7OrderCode;
+import com.example.sylvain.projetautomates.Utils.ToastService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReadTaskS7
 {
@@ -61,7 +61,7 @@ public class ReadTaskS7
         this.readThread.interrupt();
     }
 
-    // Connection informations
+    // Connection data
     public void start(String ip, String rack, String slot) {
 
         if (!this.readThread.isAlive()) {

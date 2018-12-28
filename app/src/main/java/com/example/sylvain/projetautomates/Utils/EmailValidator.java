@@ -1,4 +1,4 @@
-package com.example.sylvain.projetautomates;
+package com.example.sylvain.projetautomates.Utils;
 
 import java.util.regex.Pattern;
 

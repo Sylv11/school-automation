@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
-import com.example.sylvain.projetautomates.EmailValidator;
+import com.example.sylvain.projetautomates.Utils.EmailValidator;
 import com.example.sylvain.projetautomates.R;
 
 public class RegisterActivity extends AppCompatActivity {

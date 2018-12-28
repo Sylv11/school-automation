@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.LevelServoActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/action_bar"/>
+
+    <Button
+        android:id="@+id/btn_servo_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/secondary_btn"
+        android:backgroundTint="@color/colorGreen"
+        android:layout_marginTop="10dp"
+        android:text="@string/pharma_connection_button"
+        android:textColor="@color/colorWhite" />
+
+
+</LinearLayout>

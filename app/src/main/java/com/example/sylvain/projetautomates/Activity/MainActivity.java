@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.R;
-import com.example.sylvain.projetautomates.Session;
+import com.example.sylvain.projetautomates.Utils.Session;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.sylvain.projetautomates;
+package com.example.sylvain.projetautomates.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
