@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.LevelServoActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Activity.LevelServoActivity">
 
-    <include layout="@layout/action_bar"/>
+    <include layout="@layout/action_bar" />
 
     <Button
         android:id="@+id/btn_servo_connect"
@@ -14,11 +14,631 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/secondary_btn"
         android:backgroundTint="@color/colorGreen"
-        android:layout_marginTop="10dp"
+        android:onClick="connectToAutomaton"
         android:text="@string/pharma_connection_button"
         android:textColor="@color/colorWhite" />
 
+    <ScrollView
+        android:id="@+id/scroll_admin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_servo_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:id="@+id/linear_servo_write_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_servo_set_sluicegate_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:text="@string/manage_sluicegate_servo"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_sluicegate1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/open_first_sluicegate"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_sluicegate2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/open_second_sluicegate"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_sluicegate3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/open_third_sluicegate"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_sluicegate4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/open_fourth_sluicegate"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_auto_manual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/auto_manual"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <CheckBox
+                        android:id="@+id/ch_servo_local_remote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:buttonTint="@color/colorMauve"
+                        android:focusedByDefault="false"
+                        android:onClick="onServoClickManager"
+                        android:text="@string/local_remote_servo"
+                        android:textColor="@color/colorMauve"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_servo_level"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/colorMauve"
+                        android:hint="@string/_0"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                    <Button
+                        android:id="@+id/btn_servo_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/secondary_btn"
+                        android:backgroundTint="@color/colorMauveLight"
+                        android:drawableStart="@drawable/send"
+                        android:onClick="onServoClickManager"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:text="@string/set_servo_level"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_servo_auto"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/colorMauve"
+                        android:hint="@string/_0"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                    <Button
+                        android:id="@+id/btn_servo_auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/secondary_btn"
+                        android:backgroundTint="@color/colorMauveLight"
+                        android:drawableStart="@drawable/send"
+                        android:onClick="onServoClickManager"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:text="@string/set_auto_mode_servo"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_servo_manual"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/colorMauve"
+                        android:hint="@string/_0"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                    <Button
+                        android:id="@+id/btn_servo_manual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/secondary_btn"
+                        android:backgroundTint="@color/colorMauveLight"
+                        android:drawableStart="@drawable/send"
+                        android:onClick="onServoClickManager"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:text="@string/set_manual_mode_servo"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_servo_sluicegate_word"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/colorMauve"
+                        android:hint="@string/_0"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                    <Button
+                        android:id="@+id/btn_servo_sluicegate_word"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/secondary_btn"
+                        android:backgroundTint="@color/colorMauveLight"
+                        android:drawableStart="@drawable/send"
+                        android:onClick="onServoClickManager"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:text="@string/set_sluicegate_word_servo"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line_servo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorMauveLight"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_servo_status_sluicegate_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="start"
+                android:text="@string/sluicegate_status_title_servo"
+                android:textColor="@color/colorDarkerGray"
+                android:textSize="17sp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_title_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="start"
+                        android:text="@string/sluicegate_1_status_servo_title"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_title_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="start"
+                        android:text="@string/sluicegate_2_status_servo_title"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_title_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="start"
+                        android:text="@string/sluicegate_3_status_servo_title"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_title_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="start"
+                        android:text="@string/sluicegate_4_status_servo_title"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_status_sluicegate_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_read_auto_manual_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingTop="10dp"
+                        android:text="@string/read_mode_servo_title"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_read_auto_manual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingStart="10dp"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_servo_read_local_remote_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingTop="10dp"
+                        android:text="@string/local_remote_read_servo"
+                        android:textColor="@color/colorDarkerGray"
+                        android:textSize="17sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_servo_read_local_remote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingStart="10dp"
+                        android:text="@string/loading"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_servo_level_liquid_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:text="@string/liquid_level_title_servo"
+                android:textColor="@color/colorDarkerGray"
+                android:textSize="17sp"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/pb_servo_liquid_level"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:max="768"
+                android:min="0"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_servo_read_auto_order_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/auto_order_read_servo"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_servo_read_auto_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingStart="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_servo_read_manual_order_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/manual_order_read_servo"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_servo_read_manual_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingStart="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_servo_read_sluicegate_word_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/sluicegate_word_read_servo"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_servo_read_sluicegate_word"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingStart="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

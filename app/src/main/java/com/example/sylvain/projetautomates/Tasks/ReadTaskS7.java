@@ -1,4 +1,4 @@
-package com.example.sylvain.projetautomates;
+package com.example.sylvain.projetautomates.Tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sylvain.projetautomates.R;
 import com.example.sylvain.projetautomates.SimaticS7.IntByRef;
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
 import com.example.sylvain.projetautomates.SimaticS7.S7CpuInfo;
 import com.example.sylvain.projetautomates.SimaticS7.S7OrderCode;
-import com.example.sylvain.projetautomates.Utils.ToastService;
+import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadTaskS7
-{
+public class ReadTaskS7 {
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
     // TextView and Button of dashboard
@@ -41,7 +41,13 @@ public class ReadTaskS7
     private S7Client comS7;
     private String[] param = new String[10];
 
-    public ReadTaskS7(TextView tv_dashboard_numCPU, TextView tv_dashboard_statusCPU, TextView tv_dashboard_error, TextView tv_dashboard_modelPU, Button btn_dashboard_powerPLC, Context context) {
+    public ReadTaskS7(TextView tv_dashboard_numCPU,
+                      TextView tv_dashboard_statusCPU,
+                      TextView tv_dashboard_error,
+                      TextView tv_dashboard_modelPU,
+                      Button btn_dashboard_powerPLC,
+                      Context context) {
+
         this.context = context;
         this.tv_dashboard_numCPU = tv_dashboard_numCPU;
         this.tv_dashboard_modelPU = tv_dashboard_modelPU;
@@ -75,25 +81,24 @@ public class ReadTaskS7
     // Send the informations to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Object obj) {
-        ArrayList<String> data = ((ArrayList<String>)obj);
+        ArrayList<String> data = ((ArrayList<String>) obj);
 
         try {
-            if(data.size() > 0) {
+
+            if (data.size() > 0) {
                 this.tv_dashboard_numCPU.setText(String.valueOf(data.get(0)));
                 this.tv_dashboard_numCPU.setTextColor(Color.GRAY);
 
-
-                if(String.valueOf(data.get(1)).equals("En fonctionnement")) {
+                if (String.valueOf(data.get(1)).equals("En fonctionnement")) {
                     this.tv_dashboard_statusCPU.setTextColor(Color.GREEN);
 
                     this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorRed));
                     this.btn_dashboard_powerPLC.setText("Stop");
-                    this.btn_dashboard_powerPLC.setCompoundDrawablesWithIntrinsicBounds( R.drawable.stop, 0, 0, 0);
-                }
-                else  {
+                    this.btn_dashboard_powerPLC.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stop, 0, 0, 0);
+                } else {
                     this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorGreen));
                     this.btn_dashboard_powerPLC.setText("Run");
-                    this.btn_dashboard_powerPLC.setCompoundDrawablesWithIntrinsicBounds( R.drawable.run, 0, 0, 0);
+                    this.btn_dashboard_powerPLC.setCompoundDrawablesWithIntrinsicBounds(R.drawable.run, 0, 0, 0);
 
                     this.tv_dashboard_statusCPU.setTextColor(Color.RED);
                 }
@@ -101,18 +106,18 @@ public class ReadTaskS7
 
                 this.tv_dashboard_modelPU.setText(String.valueOf(data.get(2)));
                 this.tv_dashboard_modelPU.setTextColor(Color.GRAY);
-            }else {
+            } else {
                 this.errorDisplay();
             }
             this.stop();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void errorDisplay() {
-        this.tv_dashboard_numCPU.setText(" ⚠️Impossible de récupérer le numéro");
+        this.tv_dashboard_numCPU.setText(" ⚠️Impossible de récupérer la référence");
         this.tv_dashboard_numCPU.setTextColor(Color.GRAY);
 
         this.tv_dashboard_modelPU.setText(" ⚠️Impossible de récupérer le modèle");
@@ -124,7 +129,7 @@ public class ReadTaskS7
         this.tv_dashboard_error.setVisibility(View.VISIBLE);
         this.btn_dashboard_powerPLC.setEnabled(false);
         this.btn_dashboard_powerPLC.setBackgroundTintList(ContextCompat.getColorStateList(this.context, R.color.colorDarkGray));
-        ToastService.show(this.context,"La connexion à l'automate a échoué");
+        ToastUtil.show(this.context, "La connexion à l'automate a échoué");
     }
 
 
@@ -134,11 +139,11 @@ public class ReadTaskS7
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch(msg.what) {
-                case MESSAGE_PRE_EXECUTE :
+            switch (msg.what) {
+                case MESSAGE_PRE_EXECUTE:
                     downloadOnPreExecute(msg.obj);
                     break;
-                default :
+                default:
                     break;
             }
         }
@@ -157,25 +162,25 @@ public class ReadTaskS7
             // Connection to the automaton
             try {
                 comS7.SetConnectionType(S7.S7_BASIC);
-                this.res = comS7.ConnectTo(param[0],Integer.valueOf(param[1]),Integer.valueOf(param[2]));
-            }catch (Exception e) {
+                this.res = comS7.ConnectTo(param[0], Integer.valueOf(param[1]), Integer.valueOf(param[2]));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // If the connection succeed
-            if(this.res.equals(0)) {
+            if (this.res.equals(0)) {
 
                 // Get CPU order code
                 try {
                     S7OrderCode orderCode = new S7OrderCode();
                     Integer result = comS7.GetOrderCode(orderCode);
 
-                    if(result.equals(0)) {
+                    if (result.equals(0)) {
                         numCPU = String.valueOf(orderCode.Code());
                         this.data.add(String.valueOf(numCPU));
                     }
 
-                }catch (Exception e) {
+                } catch (Exception e) {
                     this.data.add("Impossible de récupérer le numéro du CPU");
                     e.printStackTrace();
                 }
@@ -186,11 +191,11 @@ public class ReadTaskS7
                     IntByRef ref = new IntByRef();
                     Integer response = comS7.GetPlcStatus(ref);
 
-                    if(response.equals(0)) {
+                    if (response.equals(0)) {
                         cplStatus = ref.Value;
 
-                        switch(cplStatus) {
-                            case S7.S7CpuStatusRun :
+                        switch (cplStatus) {
+                            case S7.S7CpuStatusRun:
                                 state = "En fonctionnement";
                                 break;
                             case S7.S7CpuStatusStop:
@@ -200,7 +205,7 @@ public class ReadTaskS7
                         this.data.add(state);
                     }
 
-                }catch (Exception e) {
+                } catch (Exception e) {
                     this.data.add("Impossible de récupérer le statut du CPU");
                     e.printStackTrace();
                 }
@@ -211,7 +216,7 @@ public class ReadTaskS7
                     S7CpuInfo cpuInfo = new S7CpuInfo();
                     Integer response = comS7.GetCpuInfo(cpuInfo);
 
-                    if(response.equals(0)) {
+                    if (response.equals(0)) {
                         builderInfos.append(cpuInfo.ASName()).append("\n");
                         builderInfos.append(cpuInfo.Copyright()).append("\n");
                         builderInfos.append(cpuInfo.SerialNumber()).append("\n");
@@ -220,12 +225,12 @@ public class ReadTaskS7
 
                         this.data.add(builderInfos.toString());
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 sendPreExecuteMessage(data);
-            }else {
+            } else {
                 System.out.print("Connection to automaton failed");
                 sendPreExecuteMessage(data);
             }

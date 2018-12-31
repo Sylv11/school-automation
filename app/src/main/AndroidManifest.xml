@@ -24,7 +24,7 @@
         <activity android:name=".Activity.DashboardActivity" />
         <activity android:name=".Activity.PharmaActivity" />
         <activity android:name=".Activity.AdminActivity" />
-        <activity android:name=".Activity.LevelServoActivity"></activity>
+        <activity android:name=".Activity.LevelServoActivity" />
     </application>
 
 </manifest>

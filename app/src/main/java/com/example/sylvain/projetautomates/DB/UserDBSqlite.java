@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDBSqlite extends SQLiteOpenHelper
-{
+public class UserDBSqlite extends SQLiteOpenHelper {
     private static final String TABLE_USER = "table_user";
     private static final String COL_ID = "ID";
     private static final String COL_LASTNAME = "LASTNAME";

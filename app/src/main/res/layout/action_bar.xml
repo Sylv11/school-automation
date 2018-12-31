@@ -4,33 +4,33 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    android:background="@color/colorMauve"
     android:enabled="false"
     android:orientation="horizontal"
-    android:background="@color/colorMauve"
     tools:context=".Activity.DashboardActivity">
 
     <TextView
         android:id="@+id/action_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
         android:text="@string/dashboard_title"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
-        android:textStyle="bold"
         android:textSize="18sp"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        tools:ignore="RtlSymmetry"
-        android:fontFamily="sans-serif-smallcaps"/>
+        android:textStyle="bold"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="right|center"
         android:background="#00000000"
-        android:textColor="@color/colorWhite"
         android:drawableEnd="@drawable/hamburger"
+        android:gravity="right|center"
         android:onClick="openMenu"
+        android:textColor="@color/colorWhite"
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 
 </android.support.v7.widget.Toolbar>

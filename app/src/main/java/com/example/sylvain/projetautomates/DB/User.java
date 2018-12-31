@@ -1,8 +1,7 @@
 package com.example.sylvain.projetautomates.DB;
 
 // User class (user table)
-public class User
-{
+public class User {
     private int id;
     private String lastname;
     private String firstname;
@@ -18,51 +17,51 @@ public class User
         this.rank = r;
     }
 
-    public void setId(int i){
+    public void setId(int i) {
         this.id = i;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public void setLastname(String l){
+    public void setLastname(String l) {
         this.lastname = l;
     }
 
-    public String getLastname(){
+    public String getLastname() {
         return this.lastname;
     }
 
-    public void setFirstname(String f){
+    public void setFirstname(String f) {
         this.firstname = f;
     }
 
-    public String getFirstname(){
+    public String getFirstname() {
         return this.firstname;
     }
 
-    public void setEmail(String e){
+    public void setEmail(String e) {
         this.email = e;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 
-    public void setPassword(String p){
+    public void setPassword(String p) {
         this.password = p;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 
-    public void setRank(int r){
+    public void setRank(int r) {
         this.rank = r;
     }
 
-    public int getRank(){
+    public int getRank() {
         return this.rank;
     }
 }

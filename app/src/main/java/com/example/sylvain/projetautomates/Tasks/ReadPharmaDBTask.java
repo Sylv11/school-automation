@@ -1,4 +1,4 @@
-package com.example.sylvain.projetautomates;
+package com.example.sylvain.projetautomates.Tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,14 +9,13 @@ import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
-import com.example.sylvain.projetautomates.Utils.ToastService;
+import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ReadDBTask
-{
+public class ReadPharmaDBTask {
     // DB number and progress update message
-    private final int DB_NUMBER = 5;
+    private static final int DB_NUMBER = 5;
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
     private static final int MESSAGE_TABLETS_NUMBER_UPDATE = 3;
     private static final int MESSAGE_BOTTLES_NUMBER_UPDATE = 4;
@@ -47,7 +46,12 @@ public class ReadDBTask
     // DBB number
     private int start;
 
-    public ReadDBTask(int start, Context context, TextView tv_pharma_conveyor_state, TextView tv_pharma_read_number_tablets, TextView tv_pharma_read_bottles_status, TextView tv_pharma_read_live_tablets, TextView tv_pharma_read_live_bottles){
+    public ReadPharmaDBTask(int start, Context context,
+                            TextView tv_pharma_conveyor_state,
+                            TextView tv_pharma_read_number_tablets,
+                            TextView tv_pharma_read_bottles_status,
+                            TextView tv_pharma_read_live_tablets,
+                            TextView tv_pharma_read_live_bottles) {
         this.start = start;
         this.context = context;
         this.tv_pharma_conveyor_state = tv_pharma_conveyor_state;
@@ -62,14 +66,14 @@ public class ReadDBTask
     }
 
     // Stop the thread and disconnect to the automaton
-    public void stop(){
+    public void stop() {
         isRunning.set(false);
         comS7.Disconnect();
         readThread.interrupt();
     }
 
     // Connection data
-    public void start(String ip, String rack, String slot){
+    public void start(String ip, String rack, String slot) {
         if (!readThread.isAlive()) {
             param[0] = ip;
             param[1] = rack;
@@ -84,42 +88,41 @@ public class ReadDBTask
     private void downloadOnProgressUpdate(boolean[] bitsStatus) {
 
         // If in DB5.DBB0
-        if(start == 0) {
+        if (start == 0) {
             // We read the first bit in the byte
-            if(bitsStatus[0]) {
+            if (bitsStatus[0]) {
                 this.tv_pharma_conveyor_state.setText("En marche");
                 this.tv_pharma_conveyor_state.setTextColor(Color.GREEN);
-            }else {
+            } else {
                 this.tv_pharma_conveyor_state.setText("Stoppé");
                 this.tv_pharma_conveyor_state.setTextColor(Color.RED);
             }
         }
 
         // If in DB5.DBB4
-        if(start == 4) {
+        if (start == 4) {
             // We read the third, fourth and fifth bit in the byte
-            if(bitsStatus[3]){
+            if (bitsStatus[3]) {
                 this.tv_pharma_read_number_tablets.setText("5");
                 this.tv_pharma_read_number_tablets.setTextColor(Color.GRAY);
-            }else if(bitsStatus[4]){
+            } else if (bitsStatus[4]) {
                 this.tv_pharma_read_number_tablets.setText("10");
                 this.tv_pharma_read_number_tablets.setTextColor(Color.GRAY);
-            }else if(bitsStatus[5]){
+            } else if (bitsStatus[5]) {
                 this.tv_pharma_read_number_tablets.setText("15");
                 this.tv_pharma_read_number_tablets.setTextColor(Color.GRAY);
             }
         }
 
         // If in DB5.DBB1
-        if(start == 1){
-            if(bitsStatus[2]){
-                ToastService.show(context,"Le compteur de flacons a été rénitialisé");
-            }
+        if (start == 1) {
+            if (bitsStatus[2]) ToastUtil.show(context, "Le compteur de flacons a été rénitialisé");
+
             // We read the third bit in the byte
-            if(bitsStatus[3]){
+            if (bitsStatus[3]) {
                 this.tv_pharma_read_bottles_status.setText("Ouvert");
                 this.tv_pharma_read_bottles_status.setTextColor(Color.GREEN);
-            }else {
+            } else {
                 this.tv_pharma_read_bottles_status.setText("Fermé");
                 this.tv_pharma_read_bottles_status.setTextColor(Color.RED);
             }
@@ -127,15 +130,21 @@ public class ReadDBTask
     }
 
     // Send the informations to the pharma activity and change some properties
+    @SuppressLint("SetTextI18n")
     private void downloadOnNumberTabletsUpdate(Integer numberTablets) {
         this.tv_pharma_read_live_tablets.setTextColor(Color.GRAY);
-        this.tv_pharma_read_live_tablets.setText(String.valueOf(numberTablets));
+        if (numberTablets >= 0)
+            this.tv_pharma_read_live_tablets.setText(String.valueOf(numberTablets));
+        else this.tv_pharma_read_live_tablets.setText("Valeur incorrecte");
     }
 
     // Send the informations to the pharma activity and change some properties
-    private void downloadOnNumberBottlesUpdate(Integer numberBottles){
+    @SuppressLint("SetTextI18n")
+    private void downloadOnNumberBottlesUpdate(Integer numberBottles) {
         this.tv_pharma_read_live_bottles.setTextColor(Color.GRAY);
-        this.tv_pharma_read_live_bottles.setText(String.valueOf(numberBottles));
+        if (numberBottles >= 0)
+            this.tv_pharma_read_live_bottles.setText(String.valueOf(numberBottles));
+        else this.tv_pharma_read_live_bottles.setText("Valeur incorrecte");
     }
 
     // Run method according to the message
@@ -146,7 +155,7 @@ public class ReadDBTask
             super.handleMessage(msg);
             switch (msg.what) {
                 case MESSAGE_PROGRESS_UPDATE:
-                    downloadOnProgressUpdate((boolean[])msg.obj);
+                    downloadOnProgressUpdate((boolean[]) msg.obj);
                     break;
                 case MESSAGE_TABLETS_NUMBER_UPDATE:
                     downloadOnNumberTabletsUpdate(msg.arg1);
@@ -160,7 +169,7 @@ public class ReadDBTask
         }
     };
 
-    private class AutomateS7 implements Runnable{
+    private class AutomateS7 implements Runnable {
         // Result of the connection
         private Integer res;
         private Integer numberOfTablets = 0;
@@ -175,42 +184,43 @@ public class ReadDBTask
             try {
                 comS7.SetConnectionType(S7.S7_BASIC);
                 this.res = comS7.ConnectTo(param[0], Integer.valueOf(param[1]), Integer.valueOf(param[2]));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
                 // Loop
-                while(isRunning.get()){
+                while (isRunning.get()) {
                     // If the connection succeed
-                    if (res.equals(0)){
+                    if (res.equals(0)) {
                         // ReadArea(int Area, int DBNumber, int Start, int Amount, byte[] Data)
                         // Read data from PLC
-                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, start,1, datasPLC);
+                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, start, 1, datasPLC);
 
-                        int tabletsInfo = comS7.ReadArea(S7.S7AreaDB, 5, 15,1, dataTablets);
+                        int tabletsInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 15, 1, dataTablets);
 
-                        int bottlesInfo = comS7.ReadArea(S7.S7AreaDB, 5, 17,1, dataBottles);
+                        int bottlesInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 17, 1, dataBottles);
 
                         // If succeed
                         if (retInfo == 0) {
 
                             // We read each bit in the byte
-                            for(int i=0; i<=7; i++){
+                            for (int i = 0; i <= 7; i++) {
                                 bitsStatus[i] = S7.GetBitAt(datasPLC, 0, i);
                             }
                             sendProgressMessage(bitsStatus);
                         }
 
                         // If succeed
-                        if(tabletsInfo == 0) {
+                        if (tabletsInfo == 0) {
                             // We get the Word
-                            numberOfTablets = Integer.valueOf(Integer.toHexString((int)(S7.GetDIntAt(dataTablets,0)/Math.pow(256,3))));
+                            numberOfTablets = Integer.valueOf(Integer.toHexString((int) (S7.GetDIntAt(dataTablets, 0) / Math.pow(256, 3))));
                             sendNumberTabletsProgressMessage(numberOfTablets);
                         }
 
-                        if(bottlesInfo == 0){
-                            numberOfBottles = (int)(S7.GetDIntAt(dataBottles, 0)/ Math.pow(256,3));
+                        // If succeed
+                        if (bottlesInfo == 0) {
+                            numberOfBottles = (int) (S7.GetDIntAt(dataBottles, 0) / Math.pow(256, 3));
 
                             sendNumberBottlesProgressMessage(numberOfBottles);
                         }
@@ -218,12 +228,12 @@ public class ReadDBTask
                         //Log.i("Variable A.P.I. -> ", String.valueOf(bitState));
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -237,7 +247,7 @@ public class ReadDBTask
         }
 
         // Send message when tablets number updates to the handler
-        private void sendNumberTabletsProgressMessage(Integer number){
+        private void sendNumberTabletsProgressMessage(Integer number) {
             Message progressMsgTablets = new Message();
             progressMsgTablets.what = MESSAGE_TABLETS_NUMBER_UPDATE;
             progressMsgTablets.arg1 = number;
@@ -245,7 +255,7 @@ public class ReadDBTask
         }
 
         // Send message when bottles number updates to the handler
-        private void sendNumberBottlesProgressMessage(Integer numberBottles){
+        private void sendNumberBottlesProgressMessage(Integer numberBottles) {
             Message progressMsgBottles = new Message();
             progressMsgBottles.what = MESSAGE_BOTTLES_NUMBER_UPDATE;
             progressMsgBottles.arg2 = numberBottles;

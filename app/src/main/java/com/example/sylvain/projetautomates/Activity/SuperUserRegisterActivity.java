@@ -34,34 +34,34 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
 
         prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        et_super_user_register_lastname = (EditText)findViewById(R.id.et_super_user_register_lastname);
-        et_super_user_register_firstname = (EditText)findViewById(R.id.et_super_user_register_firstname);
-        et_super_user_register_email = (EditText)findViewById(R.id.et_super_user_register_email);
-        et_super_user_register_password = (EditText)findViewById(R.id.et_super_user_register_password);
+        this.et_super_user_register_lastname = findViewById(R.id.et_super_user_register_lastname);
+        this.et_super_user_register_firstname = findViewById(R.id.et_super_user_register_firstname);
+        this.et_super_user_register_email = findViewById(R.id.et_super_user_register_email);
+        this.et_super_user_register_password = findViewById(R.id.et_super_user_register_password);
     }
 
-    public void onSuperUserRegisterClickManager(View v){
+    public void onSuperUserRegisterClickManager(View v) {
 
-        switch(v.getId()){
+        switch (v.getId()) {
             // Superuser registration
             case R.id.btn_super_user_register:
-                String lastname = et_super_user_register_lastname.getText().toString();
-                String firstname = et_super_user_register_firstname.getText().toString();
-                String email = et_super_user_register_email.getText().toString();
-                String password = et_super_user_register_password.getText().toString();
+                String lastname = this.et_super_user_register_lastname.getText().toString();
+                String firstname = this.et_super_user_register_firstname.getText().toString();
+                String email = this.et_super_user_register_email.getText().toString();
+                String password = this.et_super_user_register_password.getText().toString();
 
                 checkRegistration(lastname, firstname, email, password);
                 break;
         }
     }
 
-    private void checkRegistration(String lastname, String firstname, String email, String password){
-        if(!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            if(lastname.trim().length() >= 3){
-                if(firstname.trim().length() >= 3){
-                    if(email.trim().length() >= 3){
-                        if(password.length() >= 4){
-                            if(EmailValidator.isValidEmail(email)) {
+    private void checkRegistration(String lastname, String firstname, String email, String password) {
+        if (!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+            if (lastname.trim().length() >= 3) {
+                if (firstname.trim().length() >= 3) {
+                    if (email.trim().length() >= 3) {
+                        if (password.length() >= 4) {
+                            if (EmailValidator.isValidEmail(email)) {
                                 // Store superuser in SharedPreferences
                                 User user = new User(lastname, firstname, email, password, 2);
                                 UserAccessDB userDB = new UserAccessDB(this);
@@ -74,27 +74,27 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
                                 editeur_datas.putBoolean("super_user_created", true).apply();
 
                                 // Redirect to login
-                                Intent intentToLogin = new Intent(this,MainActivity.class);
+                                Intent intentToLogin = new Intent(this, MainActivity.class);
                                 startActivity(intentToLogin);
-                                Toast.makeText(this,"Vous êtes inscrit ! Bienvenue",Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Vous êtes inscrit ! Bienvenue", Toast.LENGTH_LONG).show();
                                 finish();
-                            }else {
+                            } else {
                                 Toast.makeText(this, "Cette adresse email est non conforme", Toast.LENGTH_SHORT).show();
                             }
-                        }else{
-                                Toast.makeText(this,"Votre mot de passe est trop court",Toast.LENGTH_SHORT).show();
-                            }
-                    }else{
-                        Toast.makeText(this,"Votre adresse email est trop courte",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Votre adresse email est trop courte", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(this,"Votre prénom est trop court",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Votre prénom est trop court", Toast.LENGTH_SHORT).show();
                 }
-            }else{
-                Toast.makeText(this,"Votre nom est trop court",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Votre nom est trop court", Toast.LENGTH_SHORT).show();
             }
-        }else{
-            Toast.makeText(this,"Veuillez remplir tous les champs !",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Veuillez remplir tous les champs !", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.sylvain.projetautomates;
+package com.example.sylvain.projetautomates.Tasks;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
@@ -58,16 +58,16 @@ public class TogglePLCStatusTask {
     private void downloadOnPreExecute(Integer status) {
 
         try {
-            if(status.equals(1)) {
+            if (status.equals(1)) {
                 this.tv_dashboard_statusCPU.setText("En fonctionnement");
                 this.tv_dashboard_statusCPU.setTextColor(android.graphics.Color.GREEN);
-            }else if(status.equals(0)) {
+            } else if (status.equals(0)) {
                 this.tv_dashboard_statusCPU.setText("Stoppé");
                 this.tv_dashboard_statusCPU.setTextColor(android.graphics.Color.RED);
             }
 
             this.stop();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -78,11 +78,11 @@ public class TogglePLCStatusTask {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch(msg.what) {
-                case MESSAGE_PRE_EXECUTE :
+            switch (msg.what) {
+                case MESSAGE_PRE_EXECUTE:
                     downloadOnPreExecute(msg.arg1);
                     break;
-                default :
+                default:
                     break;
             }
         }
@@ -98,41 +98,41 @@ public class TogglePLCStatusTask {
             // Connection to the automaton
             try {
                 comS7.SetConnectionType(S7.S7_BASIC);
-                this.res = comS7.ConnectTo(param[0],Integer.valueOf(param[1]),Integer.valueOf(param[2]));
-            }catch (Exception e) {
+                this.res = comS7.ConnectTo(param[0], Integer.valueOf(param[1]), Integer.valueOf(param[2]));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if(this.res.equals(0)) {
-                if(CPLstatus) {
+            if (this.res.equals(0)) {
+                if (CPLstatus) {
                     // Change CPU status to STOP
                     try {
                         Integer response = comS7.PlcStop();
 
-                        if(response.equals(0)) {
+                        if (response.equals(0)) {
                             sendPreExecuteMessage(0);
-                        }else {
+                        } else {
                             System.out.println("An error has occured when shutting down PLC");
                         }
 
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     // Change CPU status to RUN
                     try {
                         Integer response = comS7.PlcColdStart();
 
-                        if(response.equals(0)) {
+                        if (response.equals(0)) {
                             sendPreExecuteMessage(1);
-                        }else {
+                        } else {
                             System.out.println("An error has occured when starting PLC");
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }else {
+            } else {
                 System.out.printf("Connection to automaton failed");
             }
         }

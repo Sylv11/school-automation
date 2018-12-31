@@ -92,8 +92,8 @@ public class UserAccessDB {
     // Get all users
     public ArrayList<User> getUsers() {
         // Result of request
-        Cursor c = this.db.query(TABLE_USER, new String[] {
-                        COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_EMAIL, COL_PASSWORD, COL_RANK }, null, null, null, null,
+        Cursor c = this.db.query(TABLE_USER, new String[]{
+                        COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_EMAIL, COL_PASSWORD, COL_RANK}, null, null, null, null,
                 COL_EMAIL);
 
         // If there is no user
@@ -117,7 +117,7 @@ public class UserAccessDB {
     // Get user by his email
     public User getUser(String email) {
         Cursor c = this.db.query(TABLE_USER,
-                new String[] {COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_EMAIL, COL_PASSWORD, COL_RANK },
+                new String[]{COL_ID, COL_LASTNAME, COL_FIRSTNAME, COL_EMAIL, COL_PASSWORD, COL_RANK},
                 COL_EMAIL + " LIKE \"" + email + "\"",
                 null, null, null, COL_EMAIL
         );
@@ -127,7 +127,7 @@ public class UserAccessDB {
 
     // Return user by cursor
     private User cursorToUser(Cursor c) {
-        if(c.getCount() == 0) {
+        if (c.getCount() == 0) {
             c.close();
             return null;
         }

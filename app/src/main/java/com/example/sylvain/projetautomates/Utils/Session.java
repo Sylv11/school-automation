@@ -11,8 +11,7 @@ import com.example.sylvain.projetautomates.Activity.MainActivity;
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
 
-public class Session
-{
+public class Session {
     // SharedPreferences to store the user and DB to get it
     private SharedPreferences prefs;
     private UserAccessDB userDB;
@@ -38,10 +37,10 @@ public class Session
     // Get the logged user
     public User getUser() {
 
-        if(this.isLogged()) {
-            String email = this.prefs.getString("email","");
+        if (this.isLogged()) {
+            String email = this.prefs.getString("email", "");
 
-            if(email != null) {
+            if (email != null) {
                 this.userDB.openForRead();
                 User user = userDB.getUser(email);
                 this.userDB.Close();
@@ -66,14 +65,14 @@ public class Session
         intentLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.context.startActivity(intentLogin);
 
-        ((Activity)this.context).finish();
+        ((Activity) this.context).finish();
     }
 
     // Check if the user is connected
     public boolean isLogged() {
-        boolean logged = this.prefs.getBoolean("IS_LOGGED",false);
+        boolean logged = this.prefs.getBoolean("IS_LOGGED", false);
 
-        if(logged) {
+        if (logged) {
             return true;
         }
         return false;

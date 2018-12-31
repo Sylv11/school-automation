@@ -37,31 +37,31 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if superuser is already created
 
-        if(!this.prefs_datas.contains("super_user_created")) {
-            Intent intentSuperUserRegister = new Intent(this,SuperUserRegisterActivity.class);
+        if (!this.prefs_datas.contains("super_user_created")) {
+            Intent intentSuperUserRegister = new Intent(this, SuperUserRegisterActivity.class);
             startActivity(intentSuperUserRegister);
-        }else {
+        } else {
             //Check if connected
 
-            if(this.session.isLogged()) {
+            if (this.session.isLogged()) {
                 // to Dashboard
 
                 Intent dashboardIntent = new Intent(this, DashboardActivity.class);
                 startActivity(dashboardIntent);
                 finish();
-            }else {
+            } else {
                 setContentView(R.layout.activity_main);
             }
         }
 
-        this.et_main_email = (EditText)findViewById(R.id.et_main_email);
-        this.et_main_password = (EditText)findViewById(R.id.et_main_password);
+        this.et_main_email = findViewById(R.id.et_main_email);
+        this.et_main_password = findViewById(R.id.et_main_password);
 
     }
 
-    public void onMainClickManager(View v){
+    public void onMainClickManager(View v) {
 
-        switch(v.getId()){
+        switch (v.getId()) {
 
             // User check password
 
@@ -69,52 +69,52 @@ public class MainActivity extends AppCompatActivity {
                 String email = et_main_email.getText().toString();
                 String password = et_main_password.getText().toString();
 
-                checkLogin(email,password);
+                checkLogin(email, password);
                 break;
 
             // User registration
 
             case R.id.btn_main_register:
-                Intent intentRegister = new Intent(this,RegisterActivity.class);
+                Intent intentRegister = new Intent(this, RegisterActivity.class);
                 startActivity(intentRegister);
                 finish();
                 break;
         }
     }
 
-    private void checkLogin(String email, String password){
-        if(!email.isEmpty() && !password.isEmpty()) {
-            if(email.trim().length() >= 3){
-                if(password.length() >= 4){
+    private void checkLogin(String email, String password) {
+        if (!email.isEmpty() && !password.isEmpty()) {
+            if (email.trim().length() >= 3) {
+                if (password.length() >= 4) {
                     // Get user by email
                     UserAccessDB userDB = new UserAccessDB(this);
                     userDB.openForRead();
                     User user = userDB.getUser(email);
                     userDB.Close();
 
-                    if(user != null){
-                        if(password.equals(user.getPassword())){
+                    if (user != null) {
+                        if (password.equals(user.getPassword())) {
                             // Start user session and redirect to dashboard
                             this.session.setUser(user.getEmail());
 
                             Intent dashboardIntent = new Intent(this, DashboardActivity.class);
                             startActivity(dashboardIntent);
                             finish();
-                        }else{
-                            Toast.makeText(this,"Mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Mot de passe incorrect", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(this,"Cette adresse email n'est attribuée à aucun compte", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Cette adresse email n'est attribuée à aucun compte", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                    Toast.makeText(this,"Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Votre mot de passe est trop court", Toast.LENGTH_SHORT).show();
                 }
-            }else{
-                Toast.makeText(this,"Votre adresse email est trop courte", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Votre adresse email est trop courte", Toast.LENGTH_SHORT).show();
             }
-        }else {
-            Toast.makeText(this,"Veuillez remplir tous les champs !", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Veuillez remplir tous les champs !", Toast.LENGTH_SHORT).show();
         }
     }
 

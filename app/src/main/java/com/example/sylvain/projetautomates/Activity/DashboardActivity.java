@@ -2,6 +2,7 @@ package com.example.sylvain.projetautomates.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,10 +17,10 @@ import android.support.v7.widget.Toolbar;
 import com.example.sylvain.projetautomates.Utils.LoadProperties;
 import com.example.sylvain.projetautomates.Utils.Network;
 import com.example.sylvain.projetautomates.R;
-import com.example.sylvain.projetautomates.ReadTaskS7;
+import com.example.sylvain.projetautomates.Tasks.ReadTaskS7;
 import com.example.sylvain.projetautomates.Utils.Session;
-import com.example.sylvain.projetautomates.Utils.ToastService;
-import com.example.sylvain.projetautomates.TogglePLCStatusTask;
+import com.example.sylvain.projetautomates.Utils.ToastUtil;
+import com.example.sylvain.projetautomates.Tasks.TogglePLCStatusTask;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -32,6 +33,9 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView tv_dashboard_error;
     private Button btn_dashboard_powerPLC;
     private Toolbar toolbar = null;
+    private TextView tv_dashboard_ipAddress;
+    private TextView tv_dashboard_rackNum;
+    private TextView tv_dashboard_slotNum;
 
     private boolean CPLstatus;
 
@@ -52,15 +56,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        this.toolbar = findViewById(R.id.toolbar);
-        this.setSupportActionBar(this.toolbar);
-        this.getLayoutInflater().inflate(R.layout.action_bar, null);
-
-        this.tv_dashboard_numCPU = (TextView)findViewById(R.id.tv_dashboard_numCPU);
-        this.tv_dashboard_modelPU = (TextView)findViewById(R.id.tv_dashboard_modelPU);
-        this.tv_dashboard_statusCPU = (TextView)findViewById(R.id.tv_dashboard_statusCPU);
-        this.tv_dashboard_error = (TextView)findViewById(R.id.tv_dashboard_error);
-        this.btn_dashboard_powerPLC = (Button)findViewById(R.id.btn_dashboard_powerPLC);
+        this.init();
 
         this.session = new Session(this);
         this.network = new Network(this);
@@ -75,26 +71,54 @@ public class DashboardActivity extends AppCompatActivity {
                     this.ipAddress = LoadProperties.getProperty("ip_address", this);
                     this.rack = LoadProperties.getProperty("rack", this);
                     this.slot = LoadProperties.getProperty("slot", this);
+
+                    this.tv_dashboard_ipAddress.setText(this.ipAddress);
+                    this.tv_dashboard_ipAddress.setTextColor(Color.GRAY);
+
+                    this.tv_dashboard_rackNum.setText(this.rack);
+                    this.tv_dashboard_rackNum.setTextColor(Color.GRAY);
+
+                    this.tv_dashboard_slotNum.setText(this.slot);
+                    this.tv_dashboard_slotNum.setTextColor(Color.GRAY);
+
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
 
                 // Start the read task
-                this.readS7 = new ReadTaskS7(this.tv_dashboard_numCPU, this.tv_dashboard_statusCPU, this.tv_dashboard_error, this.tv_dashboard_modelPU, this.btn_dashboard_powerPLC, this);
+                this.readS7 = new ReadTaskS7(this.tv_dashboard_numCPU,
+                                             this.tv_dashboard_statusCPU,
+                                             this.tv_dashboard_error,
+                                             this.tv_dashboard_modelPU,
+                                             this.btn_dashboard_powerPLC, this);
                 this.readS7.start(this.ipAddress, this.rack, this.slot);
 
                 // Run and stop button only for the superuser
                 if(session.getUser().getRank() == this.BASIC_RANK) {
-                    this.btn_dashboard_powerPLC.setVisibility(View.INVISIBLE);
+                    this.btn_dashboard_powerPLC.setVisibility(View.GONE);
                 }
             }else {
                 session.closeSession();
-                ToastService.show(this, "Vous n'êtes pas connecté");
+                ToastUtil.show(this, "Vous n'êtes pas connecté");
             }
         }else {
             this.session.closeSession();
-            ToastService.show(this, "Vous n'êtes connecté à aucun réseau");
+            ToastUtil.show(this, "Vous n'êtes connecté à aucun réseau");
         }
+    }
+
+    private void init(){
+        this.toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(this.toolbar);
+        this.getLayoutInflater().inflate(R.layout.action_bar, null);
+        this.tv_dashboard_numCPU = findViewById(R.id.tv_dashboard_numCPU);
+        this.tv_dashboard_modelPU = findViewById(R.id.tv_dashboard_modelPU);
+        this.tv_dashboard_statusCPU = findViewById(R.id.tv_dashboard_statusCPU);
+        this.tv_dashboard_error = findViewById(R.id.tv_dashboard_error);
+        this.btn_dashboard_powerPLC = findViewById(R.id.btn_dashboard_powerPLC);
+        this.tv_dashboard_ipAddress = findViewById(R.id.tv_dashboard_ipAddress);
+        this.tv_dashboard_rackNum = findViewById(R.id.tv_dashboard_rackNum);
+        this.tv_dashboard_slotNum = findViewById(R.id.tv_dashboard_slotNum);
     }
 
     @SuppressLint("RestrictedApi")
@@ -120,7 +144,7 @@ public class DashboardActivity extends AppCompatActivity {
             // Logout and close user session
             case R.id.item_logout :
                 this.session.closeSession();
-                ToastService.show(this,"Déconnecté");
+                ToastUtil.show(this,"Déconnecté");
                 break;
             //  Redirect to pharma activity
             case R.id.item_pharmaceutical:
@@ -181,7 +205,7 @@ public class DashboardActivity extends AppCompatActivity {
                 togglePLCStatusTask.start(this.ipAddress, this.rack, this.slot);
             }
         }else {
-            ToastService.show(this, "Action impossible ! Vous n'êtes connecté à aucun réseau");
+            ToastUtil.show(this, "Action impossible ! Vous n'êtes connecté à aucun réseau");
         }
     }
 

@@ -22,7 +22,7 @@ import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.R;
 import com.example.sylvain.projetautomates.Utils.Session;
-import com.example.sylvain.projetautomates.Utils.ToastService;
+import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -49,20 +49,21 @@ public class AdminActivity extends AppCompatActivity {
         this.toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(this.toolbar);
         this.getLayoutInflater().inflate(R.layout.action_bar, null);
-        this.action_bar_title = (TextView)findViewById(R.id.action_bar_title);
+        this.action_bar_title = findViewById(R.id.action_bar_title);
 
         this.session = new Session(this);
 
         // Check if the user is connected
-        if(this.session.isLogged()) {
+        if (this.session.isLogged()) {
             this.action_bar_title.setText("GESTION UTILISATEURS");
             // Current user session
             userSession = session.getUser();
+
             // Display the users and allow to change their rights (RW or R) or to delete them
             this.initUsersTextViews();
-        }else {
+        } else {
             session.closeSession();
-            ToastService.show(this, "Vous n'êtes pas connecté");
+            ToastUtil.show(this, "Vous n'êtes pas connecté");
         }
     }
 
@@ -87,9 +88,9 @@ public class AdminActivity extends AppCompatActivity {
                 finish();
                 break;
             // Logout and close user session
-            case R.id.item_logout :
+            case R.id.item_logout:
                 this.session.closeSession();
-                ToastService.show(this,"Déconnecté");
+                ToastUtil.show(this, "Déconnecté");
                 break;
             // Redirect to pharma activity
             case R.id.item_pharmaceutical:
@@ -106,7 +107,7 @@ public class AdminActivity extends AppCompatActivity {
                 finish();
                 break;
             // Redirect to admin activity
-            case R.id.item_admin :
+            case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
                 adminIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(adminIntent);
@@ -152,7 +153,7 @@ public class AdminActivity extends AppCompatActivity {
             this.createUserTextView(currentUser, linearLayoutVertical);
 
             // If it is the connected user or if it is not an admin, we don't show the buttons
-            if(!userSession.getEmail().equals(currentUser.getEmail()) && !(userSession.getRank() == BASIC_RANK)) {
+            if (!userSession.getEmail().equals(currentUser.getEmail()) && !(userSession.getRank() == BASIC_RANK)) {
 
                 // Create the delete Button
                 this.createDeleteButton(linearLayoutVertical, currentUser);
@@ -177,22 +178,22 @@ public class AdminActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            // Check if it is an admin
-            if (userSession.getRank() == ADMIN_RANK) {
-                UserAccessDB deleteUserDB = new UserAccessDB(context);
-                deleteUserDB.openForWrite();
-                deleteUserDB.removeUser(currentUser.getEmail());
-                deleteUserDB.Close();
+                // Check if it is an admin
+                if (userSession.getRank() == ADMIN_RANK) {
+                    UserAccessDB deleteUserDB = new UserAccessDB(context);
+                    deleteUserDB.openForWrite();
+                    deleteUserDB.removeUser(currentUser.getEmail());
+                    deleteUserDB.Close();
 
-                ToastService.show(context, currentUser.getFirstname() + " a été supprimé");
+                    ToastUtil.show(context, currentUser.getFirstname() + " a été supprimé");
 
-                // Refresh the activity
-                Intent adminActivity = new Intent(context, AdminActivity.class);
-                adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(adminActivity);
-            } else {
-                ToastService.show(context, "Vous n'avez pas les droits pour supprimer un utilisateur");
-            }
+                    // Refresh the activity
+                    Intent adminActivity = new Intent(context, AdminActivity.class);
+                    adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(adminActivity);
+                } else {
+                    ToastUtil.show(context, "Vous n'avez pas les droits pour supprimer un utilisateur");
+                }
             }
         });
     }
@@ -211,36 +212,36 @@ public class AdminActivity extends AppCompatActivity {
         rightsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            // Check if it is an admin
-            if (userSession.getRank() == ADMIN_RANK) {
-                UserAccessDB updatedUserDB = new UserAccessDB(context);
-                if (currentUser.getRank() == BASIC_RANK) {
-                    // Change the rank
-                    User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 2);
-                    updatedUserDB.openForWrite();
-                    updatedUserDB.removeUser(currentUser.getEmail());
-                    updatedUserDB.insertUser(updatedUser);
-                    updatedUserDB.Close();
+                // Check if it is an admin
+                if (userSession.getRank() == ADMIN_RANK) {
+                    UserAccessDB updatedUserDB = new UserAccessDB(context);
+                    if (currentUser.getRank() == BASIC_RANK) {
+                        // Change the rank
+                        User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 2);
+                        updatedUserDB.openForWrite();
+                        updatedUserDB.removeUser(currentUser.getEmail());
+                        updatedUserDB.insertUser(updatedUser);
+                        updatedUserDB.Close();
 
-                    ToastService.show(context, currentUser.getFirstname() + " est maintenant administrateur (R/W)");
-                } else if (currentUser.getRank() == ADMIN_RANK) {
-                    // Change the rank
-                    User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 1);
-                    updatedUserDB.openForWrite();
-                    updatedUserDB.removeUser(currentUser.getEmail());
-                    updatedUserDB.insertUser(updatedUser);
-                    updatedUserDB.Close();
+                        ToastUtil.show(context, currentUser.getFirstname() + " est maintenant administrateur (R/W)");
+                    } else if (currentUser.getRank() == ADMIN_RANK) {
+                        // Change the rank
+                        User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 1);
+                        updatedUserDB.openForWrite();
+                        updatedUserDB.removeUser(currentUser.getEmail());
+                        updatedUserDB.insertUser(updatedUser);
+                        updatedUserDB.Close();
 
-                    ToastService.show(context, currentUser.getFirstname() + " est maintenant utilisateur normal (R)");
+                        ToastUtil.show(context, currentUser.getFirstname() + " est maintenant utilisateur normal (R)");
+                    }
+
+                    // Refresh the activity
+                    Intent adminActivity = new Intent(context, AdminActivity.class);
+                    adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(adminActivity);
+                } else {
+                    ToastUtil.show(context, "Vous n'avez pas les droits pour modifier les droits des utilisateurs");
                 }
-
-                // Refresh the activity
-                Intent adminActivity = new Intent(context, AdminActivity.class);
-                adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(adminActivity);
-            } else {
-                ToastService.show(context, "Vous n'avez pas les droits pour modifier les droits des utilisateurs");
-            }
             }
         });
     }
@@ -250,10 +251,10 @@ public class AdminActivity extends AppCompatActivity {
         View line = new View(this);
 
         // Alternate the color
-        if(!(i%2 == 0)){
+        if (!(i % 2 == 0)) {
             line.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 3));
             line.setBackgroundColor(Color.rgb(65, 23, 99));
-        }else {
+        } else {
             line.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1));
             line.setBackgroundColor(Color.rgb(100, 13, 171));
         }
@@ -267,8 +268,8 @@ public class AdminActivity extends AppCompatActivity {
         dynamicTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         dynamicTextView.setGravity(Gravity.START);
         dynamicTextView.setTextSize(18);
-        dynamicTextView.setPadding(70,30,100,30);
-        if(currentUser.getRank() == ADMIN_RANK) {
+        dynamicTextView.setPadding(70, 30, 100, 30);
+        if (currentUser.getRank() == ADMIN_RANK) {
             dynamicTextView.setText("[Admin] ");
             dynamicTextView.setTypeface(null, Typeface.BOLD);
 
@@ -276,7 +277,7 @@ public class AdminActivity extends AppCompatActivity {
         dynamicTextView.append(currentUser.getFirstname() + " " + currentUser.getLastname());
 
         // If the user displayed is the connected user, his name is in green
-        if(userSession.getEmail().equals(currentUser.getEmail())) {
+        if (userSession.getEmail().equals(currentUser.getEmail())) {
             dynamicTextView.setTextColor(getResources().getColor(R.color.colorGreen));
         }
         linearLayoutVertical.addView(dynamicTextView);

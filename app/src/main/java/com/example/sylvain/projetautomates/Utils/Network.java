@@ -21,7 +21,7 @@ public class Network {
             this.network = this.connexStatus.getActiveNetworkInfo();
             // return true if there is a network connectivity
             return this.network != null && this.network.isConnectedOrConnecting();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

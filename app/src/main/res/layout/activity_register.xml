@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".Activity.RegisterActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:gravity="center_horizontal"
         android:fontFamily="serif-monospace"
-        android:textSize="30sp"/>
+        android:gravity="center_horizontal"
+        android:text="@string/welcome"
+        android:textSize="30sp" />
 
     <EditText
-        android:inputType="text"
-        android:maxLines="1"
         android:id="@+id/et_register_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorMauve"
         android:hint="@string/lastname"
-        android:backgroundTint="@color/colorMauve"/>
+        android:inputType="text"
+        android:maxLines="1" />
 
     <EditText
-        android:inputType="text"
-        android:maxLines="1"
         android:id="@+id/et_register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorMauve"
         android:hint="@string/firstname"
-        android:backgroundTint="@color/colorMauve"/>
+        android:inputType="text"
+        android:maxLines="1" />
 
     <EditText
-        android:inputType="textEmailAddress"
-        android:maxLines="1"
         android:id="@+id/et_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorMauve"
         android:hint="@string/email"
-        android:backgroundTint="@color/colorMauve"/>
+        android:inputType="textEmailAddress"
+        android:maxLines="1" />
 
     <EditText
-        android:maxLines="1"
         android:id="@+id/et_register_password"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorMauve"
         android:hint="@string/password"
-        android:backgroundTint="@color/colorMauve"/>
+        android:inputType="textPassword"
+        android:maxLines="1" />
 
     <Button
+        android:id="@+id/btn_register_registerAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register"
         android:layout_marginTop="20dp"
         android:background="@drawable/primary_btn"
-        android:textColor="#FFF"
-        android:id="@+id/btn_register_registerAction"
         android:drawableStart="@drawable/register"
-        android:paddingStart="5dp"
+        android:onClick="onRegisterClickManager"
         android:paddingEnd="30dp"
-        android:onClick="onRegisterClickManager"/>
+        android:paddingStart="5dp"
+        android:text="@string/register"
+        android:textColor="#FFF" />
 
     <Button
         android:id="@+id/btn_register_toLogin"

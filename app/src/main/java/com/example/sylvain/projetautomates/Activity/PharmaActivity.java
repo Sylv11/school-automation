@@ -12,6 +12,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -19,14 +20,15 @@ import android.widget.TextView;
 import com.example.sylvain.projetautomates.Utils.LoadProperties;
 import com.example.sylvain.projetautomates.Utils.Network;
 import com.example.sylvain.projetautomates.R;
-import com.example.sylvain.projetautomates.ReadDBTask;
+import com.example.sylvain.projetautomates.Tasks.ReadPharmaDBTask;
 import com.example.sylvain.projetautomates.Utils.Session;
-import com.example.sylvain.projetautomates.Utils.ToastService;
-import com.example.sylvain.projetautomates.WriteTaskS7;
-
-import org.w3c.dom.Text;
+import com.example.sylvain.projetautomates.Utils.ToastUtil;
+import com.example.sylvain.projetautomates.Tasks.WriteTaskS7;
 
 public class PharmaActivity extends AppCompatActivity {
+
+    private final static int BASIC_RANK = 1;
+    private final static int ADMIN_RANK = 2;
 
     private Toolbar toolbar = null;
     private TextView action_bar_title;
@@ -43,6 +45,10 @@ public class PharmaActivity extends AppCompatActivity {
     private TextView tv_pharma_read_bottles_status;
     private TextView tv_pharma_read_live_tablets;
     private TextView tv_pharma_read_live_bottles;
+    private EditText et_pharma_tablets_number;
+    private LinearLayout linear_pharma_write_container;
+
+    private EditText et_pharma_bottles_number;
 
     // User session and Network connectivity
     private Session session;
@@ -55,10 +61,13 @@ public class PharmaActivity extends AppCompatActivity {
 
     private WriteTaskS7 writeS7DBB5;
     private WriteTaskS7 writeS7DBB6;
+    private WriteTaskS7 writeS7DBB8;
 
-    private ReadDBTask readS7DBB0;
-    private ReadDBTask readS7DBB4;
-    private ReadDBTask readS7DBB1;
+    private ReadPharmaDBTask readS7DBB0;
+    private ReadPharmaDBTask readS7DBB4;
+    private ReadPharmaDBTask readS7DBB1;
+
+    Integer oldValueTablets = 0;
 
     boolean isRunning = false;
 
@@ -68,51 +77,61 @@ public class PharmaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharma);
 
-        this.toolbar = findViewById(R.id.toolbar);
-        this.setSupportActionBar(this.toolbar);
-        this.getLayoutInflater().inflate(R.layout.action_bar, null);
-        this.action_bar_title = (TextView)findViewById(R.id.action_bar_title);
-        this.ch_pharma_convoyeur = (CheckBox)findViewById(R.id.ch_pharma_convoyeur);
-        this.btn_pharma_connect = (Button)findViewById(R.id.btn_pharma_connect);
-        this.rb_pharma_pills5 = (RadioButton)findViewById(R.id.rb_pharma_pills5);
-        this.rb_pharma_pills10 = (RadioButton)findViewById(R.id.rb_pharma_pills10);
-        this.rb_pharma_pills15 = (RadioButton)findViewById(R.id.rb_pharma_pills15);
-        this.ch_pharma_bottle = (CheckBox)findViewById(R.id.ch_pharma_bottle);
-        this.ch_pharma_resetCounter = (CheckBox) findViewById(R.id.ch_pharma_resetCounter);
-        this.tv_pharma_conveyor_state = (TextView)findViewById(R.id.tv_pharma_conveyor_state);
-        this.tv_pharma_read_number_tablets = (TextView)findViewById(R.id.tv_pharma_read_number_tablets);
-        this.tv_pharma_read_bottles_status = (TextView)findViewById(R.id.tv_pharma_read_bottles_status);
-        this.tv_pharma_read_live_tablets = (TextView)findViewById(R.id.tv_pharma_read_live_tablets);
-        this.tv_pharma_read_live_bottles = (TextView)findViewById(R.id.tv_pharma_read_live_bottles);
-
-        this.linear_pharma_container = (LinearLayout)findViewById(R.id.linear_pharma_container);
+        this.init();
 
         this.session = new Session(this);
         this.network = new Network(this);
 
         // Check network
-        if(this.network.checkNetwork()) {
+        if (this.network.checkNetwork()) {
             // Check if the user is connected
-            if(this.session.isLogged()) {
+            if (this.session.isLogged()) {
                 this.action_bar_title.setText("AUTOMATE PHARMACEUTIQUE");
-                this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds( R.drawable.run, 0, 0, 0);
+                this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds(R.drawable.run, 0, 0, 0);
+
+                if (session.getUser().getRank() == BASIC_RANK) {
+                    this.linear_pharma_write_container.setVisibility(View.GONE);
+                }
 
                 // Load properties file
                 try {
                     this.ipAddress = LoadProperties.getProperty("ip_address", this);
                     this.rack = LoadProperties.getProperty("rack", this);
                     this.slot = LoadProperties.getProperty("slot", this);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 session.closeSession();
-                ToastService.show(this, "Vous n'êtes pas connecté");
+                ToastUtil.show(this, "Vous n'êtes pas connecté");
             }
-        }else {
+        } else {
             this.session.closeSession();
-            ToastService.show(this, "Vous n'êtes connecté à aucun réseau");
+            ToastUtil.show(this, "Vous n'êtes connecté à aucun réseau");
         }
+    }
+
+    private void init() {
+        this.toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(this.toolbar);
+        this.getLayoutInflater().inflate(R.layout.action_bar, null);
+        this.action_bar_title = findViewById(R.id.action_bar_title);
+        this.ch_pharma_convoyeur = findViewById(R.id.ch_pharma_convoyeur);
+        this.btn_pharma_connect = findViewById(R.id.btn_pharma_connect);
+        this.rb_pharma_pills5 = findViewById(R.id.rb_pharma_pills5);
+        this.rb_pharma_pills10 = findViewById(R.id.rb_pharma_pills10);
+        this.rb_pharma_pills15 = findViewById(R.id.rb_pharma_pills15);
+        this.ch_pharma_bottle = findViewById(R.id.ch_pharma_bottle);
+        this.ch_pharma_resetCounter = findViewById(R.id.ch_pharma_resetCounter);
+        this.tv_pharma_conveyor_state = findViewById(R.id.tv_pharma_conveyor_state);
+        this.tv_pharma_read_number_tablets = findViewById(R.id.tv_pharma_read_number_tablets);
+        this.tv_pharma_read_bottles_status = findViewById(R.id.tv_pharma_read_bottles_status);
+        this.tv_pharma_read_live_tablets = findViewById(R.id.tv_pharma_read_live_tablets);
+        this.tv_pharma_read_live_bottles = findViewById(R.id.tv_pharma_read_live_bottles);
+        this.linear_pharma_container = findViewById(R.id.linear_pharma_container);
+        this.et_pharma_tablets_number = findViewById(R.id.et_pharma_tablets_number);
+        this.linear_pharma_write_container = findViewById(R.id.linear_pharma_write_container);
+        this.et_pharma_bottles_number = findViewById(R.id.et_pharma_bottles_number);
     }
 
     @SuppressLint("RestrictedApi")
@@ -136,9 +155,9 @@ public class PharmaActivity extends AppCompatActivity {
                 finish();
                 break;
             // Logout and close user session
-            case R.id.item_logout :
+            case R.id.item_logout:
                 this.session.closeSession();
-                ToastService.show(this,"Déconnecté");
+                ToastUtil.show(this, "Déconnecté");
                 break;
             // Redirect to pharma activity
             case R.id.item_pharmaceutical:
@@ -155,7 +174,7 @@ public class PharmaActivity extends AppCompatActivity {
                 finish();
                 break;
             // Redirect to admin activity
-            case R.id.item_admin :
+            case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
                 adminIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(adminIntent);
@@ -171,170 +190,247 @@ public class PharmaActivity extends AppCompatActivity {
         this.toolbar.showOverflowMenu();
     }
 
-    public void onPharmaClickManager (View v) {
+    public void onPharmaClickManager(View v) {
         // Check network
-        if(this.network.checkNetwork()) {
+        if (this.network.checkNetwork()) {
             // Check if the user is connected
-            if(this.session.isLogged()) {
-                switch (v.getId()){
-                    case R.id.ch_pharma_convoyeur :
-                        // Write in DB to active the conveyor
-                        writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
+            if (this.session.isLogged()) {
+                switch (v.getId()) {
+                    case R.id.ch_pharma_convoyeur:
+                        if (this.writeS7DBB5 != null) {
+                            // Write in DB to active the conveyor
+                            this.writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
+                        }
                         break;
 
-                    case R.id.rb_pharma_pills5 :
-                        // Set the correct value in the DB for 5 tablets
-                        writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                    case R.id.rb_pharma_pills5:
+                        if (this.writeS7DBB5 != null) {
+                            // Set the correct value in the DB for 5 tablets
+                            this.writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                        }
                         break;
 
-                    case R.id.rb_pharma_pills10 :
-                        // Set the correct value in the DB for 10 tablets
-                        writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                    case R.id.rb_pharma_pills10:
+                        if (this.writeS7DBB5 != null) {
+                            // Set the correct value in the DB for 10 tablets
+                            this.writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                        }
                         break;
-
-                    case R.id.rb_pharma_pills15 :
-                        // Set the correct value in the DB for 15 tablets
-                        writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
-                        writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                    case R.id.rb_pharma_pills15:
+                        if (this.writeS7DBB5 != null) {
+                            // Set the correct value in the DB for 15 tablets
+                            this.writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+                            this.writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+                        }
                         break;
-                    case R.id.ch_pharma_bottle :
-                        // Set the value in DB to active the bottles arrival
-                        writeS7DBB6.setWriteBool(8, this.ch_pharma_bottle.isChecked() ? 1 : 0);
+                    case R.id.ch_pharma_bottle:
+                        if (this.writeS7DBB6 != null) {
+                            // Set the value in DB to active the bottles arrival
+                            this.writeS7DBB6.setWriteBool(8, this.ch_pharma_bottle.isChecked() ? 1 : 0);
+                        }
                         break;
-                    case R.id.ch_pharma_resetCounter :
-                        // Set the value in DB to reset the bottle counter
-                        writeS7DBB6.setWriteBool(4, this.ch_pharma_resetCounter.isChecked() ? 1 : 0);
+                    case R.id.ch_pharma_resetCounter:
+                        if (this.writeS7DBB6 != null) {
+                            // Set the value in DB to reset the bottle counter
+                            this.writeS7DBB6.setWriteBool(4, this.ch_pharma_resetCounter.isChecked() ? 1 : 0);
+                        }
+                        break;
+                    case R.id.btn_pharma_tablets_number:
+                        if (this.writeS7DBB8 != null) {
+                            try {
+                                Integer tabletsNumber = Integer.parseInt(this.et_pharma_tablets_number.getText().toString());
+                                this.writeS7DBB8.setWriteBool(oldValueTablets, 0);
+                                this.writeS7DBB8.setWriteBool(tabletsNumber, 1);
+                                this.oldValueTablets = tabletsNumber;
+                            } catch (NumberFormatException e) {
+                            }
+                        }
+                        break;
+                    case R.id.btn_pharma_bottles_number:
+                        if (this.writeS7DBB8 != null) {
+                            try {
+                                this.writeS7DBB8.setBottles(Integer.parseInt(this.et_pharma_bottles_number.getText().toString()));
+                            } catch (NumberFormatException e) {
+                            }
+                        }
                         break;
                 }
             }
-        }else {
+        } else {
             this.session.closeSession();
-            ToastService.show(this, "Vous n'êtes connecté à aucun réseau");
+            ToastUtil.show(this, "Vous n'êtes connecté à aucun réseau");
         }
     }
 
-    public void connectAutomaton (View v) {
+    public void connectAutomaton(View v) {
         // Check if there is a network connectivity
-        if(this.network.checkNetwork()) {
+        if (this.network.checkNetwork()) {
             // Check if the user is connected
-            if(this.session.isLogged()) {
-                if(this.btn_pharma_connect.getText().equals("Se connecter à l'automate")) {
+            if (this.session.isLogged()) {
+                if (this.btn_pharma_connect.getText().equals("Se connecter à l'automate")) {
 
-                    // WriteTask for DB5.DBB5
-                    this.writeS7DBB5 = new WriteTaskS7(5);
+                    if (session.getUser().getRank() == ADMIN_RANK) {
+                        // WriteTask for DB5.DBB5
+                        this.writeS7DBB5 = new WriteTaskS7(5);
+                        // Connection to the automaton
+                        this.writeS7DBB5.start(this.ipAddress, this.rack, this.slot);
 
-                    // WriteTask for DB5.DBB6
-                    this.writeS7DBB6 = new WriteTaskS7(6);
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // WriteTask for DB5.DBB6
+                        this.writeS7DBB6 = new WriteTaskS7(6);
+                        // Connection to the automaton
+                        this.writeS7DBB6.start(this.ipAddress, this.rack, this.slot);
+
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // WriteTask for DB5.DBB8
+                        this.writeS7DBB8 = new WriteTaskS7(8);
+                        // Connection to the automaton
+                        this.writeS7DBB8.start(this.ipAddress, this.rack, this.slot);
+
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     // ReadTask for DB5.DBB0
-                    this.readS7DBB0 = new ReadDBTask(0,this, tv_pharma_conveyor_state, tv_pharma_read_number_tablets, tv_pharma_read_bottles_status, tv_pharma_read_live_tablets, tv_pharma_read_live_bottles);
-
-                    // ReadTask for DB5.DBB4
-                    this.readS7DBB4 = new ReadDBTask(4,this, tv_pharma_conveyor_state, tv_pharma_read_number_tablets, tv_pharma_read_bottles_status, tv_pharma_read_live_tablets, tv_pharma_read_live_bottles);
-
-                    // ReadTask for DB5.DBB1
-                    this.readS7DBB1 = new ReadDBTask(1,this, tv_pharma_conveyor_state, tv_pharma_read_number_tablets, tv_pharma_read_bottles_status, tv_pharma_read_live_tablets, tv_pharma_read_live_bottles);
-
+                    this.readS7DBB0 = new ReadPharmaDBTask(0, this,
+                            this.tv_pharma_conveyor_state,
+                            this.tv_pharma_read_number_tablets,
+                            this.tv_pharma_read_bottles_status,
+                            this.tv_pharma_read_live_tablets,
+                            this.tv_pharma_read_live_bottles);
                     // Connection to the automaton
-                    this.writeS7DBB5.start(this.ipAddress, this.rack, this.slot);
-
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    // Connection to the automaton
-                    this.writeS7DBB6.start(this.ipAddress, this.rack, this.slot);
-
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
                     this.readS7DBB0.start(this.ipAddress, this.rack, this.slot);
 
                     // Wait 0.1 second
                     try {
                         Thread.sleep(100);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
+                    // ReadTask for DB5.DBB4
+                    this.readS7DBB4 = new ReadPharmaDBTask(4, this,
+                            this.tv_pharma_conveyor_state,
+                            this.tv_pharma_read_number_tablets,
+                            this.tv_pharma_read_bottles_status,
+                            this.tv_pharma_read_live_tablets,
+                            this.tv_pharma_read_live_bottles);
+                    // Connection to the automaton
                     this.readS7DBB4.start(this.ipAddress, this.rack, this.slot);
 
                     // Wait 0.1 second
                     try {
                         Thread.sleep(100);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
+                    // ReadTask for DB5.DBB1
+                    this.readS7DBB1 = new ReadPharmaDBTask(1, this,
+                            this.tv_pharma_conveyor_state,
+                            this.tv_pharma_read_number_tablets,
+                            this.tv_pharma_read_bottles_status,
+                            this.tv_pharma_read_live_tablets,
+                            this.tv_pharma_read_live_bottles);
+                    // Connection to the automaton
                     this.readS7DBB1.start(this.ipAddress, this.rack, this.slot);
 
                     this.isRunning = true;
                     // Reinitiate the values in DB
-                    this.reinitiateDB();
+                    this.resetDB();
 
                     // Set components visible
                     this.connectDisplay();
 
-                    ToastService.show(this, "Connecté à l'automate");
-                }else {
+                    ToastUtil.show(this, "Connecté à l'automate");
+                } else {
 
-                    this.writeS7DBB5.stop();
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
+                    if (this.writeS7DBB5 != null) {
+                        this.writeS7DBB5.stop();
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    this.writeS7DBB6.stop();
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
+                    if (this.writeS7DBB6 != null) {
+                        this.writeS7DBB6.stop();
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    this.readS7DBB0.stop();
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
+                    if (this.writeS7DBB8 != null) {
+                        this.writeS7DBB8.stop();
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    this.readS7DBB4.stop();
-                    // Wait 0.1 second
-                    try {
-                        Thread.sleep(100);
-                    }catch (Exception e) {
-                        e.printStackTrace();
+                    if (this.readS7DBB0 != null) {
+                        this.readS7DBB0.stop();
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    this.readS7DBB1.stop();
+                    if (this.readS7DBB4 != null) {
+                        this.readS7DBB4.stop();
+                        // Wait 0.1 second
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (this.readS7DBB1 != null) {
+                        this.readS7DBB1.stop();
+                    }
 
                     this.isRunning = false;
 
                     // Set components invisible
                     this.disconnectDisplay();
 
-                    ToastService.show(this, "Déconnecté de l'automate");
+                    ToastUtil.show(this, "Déconnecté de l'automate");
                 }
             }
-        }else {
+        } else {
             this.session.closeSession();
-            ToastService.show(this, "Action impossible ! Vous n'êtes connecté à aucun réseau");
+            ToastUtil.show(this, "Action impossible ! Vous n'êtes connecté à aucun réseau");
         }
 
     }
@@ -343,32 +439,45 @@ public class PharmaActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if(isRunning) {
-            this.writeS7DBB5.stop();
-            this.writeS7DBB6.stop();
-            this.readS7DBB0.stop();
-            this.readS7DBB4.stop();
-            this.readS7DBB1.stop();
+        if (isRunning) {
+            if (this.writeS7DBB5 != null) {
+                this.writeS7DBB5.stop();
+            }
+            if (this.writeS7DBB6 != null) {
+                this.writeS7DBB6.stop();
+            }
+            if (this.writeS7DBB8 != null) {
+                this.writeS7DBB8.stop();
+            }
+            if (this.readS7DBB0 != null) {
+                this.readS7DBB0.stop();
+            }
+            if (this.readS7DBB4 != null) {
+                this.readS7DBB4.stop();
+            }
+            if (this.readS7DBB1 != null) {
+                this.readS7DBB1.stop();
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    public void connectDisplay() {
+    private void connectDisplay() {
         this.btn_pharma_connect.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorRed));
         this.btn_pharma_connect.setText("Se déconnecter de l'automate");
-        this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds( R.drawable.stop, 0, 0, 0);
+        this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stop, 0, 0, 0);
         this.linear_pharma_container.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("SetTextI18n")
-    public void disconnectDisplay() {
+    private void disconnectDisplay() {
         this.btn_pharma_connect.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGreen));
         this.btn_pharma_connect.setText("Se connecter à l'automate");
-        this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds( R.drawable.run, 0, 0, 0);
+        this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds(R.drawable.run, 0, 0, 0);
         this.linear_pharma_container.setVisibility(View.INVISIBLE);
     }
 
-    public void reinitiateDB() {
+    private void resetDB() {
         this.ch_pharma_convoyeur.setChecked(false);
         this.rb_pharma_pills5.setChecked(false);
         this.rb_pharma_pills10.setChecked(false);
@@ -376,11 +485,17 @@ public class PharmaActivity extends AppCompatActivity {
         this.ch_pharma_bottle.setChecked(false);
         this.ch_pharma_resetCounter.setChecked(false);
 
-        writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
-        writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
-        writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
-        writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
-        writeS7DBB6.setWriteBool(8, this.ch_pharma_bottle.isChecked() ? 1 : 0);
-        writeS7DBB6.setWriteBool(4, this.ch_pharma_resetCounter.isChecked() ? 1 : 0);
+        if (this.writeS7DBB5 != null) {
+            this.writeS7DBB5.setWriteBool(1, this.ch_pharma_convoyeur.isChecked() ? 1 : 0);
+            this.writeS7DBB5.setWriteBool(2, this.rb_pharma_pills5.isChecked() ? 1 : 0);
+            this.writeS7DBB5.setWriteBool(4, this.rb_pharma_pills10.isChecked() ? 1 : 0);
+            this.writeS7DBB5.setWriteBool(8, this.rb_pharma_pills15.isChecked() ? 1 : 0);
+        }
+
+        if (this.writeS7DBB6 != null) {
+            this.writeS7DBB6.setWriteBool(8, this.ch_pharma_bottle.isChecked() ? 1 : 0);
+            this.writeS7DBB6.setWriteBool(4, this.ch_pharma_resetCounter.isChecked() ? 1 : 0);
+            this.writeS7DBB8.setBottles(0);
+        }
     }
 }
