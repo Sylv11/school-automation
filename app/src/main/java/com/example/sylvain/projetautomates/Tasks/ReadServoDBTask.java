@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
+import com.example.sylvain.projetautomates.Utils.DataBlock;
 
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReadServoDBTask {
-    // DB number and progress update message
-    private static final int DB_NUMBER = 5;
+    // Update message
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
     private static final int MESSAGE_LIQUID_LEVEL_UPDATE = 3;
     private static final int MESSAGE_AUTO_ORDER_UPDATE = 4;
@@ -162,10 +162,12 @@ public class ReadServoDBTask {
         }
     }
 
+    // Send the data to the servo activity
     private void downloadOnLiquidLevelUpdate(Integer liquidLevel) {
         this.pb_servo_liquid_level.setProgress(liquidLevel);
     }
 
+    // Send the data to the servo activity
     @SuppressLint("SetTextI18n")
     private void downloadOnAutoOrderUpdate(Integer autoOrder) {
         this.tv_servo_read_auto_order.setTextColor(Color.GRAY);
@@ -174,6 +176,7 @@ public class ReadServoDBTask {
         else this.tv_servo_read_auto_order.setText("Valeur incorrecte");
     }
 
+    // Send the data to the servo activity
     @SuppressLint("SetTextI18n")
     private void downloadOnManualOrderUpdate(Integer manualOrder) {
         this.tv_servo_read_manual_order.setTextColor(Color.GRAY);
@@ -182,6 +185,7 @@ public class ReadServoDBTask {
         else this.tv_servo_read_manual_order.setText("Valeur incorrecte");
     }
 
+    // Send the data to the servo activity
     @SuppressLint("SetTextI18n")
     private void downloadOnSluicegateWordUpdate(Integer sluicegateWord) {
         this.tv_servo_read_sluicegate_word.setTextColor(Color.GRAY);
@@ -248,15 +252,19 @@ public class ReadServoDBTask {
                     if (res.equals(0)) {
                         // ReadArea(int Area, int DBNumber, int Start, int Amount, byte[] Data)
                         // Read data from PLC
-                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, start, 1, datasPLC);
+                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, start, 1, datasPLC);
 
-                        int levelInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 16, 1, dataLevel);
+                        // Read in DB5.DBW16
+                        int levelInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 16, 1, dataLevel);
 
-                        int autoInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 18, 1, dataAuto);
+                        // Read in DB5.DBW18
+                        int autoInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 18, 1, dataAuto);
 
-                        int manualInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 21, 1, dataManual);
+                        // Read in DB5.DBW21
+                        int manualInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 21, 1, dataManual);
 
-                        int sluicegateInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 23, 1, dataSluicegate);
+                        // Read in DB5.DBW23
+                        int sluicegateInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 23, 1, dataSluicegate);
 
                         // If succeed
                         if (retInfo == 0) {
@@ -270,7 +278,7 @@ public class ReadServoDBTask {
 
                         // If succeed
                         if (levelInfo == 0) {
-                            // We get the Word
+                            // We get the Int
                             liquidLevel = (int) (S7.GetDIntAt(dataLevel, 0) / Math.pow(256, 2));
                             System.out.println(liquidLevel);
                             sendLiquidLevelMessage(liquidLevel);
@@ -278,14 +286,14 @@ public class ReadServoDBTask {
 
                         // If succeed
                         if (autoInfo == 0) {
+                            // We get the Int
                             autoOrderNumber = (int) (S7.GetDIntAt(dataAuto, 0) / Math.pow(256, 2));
-
                             sendAutoOrderMessage(autoOrderNumber);
                         }
 
                         // If succeed
                         if (manualInfo == 0) {
-                            // We get the Word
+                            // We get the Int
                             manualOrderNumber = (int) (S7.GetDIntAt(dataManual, 0) / Math.pow(256, 3));
                             sendManualOrderMessage(manualOrderNumber);
                         }
@@ -300,7 +308,7 @@ public class ReadServoDBTask {
                         //Log.i("Variable A.P.I. -> ", String.valueOf(bitState));
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

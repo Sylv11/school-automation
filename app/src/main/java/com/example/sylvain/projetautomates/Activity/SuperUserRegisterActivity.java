@@ -32,7 +32,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_user_register);
 
-        prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        this.prefs_datas = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         this.et_super_user_register_lastname = findViewById(R.id.et_super_user_register_lastname);
         this.et_super_user_register_firstname = findViewById(R.id.et_super_user_register_firstname);
@@ -56,6 +56,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
     }
 
     private void checkRegistration(String lastname, String firstname, String email, String password) {
+        // Form checks
         if (!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
             if (lastname.trim().length() >= 3) {
                 if (firstname.trim().length() >= 3) {
@@ -69,7 +70,7 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
                                 userDB.insertUser(user);
                                 userDB.Close();
 
-                                SharedPreferences.Editor editeur_datas = prefs_datas.edit();
+                                SharedPreferences.Editor editeur_datas = this.prefs_datas.edit();
 
                                 editeur_datas.putBoolean("super_user_created", true).apply();
 

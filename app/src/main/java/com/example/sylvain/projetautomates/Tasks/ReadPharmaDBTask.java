@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
+import com.example.sylvain.projetautomates.Utils.DataBlock;
 import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReadPharmaDBTask {
-    // DB number and progress update message
-    private static final int DB_NUMBER = 5;
+
+    // Update message
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
     private static final int MESSAGE_TABLETS_NUMBER_UPDATE = 3;
     private static final int MESSAGE_BOTTLES_NUMBER_UPDATE = 4;
@@ -195,11 +196,13 @@ public class ReadPharmaDBTask {
                     if (res.equals(0)) {
                         // ReadArea(int Area, int DBNumber, int Start, int Amount, byte[] Data)
                         // Read data from PLC
-                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, start, 1, datasPLC);
+                        int retInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, start, 1, datasPLC);
 
-                        int tabletsInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 15, 1, dataTablets);
+                        // Read in DB5.DBW15
+                        int tabletsInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 15, 1, dataTablets);
 
-                        int bottlesInfo = comS7.ReadArea(S7.S7AreaDB, DB_NUMBER, 17, 1, dataBottles);
+                        // Read in DB5.DBW17
+                        int bottlesInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 17, 1, dataBottles);
 
                         // If succeed
                         if (retInfo == 0) {
@@ -213,22 +216,22 @@ public class ReadPharmaDBTask {
 
                         // If succeed
                         if (tabletsInfo == 0) {
-                            // We get the Word
+                            // We get the Int
                             numberOfTablets = Integer.valueOf(Integer.toHexString((int) (S7.GetDIntAt(dataTablets, 0) / Math.pow(256, 3))));
                             sendNumberTabletsProgressMessage(numberOfTablets);
                         }
 
                         // If succeed
                         if (bottlesInfo == 0) {
+                            // We get the Int
                             numberOfBottles = (int) (S7.GetDIntAt(dataBottles, 0) / Math.pow(256, 3));
-
                             sendNumberBottlesProgressMessage(numberOfBottles);
                         }
 
                         //Log.i("Variable A.P.I. -> ", String.valueOf(bitState));
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

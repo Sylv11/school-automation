@@ -17,7 +17,6 @@ import com.example.sylvain.projetautomates.Utils.Session;
 public class MainActivity extends AppCompatActivity {
 
     // EditText of login and password of the user
-
     private EditText et_main_email;
     private EditText et_main_password;
 
@@ -36,16 +35,13 @@ public class MainActivity extends AppCompatActivity {
         this.session = new Session(this);
 
         // Check if superuser is already created
-
         if (!this.prefs_datas.contains("super_user_created")) {
             Intent intentSuperUserRegister = new Intent(this, SuperUserRegisterActivity.class);
             startActivity(intentSuperUserRegister);
         } else {
             //Check if connected
-
             if (this.session.isLogged()) {
-                // to Dashboard
-
+                // To Dashboard
                 Intent dashboardIntent = new Intent(this, DashboardActivity.class);
                 startActivity(dashboardIntent);
                 finish();
@@ -83,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkLogin(String email, String password) {
+        // Form checks
         if (!email.isEmpty() && !password.isEmpty()) {
             if (email.trim().length() >= 3) {
                 if (password.length() >= 4) {

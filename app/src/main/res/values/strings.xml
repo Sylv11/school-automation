@@ -66,4 +66,10 @@
     <string name="sluicegate_word_read_servo">Mot de pilotage vanne :</string>
     <string name="local_remote_servo">Local / Distant</string>
     <string name="local_remote_read_servo">Local / Distant :</string>
+    <string name="manual_settings_item">Configuration manuelle</string>
+    <string name="change_DB_number_manual">Modifier</string>
+    <string name="change_DB_number_title">Modifier le numéro de DB</string>
+    <string name="address_number_manual">Numéro de l\'adresse</string>
+    <string name="send_value_manual">Valeur à envoyer</string>
+    <string name="manual_send">Envoyer</string>
 </resources>

@@ -27,9 +27,11 @@ import com.example.sylvain.projetautomates.Tasks.WriteTaskS7;
 
 public class PharmaActivity extends AppCompatActivity {
 
+    // Ranks
     private final static int BASIC_RANK = 1;
     private final static int ADMIN_RANK = 2;
 
+    // View components
     private Toolbar toolbar = null;
     private TextView action_bar_title;
     private CheckBox ch_pharma_convoyeur;
@@ -47,7 +49,6 @@ public class PharmaActivity extends AppCompatActivity {
     private TextView tv_pharma_read_live_bottles;
     private EditText et_pharma_tablets_number;
     private LinearLayout linear_pharma_write_container;
-
     private EditText et_pharma_bottles_number;
 
     // User session and Network connectivity
@@ -59,16 +60,20 @@ public class PharmaActivity extends AppCompatActivity {
     private String rack;
     private String slot;
 
+    // Write tasks
     private WriteTaskS7 writeS7DBB5;
     private WriteTaskS7 writeS7DBB6;
     private WriteTaskS7 writeS7DBB8;
 
+    // Read tasks
     private ReadPharmaDBTask readS7DBB0;
     private ReadPharmaDBTask readS7DBB4;
     private ReadPharmaDBTask readS7DBB1;
 
+    // Old value for tablets number
     Integer oldValueTablets = 0;
 
+    // Thread running flag
     boolean isRunning = false;
 
     @SuppressLint({"SetTextI18n", "InflateParams"})
@@ -89,6 +94,7 @@ public class PharmaActivity extends AppCompatActivity {
                 this.action_bar_title.setText("AUTOMATE PHARMACEUTIQUE");
                 this.btn_pharma_connect.setCompoundDrawablesWithIntrinsicBounds(R.drawable.run, 0, 0, 0);
 
+                // If the connected user is not admin, don't show components to write in DB
                 if (session.getUser().getRank() == BASIC_RANK) {
                     this.linear_pharma_write_container.setVisibility(View.GONE);
                 }
@@ -180,6 +186,13 @@ public class PharmaActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+            // Redirect to manual activity
+            case R.id.item_manual_settings:
+                Intent manualIntent = new Intent(this, ManualActivity.class);
+                manualIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(manualIntent);
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -241,22 +254,33 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.btn_pharma_tablets_number:
-                        if (this.writeS7DBB8 != null) {
-                            try {
-                                Integer tabletsNumber = Integer.parseInt(this.et_pharma_tablets_number.getText().toString());
-                                this.writeS7DBB8.setWriteBool(oldValueTablets, 0);
-                                this.writeS7DBB8.setWriteBool(tabletsNumber, 1);
-                                this.oldValueTablets = tabletsNumber;
-                            } catch (NumberFormatException e) {
+                        if (!(this.et_pharma_tablets_number.getText().toString().trim().length() == 0)) {
+                            if (this.writeS7DBB8 != null) {
+                                // Set the tablets number in DB
+                                try {
+                                    Integer tabletsNumber = Integer.parseInt(this.et_pharma_tablets_number.getText().toString());
+                                    this.writeS7DBB8.setWriteBool(oldValueTablets, 0);
+                                    this.writeS7DBB8.setWriteBool(tabletsNumber, 1);
+                                    this.oldValueTablets = tabletsNumber;
+                                } catch (NumberFormatException ignored) {
+                                }
                             }
+                        } else {
+                            ToastUtil.show(this, "Veuillez entrer un nombre de comprimés");
                         }
                         break;
                     case R.id.btn_pharma_bottles_number:
-                        if (this.writeS7DBB8 != null) {
-                            try {
-                                this.writeS7DBB8.setBottles(Integer.parseInt(this.et_pharma_bottles_number.getText().toString()));
-                            } catch (NumberFormatException e) {
+                        if (!(this.et_pharma_bottles_number.getText().toString().trim().length() == 0)) {
+
+                            if (this.writeS7DBB8 != null) {
+                                // Set the bottles number in DB
+                                try {
+                                    this.writeS7DBB8.setBottles(Integer.parseInt(this.et_pharma_bottles_number.getText().toString()));
+                                } catch (NumberFormatException ignored) {
+                                }
                             }
+                        } else {
+                            ToastUtil.show(this, "Veuillez entrer un nombre de flacons");
                         }
                         break;
                 }
@@ -273,7 +297,7 @@ public class PharmaActivity extends AppCompatActivity {
             // Check if the user is connected
             if (this.session.isLogged()) {
                 if (this.btn_pharma_connect.getText().equals("Se connecter à l'automate")) {
-
+                    // Check if admin
                     if (session.getUser().getRank() == ADMIN_RANK) {
                         // WriteTask for DB5.DBB5
                         this.writeS7DBB5 = new WriteTaskS7(5);
@@ -356,7 +380,9 @@ public class PharmaActivity extends AppCompatActivity {
                     // Connection to the automaton
                     this.readS7DBB1.start(this.ipAddress, this.rack, this.slot);
 
+                    // Set running flag to true
                     this.isRunning = true;
+
                     // Reinitiate the values in DB
                     this.resetDB();
 
@@ -366,6 +392,7 @@ public class PharmaActivity extends AppCompatActivity {
                     ToastUtil.show(this, "Connecté à l'automate");
                 } else {
 
+                    // Stop thread
                     if (this.writeS7DBB5 != null) {
                         this.writeS7DBB5.stop();
                         // Wait 0.1 second
@@ -376,6 +403,7 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Stop thread
                     if (this.writeS7DBB6 != null) {
                         this.writeS7DBB6.stop();
                         // Wait 0.1 second
@@ -386,6 +414,7 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Stop thread
                     if (this.writeS7DBB8 != null) {
                         this.writeS7DBB8.stop();
                         // Wait 0.1 second
@@ -396,6 +425,7 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Stop thread
                     if (this.readS7DBB0 != null) {
                         this.readS7DBB0.stop();
                         // Wait 0.1 second
@@ -406,6 +436,7 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Stop thread
                     if (this.readS7DBB4 != null) {
                         this.readS7DBB4.stop();
                         // Wait 0.1 second
@@ -416,10 +447,12 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Stop thread
                     if (this.readS7DBB1 != null) {
                         this.readS7DBB1.stop();
                     }
 
+                    // Set running flag to false
                     this.isRunning = false;
 
                     // Set components invisible
@@ -439,6 +472,7 @@ public class PharmaActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+        // Stop the threads when activity is destroyed
         if (isRunning) {
             if (this.writeS7DBB5 != null) {
                 this.writeS7DBB5.stop();
@@ -477,6 +511,7 @@ public class PharmaActivity extends AppCompatActivity {
         this.linear_pharma_container.setVisibility(View.INVISIBLE);
     }
 
+    // Reset values in DB when connect to the automaton
     private void resetDB() {
         this.ch_pharma_convoyeur.setChecked(false);
         this.rb_pharma_pills5.setChecked(false);

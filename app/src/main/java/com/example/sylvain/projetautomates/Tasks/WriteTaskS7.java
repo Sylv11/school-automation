@@ -3,12 +3,12 @@ package com.example.sylvain.projetautomates.Tasks;
 
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
+import com.example.sylvain.projetautomates.Utils.DataBlock;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WriteTaskS7 {
-    private static final int DB_NUMBER = 5;
-    private int bit;
+    // bit and start
     private int start;
 
     // To write the number of bottles in DB
@@ -76,6 +76,7 @@ public class WriteTaskS7 {
 
     private class AutomateS7 implements Runnable {
 
+        // Result of the connection
         private Integer response;
 
         @Override
@@ -94,14 +95,14 @@ public class WriteTaskS7 {
                 while (isRunning.get() && (response.equals(0))) {
                     // Write request in A.P.I. variable
                     // WriteArea(memoryArea, datablock address, variable location, number of variable to transfer, data)
-                    comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, start, 1, wordCommand);
+                    comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, start, 1, wordCommand);
 
                     // Write the number of bottles in DB5.DBW18
                     if (writeBottles) {
                         bottlesValue = (int) (bottlesValue * Math.pow(256, 3));
                         S7.SetDIntAt(bottleCommand, 0, bottlesValue);
 
-                        comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, 18, 1, bottleCommand);
+                        comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, 18, 1, bottleCommand);
                         writeBottles = false;
                     }
 
@@ -110,7 +111,7 @@ public class WriteTaskS7 {
                         levelValue = (int) (levelValue * Math.pow(256, 3));
                         S7.SetDIntAt(levelCommand, 0, levelValue);
 
-                        comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, 24, 1, levelCommand);
+                        comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, 24, 1, levelCommand);
                         writeLevel = false;
                     }
 
@@ -119,7 +120,7 @@ public class WriteTaskS7 {
                         autoValue = (int) (autoValue * Math.pow(256, 3));
                         S7.SetDIntAt(autoCommand, 0, autoValue);
 
-                        comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, 26, 1, autoCommand);
+                        comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, 26, 1, autoCommand);
                         writeAuto = false;
                     }
 
@@ -128,7 +129,7 @@ public class WriteTaskS7 {
                         manualValue = (int) (manualValue * Math.pow(256, 3));
                         S7.SetDIntAt(manualCommand, 0, manualValue);
 
-                        comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, 28, 1, manualCommand);
+                        comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, 28, 1, manualCommand);
                         writeManual = false;
                     }
 
@@ -137,7 +138,7 @@ public class WriteTaskS7 {
                         sluicegateValue = (int) (sluicegateValue * Math.pow(256, 3));
                         S7.SetDIntAt(sluicegateWordCommand, 0, sluicegateValue);
 
-                        comS7.WriteArea(S7.S7AreaDB, DB_NUMBER, 30, 1, sluicegateWordCommand);
+                        comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, 30, 1, sluicegateWordCommand);
                         writeSluicegate = false;
                     }
                 }
@@ -149,33 +150,37 @@ public class WriteTaskS7 {
 
     public void setWriteBool(int b, int v) {
         // Masking
-        this.bit = (b == 1) ? 0 : b / 2;
         // Activate ( | => OR)
         if (v == 1) wordCommand[0] = (byte) (b | wordCommand[0]);
             // Deactivate ( ~ => dual, & => AND)
         else wordCommand[0] = (byte) (~b & wordCommand[0]);
     }
 
+    // Method called when click on the SET button for bottles
     public void setBottles(int value) {
         bottlesValue = value;
         writeBottles = true;
     }
 
+    // Method called when click on the SET button for liquid level
     public void setLevel(int value) {
         levelValue = value;
         writeLevel = true;
     }
 
+    // Method called when click on the SET button for the auto order
     public void setAuto(int value) {
         autoValue = value;
         writeAuto = true;
     }
 
+    // Method called when click on the SET button for the manual order
     public void setManual(int value) {
         manualValue = value;
         writeManual = true;
     }
 
+    // Method called when click on the SET button for the sluicegate word
     public void setSluicegateWord(int value) {
         sluicegateValue = value;
         writeSluicegate = true;

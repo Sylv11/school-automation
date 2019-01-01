@@ -24,6 +24,7 @@ import com.example.sylvain.projetautomates.Tasks.TogglePLCStatusTask;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    // Basic rank
     private final static int BASIC_RANK = 1;
 
     // Textview, Button and Toolbar (informations about CPU)
@@ -72,6 +73,7 @@ public class DashboardActivity extends AppCompatActivity {
                     this.rack = LoadProperties.getProperty("rack", this);
                     this.slot = LoadProperties.getProperty("slot", this);
 
+                    // Show properties
                     this.tv_dashboard_ipAddress.setText(this.ipAddress);
                     this.tv_dashboard_ipAddress.setTextColor(Color.GRAY);
 
@@ -94,7 +96,7 @@ public class DashboardActivity extends AppCompatActivity {
                 this.readS7.start(this.ipAddress, this.rack, this.slot);
 
                 // Run and stop button only for the superuser
-                if(session.getUser().getRank() == this.BASIC_RANK) {
+                if(session.getUser().getRank() == BASIC_RANK) {
                     this.btn_dashboard_powerPLC.setVisibility(View.GONE);
                 }
             }else {
@@ -166,6 +168,13 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+            // Redirect to manual activity
+            case R.id.item_manual_settings:
+                Intent manualIntent = new Intent(this, ManualActivity.class);
+                manualIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(manualIntent);
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -181,6 +190,8 @@ public class DashboardActivity extends AppCompatActivity {
         Intent dashboardIntent = new Intent(this, DashboardActivity.class);
         dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(dashboardIntent);
+        finish();
+        overridePendingTransition(0, 0);
     }
 
     public void togglePLCStatus (View v) {

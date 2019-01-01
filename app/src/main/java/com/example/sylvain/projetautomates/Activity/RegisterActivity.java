@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void checkRegistration(String lastname, String firstname, String email, String password) {
+        // Form checks
         if (!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
             if (lastname.trim().length() >= 3) {
                 if (firstname.trim().length() >= 3) {

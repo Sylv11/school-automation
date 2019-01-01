@@ -11,6 +11,7 @@ import com.example.sylvain.projetautomates.SimaticS7.S7Client;
 
 public class TogglePLCStatusTask {
 
+    // Message for the handler
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
     // Thread and Automate class to communicate with
@@ -21,6 +22,7 @@ public class TogglePLCStatusTask {
     private S7Client comS7;
     private String[] param = new String[10];
 
+    // boolean for CPL status
     private boolean CPLstatus;
 
     // TextView of dashboard
@@ -56,7 +58,6 @@ public class TogglePLCStatusTask {
     // Send the informations to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Integer status) {
-
         try {
             if (status.equals(1)) {
                 this.tv_dashboard_statusCPU.setText("En fonctionnement");
@@ -90,6 +91,7 @@ public class TogglePLCStatusTask {
 
     private class AutomateS7 implements Runnable {
 
+        // Result of the connection
         private Integer res;
 
         @Override
@@ -133,7 +135,7 @@ public class TogglePLCStatusTask {
                     }
                 }
             } else {
-                System.out.printf("Connection to automaton failed");
+                System.out.print("Connection to automaton failed");
             }
         }
 

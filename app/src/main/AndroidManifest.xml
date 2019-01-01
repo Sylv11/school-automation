@@ -25,6 +25,7 @@
         <activity android:name=".Activity.PharmaActivity" />
         <activity android:name=".Activity.AdminActivity" />
         <activity android:name=".Activity.LevelServoActivity" />
+        <activity android:name=".Activity.ManualActivity"></activity>
     </application>
 
 </manifest>

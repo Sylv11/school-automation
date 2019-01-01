@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadTaskS7 {
+    // Update messsage for handler
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
     // TextView and Button of dashboard
@@ -31,6 +32,7 @@ public class ReadTaskS7 {
     private TextView tv_dashboard_error;
     private Button btn_dashboard_powerPLC;
 
+    // Context
     private Context context;
 
     // Thread and Automate class to communicate with
@@ -84,7 +86,7 @@ public class ReadTaskS7 {
         ArrayList<String> data = ((ArrayList<String>) obj);
 
         try {
-
+            // Change components properties
             if (data.size() > 0) {
                 this.tv_dashboard_numCPU.setText(String.valueOf(data.get(0)));
                 this.tv_dashboard_numCPU.setTextColor(Color.GRAY);
@@ -152,8 +154,13 @@ public class ReadTaskS7 {
     private class AutomateS7 implements Runnable {
 
         private ArrayList<String> data = new ArrayList<String>();
+        // Result of the connection
         private Integer res;
+
+        // Number of the CPU
         String numCPU = "";
+
+        // Int the get the cpl status
         int cplStatus = -1;
 
         @Override

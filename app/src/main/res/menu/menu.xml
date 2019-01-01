@@ -18,6 +18,11 @@
         android:icon="@drawable/level_servo">
     </item>
 
+    <item android:id="@+id/item_manual_settings"
+        android:title="@string/manual_settings_item"
+        android:icon="@drawable/manual_settings">
+    </item>
+
     <item android:id="@+id/item_admin"
         android:title="@string/users_management"
         android:icon="@drawable/admin">

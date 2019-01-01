@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 public class AdminActivity extends AppCompatActivity {
 
+    // Ranks
     private final static int BASIC_RANK = 1;
     private final static int ADMIN_RANK = 2;
 
@@ -36,9 +37,10 @@ public class AdminActivity extends AppCompatActivity {
 
     // User session and Network connectivity
     private Session session;
-
-    private Context context = this;
     private User userSession;
+
+    // Context
+    private Context context = this;
 
     @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
@@ -113,6 +115,13 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+            // Redirect to manual activity
+            case R.id.item_manual_settings:
+                Intent manualIntent = new Intent(this, ManualActivity.class);
+                manualIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(manualIntent);
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -175,11 +184,13 @@ public class AdminActivity extends AppCompatActivity {
         deleteButton.setGravity(Gravity.END);
         linearLayoutVertical.addView(deleteButton);
 
+        // When click
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Check if it is an admin
                 if (userSession.getRank() == ADMIN_RANK) {
+                    // Delete the current user
                     UserAccessDB deleteUserDB = new UserAccessDB(context);
                     deleteUserDB.openForWrite();
                     deleteUserDB.removeUser(currentUser.getEmail());
@@ -191,6 +202,8 @@ public class AdminActivity extends AppCompatActivity {
                     Intent adminActivity = new Intent(context, AdminActivity.class);
                     adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(adminActivity);
+                    finish();
+                    overridePendingTransition(0, 0);
                 } else {
                     ToastUtil.show(context, "Vous n'avez pas les droits pour supprimer un utilisateur");
                 }
@@ -208,7 +221,7 @@ public class AdminActivity extends AppCompatActivity {
         rightsButton.setGravity(Gravity.END);
         linearLayoutVertical.addView(rightsButton);
 
-        // Click on the TextView allow us to change his rights
+        // Click on the button allow us to change his rights
         rightsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,6 +252,8 @@ public class AdminActivity extends AppCompatActivity {
                     Intent adminActivity = new Intent(context, AdminActivity.class);
                     adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(adminActivity);
+                    finish();
+                    overridePendingTransition(0, 0);
                 } else {
                     ToastUtil.show(context, "Vous n'avez pas les droits pour modifier les droits des utilisateurs");
                 }
@@ -269,6 +284,8 @@ public class AdminActivity extends AppCompatActivity {
         dynamicTextView.setGravity(Gravity.START);
         dynamicTextView.setTextSize(18);
         dynamicTextView.setPadding(70, 30, 100, 30);
+
+        // If admin, add [Admin] before the user
         if (currentUser.getRank() == ADMIN_RANK) {
             dynamicTextView.setText("[Admin] ");
             dynamicTextView.setTypeface(null, Typeface.BOLD);

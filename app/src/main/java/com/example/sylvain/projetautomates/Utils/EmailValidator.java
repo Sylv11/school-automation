@@ -3,6 +3,7 @@ package com.example.sylvain.projetautomates.Utils;
 import java.util.regex.Pattern;
 
 public class EmailValidator {
+    // Check the email with regex
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
