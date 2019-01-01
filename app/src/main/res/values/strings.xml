@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProjetAutomates</string>
+    <string name="app_name">Automaton</string>
     <string name="welcome">Bienvenue</string>
     <string name="super_user">Enregistrement du super utilisateur</string>
     <string name="connection">Connexion</string>
