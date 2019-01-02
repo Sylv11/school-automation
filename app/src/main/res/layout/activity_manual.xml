@@ -6,13 +6,21 @@
     android:orientation="vertical"
     tools:context=".Activity.ManualActivity">
 
+    <!-- MANUAL ACTIVITY -->
+
+    <!-- Toolbar -->
+
     <include layout="@layout/action_bar" />
+
+    <!-- Main container -->
 
     <LinearLayout
         android:id="@+id/ll_manual_main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <!-- Change DB container -->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,6 +31,8 @@
             android:paddingBottom="10dp"
             android:paddingEnd="10dp"
             android:orientation="vertical">
+
+            <!-- Update DB -->
 
             <TextView
                 android:id="@+id/tv_manual_DB_number_title"
@@ -72,6 +82,8 @@
 
         </LinearLayout>
 
+        <!-- Write in all DB container -->
+
         <LinearLayout
             android:id="@+id/ll_manual"
             android:layout_width="match_parent"
@@ -83,6 +95,8 @@
             android:background="@drawable/border"
             android:orientation="vertical"
             android:visibility="visible">
+
+            <!-- Address number -->
 
             <TextView
                 android:id="@+id/tv_manual_address_title"
@@ -107,6 +121,8 @@
                 android:inputType="number"
                 android:maxLines="1" />
 
+            <!-- Value to send -->
+
             <TextView
                 android:id="@+id/tv_manual_value_title"
                 android:layout_width="match_parent"
@@ -129,6 +145,8 @@
                 android:hint="@string/_0"
                 android:inputType="number"
                 android:maxLines="1" />
+
+            <!-- Send button -->
 
             <Button
                 android:id="@+id/btn_manual_send"

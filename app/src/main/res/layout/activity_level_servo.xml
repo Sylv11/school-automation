@@ -6,7 +6,13 @@
     android:orientation="vertical"
     tools:context=".Activity.LevelServoActivity">
 
+    <!-- LEVELSERVO ACTIVITY -->
+
+    <!-- Toolbar -->
+
     <include layout="@layout/action_bar" />
+
+    <!-- Connection button -->
 
     <Button
         android:id="@+id/btn_servo_connect"
@@ -21,12 +27,16 @@
         android:text="@string/pharma_connection_button"
         android:textColor="@color/colorWhite" />
 
+    <!-- Allow us to scroll -->
+
     <ScrollView
         android:id="@+id/scroll_admin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadeScrollbars="false"
         android:scrollbars="vertical">
+
+        <!-- Layout to show when click on connection button -->
 
         <LinearLayout
             android:id="@+id/linear_servo_container"
@@ -35,11 +45,16 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
+            <!-- Layout that contains the components to write in DB -->
+            <!-- Layout to hide when it's not the admin -->
+
             <LinearLayout
                 android:id="@+id/linear_servo_write_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <!-- Sluicegate write -->
 
                 <TextView
                     android:id="@+id/tv_servo_set_sluicegate_title"
@@ -57,9 +72,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/border"
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -114,8 +129,8 @@
                             android:id="@+id/ch_servo_sluicegate4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
+                            android:layout_marginStart="5dp"
                             android:buttonTint="@color/colorMauve"
                             android:focusedByDefault="false"
                             android:onClick="onServoClickManager"
@@ -128,14 +143,16 @@
 
                 </LinearLayout>
 
+                <!-- Checkbow for manual / auto & local / remote -->
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/border">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border"
+                    android:orientation="horizontal">
 
                     <CheckBox
                         android:id="@+id/ch_servo_auto_manual"
@@ -157,8 +174,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:buttonTint="@color/colorMauve"
                         android:focusedByDefault="false"
@@ -169,6 +186,8 @@
                         android:visibility="visible" />
 
                 </LinearLayout>
+
+                <!-- EditTexts and Buttons to set liquid level, auto order, manual order and the sluicegates word -->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -302,6 +321,8 @@
 
                 </LinearLayout>
 
+                <!-- Line between sections -->
+
                 <View
                     android:id="@+id/line_servo"
                     android:layout_width="fill_parent"
@@ -312,11 +333,15 @@
 
             </LinearLayout>
 
+            <!-- Read main container -->
+
             <LinearLayout
                 android:id="@+id/ll_servo_read_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <!-- Sluicegates status -->
 
                 <TextView
                     android:id="@+id/tv_servo_status_sluicegate_title"
@@ -350,8 +375,8 @@
                                 android:id="@+id/tv_servo_status_sluicegate_title_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
                                 android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-condensed"
                                 android:gravity="start"
                                 android:text="@string/sluicegate_1_status_servo_title"
@@ -395,9 +420,9 @@
                                 android:id="@+id/tv_servo_status_sluicegate_2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginEnd="5dp"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="@string/loading"
                                 android:textColor="@color/colorGray"
@@ -422,8 +447,8 @@
                                 android:id="@+id/tv_servo_status_sluicegate_title_3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
                                 android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-condensed"
                                 android:gravity="start"
                                 android:text="@string/sluicegate_3_status_servo_title"
@@ -467,8 +492,8 @@
                                 android:id="@+id/tv_servo_status_sluicegate_4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
                                 android:layout_marginEnd="5dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="@string/loading"
@@ -481,6 +506,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <!-- Manual / Auto status & Local / Remote status -->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -496,8 +523,8 @@
                             android:id="@+id/tv_servo_read_auto_manual_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed"
                             android:layout_marginStart="10dp"
+                            android:fontFamily="sans-serif-condensed"
                             android:paddingTop="10dp"
                             android:text="@string/read_mode_servo_title"
                             android:textColor="@color/colorDarkerGray"
@@ -551,6 +578,8 @@
 
                 </LinearLayout>
 
+                <!-- Liquid level with ProgressBar -->
+
                 <TextView
                     android:id="@+id/tv_servo_level_liquid_title"
                     android:layout_width="match_parent"
@@ -572,6 +601,8 @@
                     android:max="768"
                     android:min="0"
                     android:visibility="visible" />
+
+                <!-- Auto order value -->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -604,6 +635,8 @@
 
                 </LinearLayout>
 
+                <!-- Manual order value -->
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -634,6 +667,8 @@
                         tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
+
+                <!-- Sluicegates word value -->
 
                 <LinearLayout
                     android:layout_width="wrap_content"

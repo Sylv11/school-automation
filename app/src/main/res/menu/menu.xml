@@ -3,30 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.DashboardActivity">
 
+    <!-- Side menu when click on the hamburger (action_bar.xml) -->
+
+    <!-- Dashboard -->
+
     <item android:id="@+id/item_dashboard"
         android:title="@string/dashboard_title"
         android:icon="@drawable/dashboard">
     </item>
+
+    <!-- Pharma -->
 
     <item android:id="@+id/item_pharmaceutical"
         android:title="@string/pharma"
         android:icon="@drawable/pharmaceutic">
     </item>
 
+    <!-- Level servo -->
+
     <item android:id="@+id/item_servo_level"
         android:title="@string/item_servo_level"
         android:icon="@drawable/level_servo">
     </item>
+
+    <!-- Manual settings -->
 
     <item android:id="@+id/item_manual_settings"
         android:title="@string/manual_settings_item"
         android:icon="@drawable/manual_settings">
     </item>
 
+    <!-- Users management -->
+
     <item android:id="@+id/item_admin"
         android:title="@string/users_management"
         android:icon="@drawable/admin">
     </item>
+
+    <!-- Logout -->
 
     <item android:id="@+id/item_logout"
         android:title="@string/disconnect"

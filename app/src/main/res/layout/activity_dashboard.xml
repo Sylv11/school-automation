@@ -6,13 +6,21 @@
     android:orientation="vertical"
     tools:context=".Activity.DashboardActivity">
 
+    <!-- DASHBOARD ACTIVITY -->
+
+    <!-- Toolbar -->
+
     <include layout="@layout/action_bar" />
+
+    <!-- Main container -->
 
     <LinearLayout
         android:id="@+id/ll_dashboard_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <!-- Error TextView -->
 
         <TextView
             android:id="@+id/tv_dashboard_error"
@@ -26,6 +34,8 @@
             android:textSize="18sp"
             android:visibility="gone" />
 
+        <!-- Informations title -->
+
         <TextView
             android:id="@+id/tv_dashboard_infoTitle"
             android:layout_width="match_parent"
@@ -37,6 +47,8 @@
             android:textAllCaps="true"
             android:textSize="25sp"
             android:textStyle="bold" />
+
+        <!-- IP address -->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,10 +78,14 @@
 
         </LinearLayout>
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0" />
+
+        <!-- Rack -->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -98,10 +114,14 @@
 
         </LinearLayout>
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0" />
+
+        <!-- Slot -->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -130,10 +150,14 @@
 
         </LinearLayout>
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0" />
+
+        <!-- CPU reference -->
 
         <TextView
             android:id="@+id/tv_dashboard_numCPUTitle"
@@ -155,10 +179,14 @@
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0" />
+
+        <!-- CPU model -->
 
         <TextView
             android:id="@+id/tv_dashboard_modelTitle"
@@ -181,10 +209,14 @@
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0" />
+
+        <!-- CPU status -->
 
         <TextView
             android:id="@+id/tv_dashboard_statusCPUTitle"
@@ -208,11 +240,15 @@
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
+        <!-- Line between sections -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="10dp"
             android:background="#c0c0c0" />
+
+        <!-- Refresh button -->
 
         <Button
             android:id="@+id/btn_dashboard_refresh"
@@ -229,6 +265,8 @@
             android:text="@string/refresh_button"
             android:textColor="@color/colorWhite"
             tools:ignore="RtlSymmetry" />
+
+        <!-- Toggle status button -->
 
         <Button
             android:id="@+id/btn_dashboard_powerPLC"

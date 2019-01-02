@@ -9,6 +9,10 @@
     android:orientation="horizontal"
     tools:context=".Activity.DashboardActivity">
 
+    <!-- ACTION BAR -->
+
+    <!-- Toolbar title -->
+
     <TextView
         android:id="@+id/action_bar_title"
         android:layout_width="wrap_content"
@@ -22,6 +26,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
         tools:ignore="RtlSymmetry" />
+
+    <!-- Toolbar hamburger -->
 
     <Button
         android:layout_width="match_parent"

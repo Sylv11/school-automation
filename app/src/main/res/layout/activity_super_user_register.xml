@@ -8,6 +8,10 @@
     android:padding="10dp"
     tools:context=".Activity.SuperUserRegisterActivity">
 
+    <!-- SUPERUSER REGISTRATION ACTIVITY -->
+
+    <!-- Welcome title of superuser registration -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +27,8 @@
         android:text="@string/super_user"
         android:textSize="20sp" />
 
+    <!-- Lastname -->
+
     <EditText
         android:id="@+id/et_super_user_register_lastname"
         android:layout_width="match_parent"
@@ -31,6 +37,8 @@
         android:hint="@string/lastname"
         android:inputType="text"
         android:maxLines="1" />
+
+    <!-- Firstname -->
 
     <EditText
         android:id="@+id/et_super_user_register_firstname"
@@ -41,6 +49,8 @@
         android:inputType="text"
         android:maxLines="1" />
 
+    <!-- Email -->
+
     <EditText
         android:id="@+id/et_super_user_register_email"
         android:layout_width="match_parent"
@@ -50,6 +60,8 @@
         android:inputType="textEmailAddress"
         android:maxLines="1" />
 
+    <!-- Password -->
+
     <EditText
         android:id="@+id/et_super_user_register_password"
         android:layout_width="match_parent"
@@ -58,6 +70,8 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:maxLines="1" />
+
+    <!-- Register button -->
 
     <Button
         android:id="@+id/btn_super_user_register"

@@ -1,4 +1,7 @@
 <resources>
+
+    <!-- String values -->
+
     <string name="app_name">Automaton</string>
     <string name="welcome">Bienvenue</string>
     <string name="super_user">Enregistrement du super utilisateur</string>
