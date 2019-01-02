@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ public class ManualActivity extends AppCompatActivity {
     private EditText et_manual_address;
     private EditText et_manual_value;
     private WriteTaskS7 writeS7byte;
-    private Button btn_manual_send;
+    private LinearLayout ll_manual_main_container;
 
     // User session and Network connectivity
     private Session session;
@@ -74,6 +75,8 @@ public class ManualActivity extends AppCompatActivity {
             if (this.session.isLogged()) {
                 this.action_bar_title.setText("CONFIGURATION MANUELLE");
                 this.et_manual_DB.setHint(String.valueOf(DataBlock.DB));
+
+                this.ll_manual_main_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in1s));
 
                 // If the connected user is not admin
                 if (this.session.getUser().getRank() == BASIC_RANK) {
@@ -111,7 +114,7 @@ public class ManualActivity extends AppCompatActivity {
         this.ll_manual = findViewById(R.id.ll_manual);
         this.et_manual_address = findViewById(R.id.et_manual_address);
         this.et_manual_value = findViewById(R.id.et_manual_value);
-        this.btn_manual_send = findViewById(R.id.btn_manual_send);
+        this.ll_manual_main_container = findViewById(R.id.ll_manual_main_container);
     }
 
     @SuppressLint("RestrictedApi")

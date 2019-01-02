@@ -10,7 +10,9 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
@@ -37,6 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView tv_dashboard_ipAddress;
     private TextView tv_dashboard_rackNum;
     private TextView tv_dashboard_slotNum;
+    private LinearLayout ll_dashboard_container;
 
     private boolean CPLstatus;
 
@@ -66,6 +69,8 @@ public class DashboardActivity extends AppCompatActivity {
         if(this.network.checkNetwork()) {
             // Check if the user is connected
             if(this.session.isLogged()) {
+
+                this.ll_dashboard_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in1s));
 
                 // Load properties file
                 try {
@@ -121,6 +126,7 @@ public class DashboardActivity extends AppCompatActivity {
         this.tv_dashboard_ipAddress = findViewById(R.id.tv_dashboard_ipAddress);
         this.tv_dashboard_rackNum = findViewById(R.id.tv_dashboard_rackNum);
         this.tv_dashboard_slotNum = findViewById(R.id.tv_dashboard_slotNum);
+        this.ll_dashboard_container = findViewById(R.id.ll_dashboard_container);
     }
 
     @SuppressLint("RestrictedApi")

@@ -34,45 +34,55 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/ch_pharma_convoyeur"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:buttonTint="@color/colorMauve"
-                android:focusedByDefault="false"
-                android:onClick="onPharmaClickManager"
-                android:text="@string/active_conveyor"
-                android:textColor="@color/colorMauve"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                android:paddingEnd="10dp"
+                android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/ch_pharma_bottle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:buttonTint="@color/colorMauve"
-                android:focusedByDefault="false"
-                android:onClick="onPharmaClickManager"
-                android:text="@string/empty_bottles_arrival"
-                android:textColor="@color/colorMauve"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                <CheckBox
+                    android:id="@+id/ch_pharma_convoyeur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:buttonTint="@color/colorMauve"
+                    android:focusedByDefault="false"
+                    android:onClick="onPharmaClickManager"
+                    android:text="@string/active_conveyor"
+                    android:textColor="@color/colorMauve"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
-            <CheckBox
-                android:id="@+id/ch_pharma_resetCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:buttonTint="@color/colorMauve"
-                android:focusedByDefault="false"
-                android:onClick="onPharmaClickManager"
-                android:text="@string/reset_bottles_counter"
-                android:textColor="@color/colorMauve"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                <CheckBox
+                    android:id="@+id/ch_pharma_bottle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:buttonTint="@color/colorMauve"
+                    android:focusedByDefault="false"
+                    android:onClick="onPharmaClickManager"
+                    android:text="@string/empty_bottles_arrival"
+                    android:textColor="@color/colorMauve"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <CheckBox
+                    android:id="@+id/ch_pharma_resetCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:buttonTint="@color/colorMauve"
+                    android:focusedByDefault="false"
+                    android:onClick="onPharmaClickManager"
+                    android:text="@string/reset_bottles_counter"
+                    android:textColor="@color/colorMauve"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_pharma_numberTabletTitle"
@@ -91,14 +101,16 @@
                 android:id="@+id/rg_pharma_pills"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:layout_marginStart="10dp"
+                android:paddingEnd="10dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb_pharma_pills5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
                     android:buttonTint="@color/colorMauve"
                     android:onClick="onPharmaClickManager"
                     android:text="@string/tablets_5"
@@ -111,7 +123,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
                     android:buttonTint="@color/colorMauve"
                     android:onClick="onPharmaClickManager"
                     android:text="@string/tablets_10"
@@ -124,7 +135,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
                     android:buttonTint="@color/colorMauve"
                     android:onClick="onPharmaClickManager"
                     android:text="@string/tablets_15"
@@ -224,163 +234,171 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/ll_pharma_read_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_pharma_conveyor_state_title"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/conveyor_status"
-                android:textColor="@color/colorDarkerGray"
-                android:textSize="17sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_pharma_conveyor_state"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_pharma_conveyor_state_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:paddingTop="10dp"
+                    android:text="@string/conveyor_status"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_pharma_conveyor_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingTop="10dp"
-                android:text="@string/loading"
-                android:textColor="@color/colorGray"
-                android:textSize="15sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_pharma_read_number_tablets_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:paddingTop="10dp"
+                    android:text="@string/tablets_number_read"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
 
+                <TextView
+                    android:id="@+id/tv_pharma_read_number_tablets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_pharma_read_number_tablets_title"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/tablets_number_read"
-                android:textColor="@color/colorDarkerGray"
-                android:textSize="17sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_pharma_read_number_tablets"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_pharma_read_bottles_status_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:paddingTop="10dp"
+                    android:text="@string/bottles_arrival_status"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_pharma_read_bottles_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingTop="10dp"
-                android:text="@string/loading"
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_pharma_read_live_tablets_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:paddingTop="10dp"
+                    android:text="@string/live_tablets_number"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_pharma_read_live_tablets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tv_pharma_read_bottles_status_title"
-                android:layout_width="match_parent"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/bottles_arrival_status"
-                android:textColor="@color/colorDarkerGray"
-                android:textSize="17sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_pharma_read_bottles_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingTop="10dp"
-                android:text="@string/loading"
-                android:textColor="@color/colorGray"
-                android:textSize="15sp"
-                android:visibility="visible" />
+                <TextView
+                    android:id="@+id/tv_pharma_read_live_bottles_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="start"
+                    android:paddingTop="10dp"
+                    android:text="@string/filled_bottles_number"
+                    android:textColor="@color/colorDarkerGray"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_pharma_read_live_bottles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingTop="10dp"
+                    android:text="@string/loading"
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_pharma_read_live_tablets_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/live_tablets_number"
-                android:textColor="@color/colorDarkerGray"
-                android:textSize="17sp"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_pharma_read_live_tablets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingTop="10dp"
-                android:text="@string/loading"
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                android:visibility="visible" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_pharma_read_live_bottles_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/filled_bottles_number"
-                android:textColor="@color/colorDarkerGray"
-                android:textSize="17sp"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_pharma_read_live_bottles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingTop="10dp"
-                android:text="@string/loading"
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                android:visibility="visible" />
+            </LinearLayout>
 
         </LinearLayout>
 

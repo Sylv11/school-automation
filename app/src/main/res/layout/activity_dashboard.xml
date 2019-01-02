@@ -8,237 +8,244 @@
 
     <include layout="@layout/action_bar" />
 
-    <TextView
-        android:id="@+id/tv_dashboard_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorRed"
-        android:gravity="center_horizontal"
-        android:text="@string/error"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_infoTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="@string/informations"
-        android:textAllCaps="true"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/ll_dashboard_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_dashboard_ip_title"
+            android:id="@+id/tv_dashboard_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/colorRed"
+            android:gravity="center_horizontal"
+            android:text="@string/error"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_dashboard_infoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center_horizontal"
+            android:text="@string/informations"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dashboard_ip_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/ip_address"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dashboard_ipAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/loading"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dashboard_rack_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/rack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dashboard_rackNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/loading"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dashboard_slot_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/slot"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dashboard_slotNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/loading"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
+
+        <TextView
+            android:id="@+id/tv_dashboard_numCPUTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="@string/ip_address"
+            android:text="@string/cpu_reference"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_dashboard_ipAddress"
+            android:id="@+id/tv_dashboard_numCPU"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
             android:text="@string/loading"
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#c0c0c0" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
 
         <TextView
-            android:id="@+id/tv_dashboard_rack_title"
+            android:id="@+id/tv_dashboard_modelTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="@string/rack"
+            android:gravity="start"
+            android:paddingTop="5dp"
+            android:text="@string/cpu_model"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_dashboard_rackNum"
+            android:id="@+id/tv_dashboard_modelPU"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:gravity="center_horizontal"
             android:text="@string/loading"
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#c0c0c0" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0" />
 
         <TextView
-            android:id="@+id/tv_dashboard_slot_title"
+            android:id="@+id/tv_dashboard_statusCPUTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="@string/slot"
+            android:gravity="start"
+            android:paddingTop="5dp"
+            android:text="@string/cpu_status"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_dashboard_slotNum"
+            android:id="@+id/tv_dashboard_statusCPU"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
             android:text="@string/loading"
             android:textColor="@color/colorGray"
             android:textSize="18sp" />
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#c0c0c0" />
+
+        <Button
+            android:id="@+id/btn_dashboard_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="110dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/primary_btn"
+            android:backgroundTint="@color/colorMauve"
+            android:drawableStart="@drawable/refresh"
+            android:onClick="refreshInfo"
+            android:paddingEnd="5dp"
+            android:text="@string/refresh_button"
+            android:textColor="@color/colorWhite"
+            tools:ignore="RtlSymmetry" />
+
+        <Button
+            android:id="@+id/btn_dashboard_powerPLC"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="110dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/secondary_btn"
+            android:backgroundTint="@color/colorGreen"
+            android:drawableStart="@drawable/run"
+            android:onClick="togglePLCStatus"
+            android:text="@string/run_button"
+            android:textColor="@color/colorWhite"
+            android:visibility="visible"
+            tools:ignore="ButtonStyle" />
+
     </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#c0c0c0" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_numCPUTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/cpu_reference"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_numCPU"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:text="@string/loading"
-        android:textColor="@color/colorGray"
-        android:textSize="18sp" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#c0c0c0" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_modelTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="start"
-        android:paddingTop="5dp"
-        android:text="@string/cpu_model"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_modelPU"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/loading"
-        android:textColor="@color/colorGray"
-        android:textSize="18sp" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#c0c0c0" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_statusCPUTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="start"
-        android:paddingTop="5dp"
-        android:text="@string/cpu_status"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_dashboard_statusCPU"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center_horizontal"
-        android:text="@string/loading"
-        android:textColor="@color/colorGray"
-        android:textSize="18sp" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="10dp"
-        android:background="#c0c0c0" />
-
-    <Button
-        android:id="@+id/btn_dashboard_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/primary_btn"
-        android:backgroundTint="@color/colorMauve"
-        android:drawableStart="@drawable/refresh"
-        android:onClick="refreshInfo"
-        android:paddingEnd="5dp"
-        android:text="@string/refresh_button"
-        android:textColor="@color/colorWhite"
-        tools:ignore="RtlSymmetry" />
-
-    <Button
-        android:id="@+id/btn_dashboard_powerPLC"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/secondary_btn"
-        android:backgroundTint="@color/colorGreen"
-        android:drawableStart="@drawable/run"
-        android:onClick="togglePLCStatus"
-        android:text="@string/run_button"
-        android:textColor="@color/colorWhite"
-        android:visibility="visible"
-        tools:ignore="ButtonStyle" />
-
 
 </LinearLayout>

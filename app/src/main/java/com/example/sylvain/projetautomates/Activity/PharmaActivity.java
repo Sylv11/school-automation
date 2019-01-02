@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -50,6 +51,7 @@ public class PharmaActivity extends AppCompatActivity {
     private EditText et_pharma_tablets_number;
     private LinearLayout linear_pharma_write_container;
     private EditText et_pharma_bottles_number;
+    private LinearLayout ll_pharma_read_container;
 
     // User session and Network connectivity
     private Session session;
@@ -138,6 +140,7 @@ public class PharmaActivity extends AppCompatActivity {
         this.et_pharma_tablets_number = findViewById(R.id.et_pharma_tablets_number);
         this.linear_pharma_write_container = findViewById(R.id.linear_pharma_write_container);
         this.et_pharma_bottles_number = findViewById(R.id.et_pharma_bottles_number);
+        this.ll_pharma_read_container = findViewById(R.id.ll_pharma_read_container);
     }
 
     @SuppressLint("RestrictedApi")
@@ -299,6 +302,10 @@ public class PharmaActivity extends AppCompatActivity {
                 if (this.btn_pharma_connect.getText().equals("Se connecter à l'automate")) {
                     // Check if admin
                     if (session.getUser().getRank() == ADMIN_RANK) {
+
+                        this.ll_pharma_read_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in2s));
+                        this.linear_pharma_write_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in1s));
+
                         // WriteTask for DB5.DBB5
                         this.writeS7DBB5 = new WriteTaskS7(5);
                         // Connection to the automaton
@@ -335,6 +342,8 @@ public class PharmaActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+
+                    this.ll_pharma_read_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in1s));
 
                     // ReadTask for DB5.DBB0
                     this.readS7DBB0 = new ReadPharmaDBTask(0, this,

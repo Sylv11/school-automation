@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ public class LevelServoActivity extends AppCompatActivity {
     private TextView tv_servo_read_manual_order;
     private TextView tv_servo_read_sluicegate_word;
     private TextView tv_servo_read_local_remote;
+    private LinearLayout ll_servo_read_container;
 
     // Read task
     private ReadServoDBTask readS7DBB0;
@@ -146,6 +148,7 @@ public class LevelServoActivity extends AppCompatActivity {
         this.tv_servo_read_sluicegate_word = findViewById(R.id.tv_servo_read_sluicegate_word);
         this.ch_servo_local_remote = findViewById(R.id.ch_servo_local_remote);
         this.tv_servo_read_local_remote = findViewById(R.id.tv_servo_read_local_remote);
+        this.ll_servo_read_container = findViewById(R.id.ll_servo_read_container);
     }
 
     @SuppressLint("RestrictedApi")
@@ -343,6 +346,9 @@ public class LevelServoActivity extends AppCompatActivity {
 
                     // If admin
                     if (session.getUser().getRank() == ADMIN_RANK) {
+
+                        this.linear_servo_write_container.startAnimation(AnimationUtils.loadAnimation(this,R.anim.fade_in1s));
+
                         // WriteTask for DB5.DBB2
                         this.writeS7DBB2 = new WriteTaskS7(2);
                         // Connection to the automaton
@@ -354,6 +360,8 @@ public class LevelServoActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+
+                    this.ll_servo_read_container.startAnimation(AnimationUtils.loadAnimation(this,R.anim.fade_in2s));
 
                     // ReadTask for DB5.DBB0
                     this.readS7DBB0 = new ReadServoDBTask(0, this,
