@@ -13,6 +13,7 @@ public class UserDBSqlite extends SQLiteOpenHelper {
     private static final String COL_PASSWORD = "PASSWORD";
     private static final String COL_RANK = "RANK";
 
+    // database creation request
     private static final String CREATE_DB = "CREATE TABLE " + TABLE_USER
             + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_LASTNAME + " TEXT NOT NULL, "
@@ -25,11 +26,13 @@ public class UserDBSqlite extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+    // If the database doesn't exist, the SQLiteOpenHelper object run onCreate()
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_DB);
     }
 
+    // If the version change, onUpgrade is called
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE " + TABLE_USER);
