@@ -230,19 +230,19 @@ public class AdminActivity extends AppCompatActivity {
                     UserAccessDB updatedUserDB = new UserAccessDB(context);
                     if (currentUser.getRank() == BASIC_RANK) {
                         // Change the rank
-                        User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 2);
+                        currentUser.setRank(2);
                         updatedUserDB.openForWrite();
                         updatedUserDB.removeUser(currentUser.getEmail());
-                        updatedUserDB.insertUser(updatedUser);
+                        updatedUserDB.insertUser(currentUser);
                         updatedUserDB.Close();
 
                         ToastUtil.show(context, currentUser.getFirstname() + " est maintenant administrateur (R/W)");
                     } else if (currentUser.getRank() == ADMIN_RANK) {
                         // Change the rank
-                        User updatedUser = new User(currentUser.getLastname(), currentUser.getFirstname(), currentUser.getEmail(), currentUser.getPassword(), 1);
+                        currentUser.setRank(1);
                         updatedUserDB.openForWrite();
                         updatedUserDB.removeUser(currentUser.getEmail());
-                        updatedUserDB.insertUser(updatedUser);
+                        updatedUserDB.insertUser(currentUser);
                         updatedUserDB.Close();
 
                         ToastUtil.show(context, currentUser.getFirstname() + " est maintenant utilisateur normal (R)");
