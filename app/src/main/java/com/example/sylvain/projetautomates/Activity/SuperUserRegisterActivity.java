@@ -14,9 +14,13 @@ import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.Utils.EmailValidator;
 import com.example.sylvain.projetautomates.R;
 
+/* When it is the first time that a user run the application, We have to define a superuser.
+ * The superuser have to register. Then, he can manage the rights of the others users */
+
+
 public class SuperUserRegisterActivity extends AppCompatActivity {
 
-    // EditText user informations
+    // EditText user information's
 
     private EditText et_super_user_register_lastname;
     private EditText et_super_user_register_firstname;
@@ -55,8 +59,8 @@ public class SuperUserRegisterActivity extends AppCompatActivity {
         }
     }
 
+    // This method checks the input value given by the user
     private void checkRegistration(String lastname, String firstname, String email, String password) {
-        // Form checks
         if (!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
             if (lastname.trim().length() >= 3) {
                 if (firstname.trim().length() >= 3) {

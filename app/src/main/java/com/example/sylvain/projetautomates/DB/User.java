@@ -1,7 +1,9 @@
 package com.example.sylvain.projetautomates.DB;
 
-// User class (user table)
+// Entity class for the user (user table)
+
 public class User {
+
     private int id;
     private String lastname;
     private String firstname;

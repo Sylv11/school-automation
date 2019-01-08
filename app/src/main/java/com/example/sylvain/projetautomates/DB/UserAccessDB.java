@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
+/* This class inserts or retrieves in the database the information's that is transferred to it via the User object. */
+
 public class UserAccessDB {
+
     // Table version
     private static final int VERSION = 1;
 

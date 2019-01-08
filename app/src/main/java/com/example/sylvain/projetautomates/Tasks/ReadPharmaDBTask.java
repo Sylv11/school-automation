@@ -14,6 +14,8 @@ import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/* This class provides the useful information's to the pharmaceutic activity by reading it in the data block  */
+
 public class ReadPharmaDBTask {
 
     // Update message
@@ -31,7 +33,7 @@ public class ReadPharmaDBTask {
     private TextView tv_pharma_read_live_tablets;
     private TextView tv_pharma_read_live_bottles;
 
-    // Context of pharma
+    // Context of pharmaceutic
     private Context context;
 
 
@@ -84,7 +86,7 @@ public class ReadPharmaDBTask {
         }
     }
 
-    // Send the informations to the pharma activity and change some properties
+    // Send the information's to the pharmaceutic activity and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnProgressUpdate(boolean[] bitsStatus) {
 
@@ -130,7 +132,7 @@ public class ReadPharmaDBTask {
         }
     }
 
-    // Send the informations to the pharma activity and change some properties
+    // Send the information's to the pharmaceutic activity and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnNumberTabletsUpdate(Integer numberTablets) {
         this.tv_pharma_read_live_tablets.setTextColor(Color.GRAY);
@@ -139,7 +141,7 @@ public class ReadPharmaDBTask {
         else this.tv_pharma_read_live_tablets.setText("Valeur incorrecte");
     }
 
-    // Send the informations to the pharma activity and change some properties
+    // Send the information's to the pharmaceutic activity and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnNumberBottlesUpdate(Integer numberBottles) {
         this.tv_pharma_read_live_bottles.setTextColor(Color.GRAY);
@@ -198,10 +200,8 @@ public class ReadPharmaDBTask {
                         // Read data from PLC
                         int retInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, start, 1, datasPLC);
 
-                        // Read in DB5.DBW15
                         int tabletsInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 15, 1, dataTablets);
 
-                        // Read in DB5.DBW17
                         int bottlesInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 17, 1, dataBottles);
 
                         // If succeed
@@ -214,16 +214,12 @@ public class ReadPharmaDBTask {
                             sendProgressMessage(bitsStatus);
                         }
 
-                        // If succeed
                         if (tabletsInfo == 0) {
-                            // We get the Int
                             numberOfTablets = Integer.valueOf(Integer.toHexString((int) (S7.GetDIntAt(dataTablets, 0) / Math.pow(256, 3))));
                             sendNumberTabletsProgressMessage(numberOfTablets);
                         }
 
-                        // If succeed
                         if (bottlesInfo == 0) {
-                            // We get the Int
                             numberOfBottles = (int) (S7.GetDIntAt(dataBottles, 0) / Math.pow(256, 3));
                             sendNumberBottlesProgressMessage(numberOfBottles);
                         }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/* This class lets you know if the device is connected to a network. Permissions are present in the Manifest */
+
 public class Network {
 
     private Context context;

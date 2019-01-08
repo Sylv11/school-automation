@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
-import android.text.TextPaint;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.R;
@@ -28,7 +26,14 @@ import com.example.sylvain.projetautomates.Utils.Session;
 import com.example.sylvain.projetautomates.Utils.ToastUtil;
 import com.example.sylvain.projetautomates.Tasks.WriteTaskS7;
 
+/* This activity allow us to manage the liquid level system.
+ * We are able to send data from the application to the automaton
+ * to control the system, for example, the conveyor.
+ * It also allow us to read useful information's of the running system. */
+
+
 public class LevelServoActivity extends AppCompatActivity {
+
     // Ranks
     private final static int BASIC_RANK = 1;
     private final static int ADMIN_RANK = 2;
@@ -162,6 +167,7 @@ public class LevelServoActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // In the case of a click on a navigation item, we redirect to the right activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -171,18 +177,21 @@ public class LevelServoActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 finish();
                 break;
+
             // Logout and close user session
             case R.id.item_logout:
                 this.session.closeSession();
                 ToastUtil.show(this, "Déconnecté");
                 break;
-            // Redirect to pharma activity
+
+            // Redirect to pharmaceutic activity
             case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
                 finish();
                 break;
+
             // Redirect to servo level activity
             case R.id.item_servo_level:
                 Intent servoIntent = new Intent(this, LevelServoActivity.class);
@@ -190,6 +199,7 @@ public class LevelServoActivity extends AppCompatActivity {
                 startActivity(servoIntent);
                 finish();
                 break;
+
             // Redirect to admin activity
             case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -209,10 +219,13 @@ public class LevelServoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show menu when click on the hamburger
     public void openMenu(View view) {
-        // Show menu when click on the hamburger
         this.toolbar.showOverflowMenu();
     }
+
+    /* This method listens when the user click on one of these item. Then, it calls a method from the WriteTaskS7
+    * to write in the data block */
 
     public void onServoClickManager(View v) {
         // Check network
@@ -363,7 +376,7 @@ public class LevelServoActivity extends AppCompatActivity {
 
                     this.ll_servo_read_container.startAnimation(AnimationUtils.loadAnimation(this,R.anim.fade_in2s));
 
-                    // ReadTask for DB5.DBB0
+                    // ReadTask for DB5.DBB0 and set the different components of the view
                     this.readS7DBB0 = new ReadServoDBTask(0, this,
                             this.tv_servo_status_sluicegate_1,
                             this.tv_servo_status_sluicegate_2,
@@ -389,7 +402,7 @@ public class LevelServoActivity extends AppCompatActivity {
 
                     ToastUtil.show(this, "Connecté à l'automate");
                 } else {
-                    // Stop thread
+                    // Stop threads
                     if (this.writeS7DBB2 != null) {
                         this.writeS7DBB2.stop();
                         // Wait 0.1 second
@@ -400,7 +413,6 @@ public class LevelServoActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.readS7DBB0 != null) {
                         this.readS7DBB0.stop();
                     }
@@ -420,11 +432,11 @@ public class LevelServoActivity extends AppCompatActivity {
         }
     }
 
+    // Stop threads when activity is destroyed
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        // Stop threads when activity is destroyed
         if (isRunning) {
             if (this.writeS7DBB2 != null) {
                 this.writeS7DBB2.stop();

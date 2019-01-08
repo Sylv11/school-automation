@@ -26,6 +26,12 @@ import com.example.sylvain.projetautomates.Utils.Session;
 import com.example.sylvain.projetautomates.Utils.ToastUtil;
 import com.example.sylvain.projetautomates.Tasks.WriteTaskS7;
 
+/* This activity allow us to manage the pharmaceutic system.
+ * We are able to send data from the application to the automaton
+ * to control the system, for example, the conveyor.
+ * It also allow us to read useful information's of the running system. */
+
+
 public class PharmaActivity extends AppCompatActivity {
 
     // Ranks
@@ -154,6 +160,7 @@ public class PharmaActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // In the case of a click on a navigation item, we redirect to the right activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -163,18 +170,21 @@ public class PharmaActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 finish();
                 break;
+
             // Logout and close user session
             case R.id.item_logout:
                 this.session.closeSession();
                 ToastUtil.show(this, "Déconnecté");
                 break;
-            // Redirect to pharma activity
+
+            // Redirect to pharmaceutic activity
             case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
                 finish();
                 break;
+
             // Redirect to servo level activity
             case R.id.item_servo_level:
                 Intent servoIntent = new Intent(this, LevelServoActivity.class);
@@ -182,6 +192,7 @@ public class PharmaActivity extends AppCompatActivity {
                 startActivity(servoIntent);
                 finish();
                 break;
+
             // Redirect to admin activity
             case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -189,6 +200,7 @@ public class PharmaActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+
             // Redirect to manual activity
             case R.id.item_manual_settings:
                 Intent manualIntent = new Intent(this, ManualActivity.class);
@@ -201,10 +213,13 @@ public class PharmaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show menu when click on the hamburger
     public void openMenu(View view) {
-        // Show menu when click on the hamburger
         this.toolbar.showOverflowMenu();
     }
+
+    /* This method listens when the user click on one of these item. Then, it calls a method from the WriteTaskS7
+     * to write in the data block */
 
     public void onPharmaClickManager(View v) {
         // Check network
@@ -345,7 +360,7 @@ public class PharmaActivity extends AppCompatActivity {
 
                     this.ll_pharma_read_container.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in1s));
 
-                    // ReadTask for DB5.DBB0
+                    // ReadTask for DB5.DBB0 and set components of the view with the information's
                     this.readS7DBB0 = new ReadPharmaDBTask(0, this,
                             this.tv_pharma_conveyor_state,
                             this.tv_pharma_read_number_tablets,
@@ -362,7 +377,7 @@ public class PharmaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    // ReadTask for DB5.DBB4
+                    // ReadTask for DB5.DBB4 and set components of the view with the information's
                     this.readS7DBB4 = new ReadPharmaDBTask(4, this,
                             this.tv_pharma_conveyor_state,
                             this.tv_pharma_read_number_tablets,
@@ -392,7 +407,7 @@ public class PharmaActivity extends AppCompatActivity {
                     // Set running flag to true
                     this.isRunning = true;
 
-                    // Reinitiate the values in DB
+                    // Reset the values in DB
                     this.resetDB();
 
                     // Set components visible
@@ -401,7 +416,7 @@ public class PharmaActivity extends AppCompatActivity {
                     ToastUtil.show(this, "Connecté à l'automate");
                 } else {
 
-                    // Stop thread
+                    // Stop threads
                     if (this.writeS7DBB5 != null) {
                         this.writeS7DBB5.stop();
                         // Wait 0.1 second
@@ -412,7 +427,6 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.writeS7DBB6 != null) {
                         this.writeS7DBB6.stop();
                         // Wait 0.1 second
@@ -423,7 +437,6 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.writeS7DBB8 != null) {
                         this.writeS7DBB8.stop();
                         // Wait 0.1 second
@@ -434,7 +447,6 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.readS7DBB0 != null) {
                         this.readS7DBB0.stop();
                         // Wait 0.1 second
@@ -445,7 +457,6 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.readS7DBB4 != null) {
                         this.readS7DBB4.stop();
                         // Wait 0.1 second
@@ -456,7 +467,6 @@ public class PharmaActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Stop thread
                     if (this.readS7DBB1 != null) {
                         this.readS7DBB1.stop();
                     }

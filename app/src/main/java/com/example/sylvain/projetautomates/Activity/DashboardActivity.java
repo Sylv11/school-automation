@@ -24,12 +24,17 @@ import com.example.sylvain.projetautomates.Utils.Session;
 import com.example.sylvain.projetautomates.Utils.ToastUtil;
 import com.example.sylvain.projetautomates.Tasks.TogglePLCStatusTask;
 
+
+/* This activity displays all the useful information's
+ * of automaton and the CPU */
+
+
 public class DashboardActivity extends AppCompatActivity {
 
     // Basic rank
     private final static int BASIC_RANK = 1;
 
-    // Textview, Button and Toolbar (informations about CPU)
+    // Textview, Button and Toolbar (information's about CPU)
     private TextView tv_dashboard_numCPU;
     private TextView tv_dashboard_statusCPU;
     private TextView tv_dashboard_modelPU;
@@ -52,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity {
     private String rack;
     private String slot;
 
-    // Task to read the informations
+    // Task to read the information's
     private ReadTaskS7 readS7;
 
     @Override
@@ -92,7 +97,7 @@ public class DashboardActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // Start the read task
+                // Start the read task to put the information's in the different TextView's
                 this.readS7 = new ReadTaskS7(this.tv_dashboard_numCPU,
                                              this.tv_dashboard_statusCPU,
                                              this.tv_dashboard_error,
@@ -140,6 +145,7 @@ public class DashboardActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // In the case of a click on a navigation item, we redirect to the right activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -149,17 +155,20 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 finish();
                 break;
+
             // Logout and close user session
             case R.id.item_logout :
                 this.session.closeSession();
                 ToastUtil.show(this,"Déconnecté");
                 break;
-            //  Redirect to pharma activity
+
+            //  Redirect to pharmaceutic activity
             case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 startActivity(pharmaIntent);
                 finish();
                 break;
+
             // Redirect to servo level activity
             case R.id.item_servo_level:
                 Intent servoIntent = new Intent(this, LevelServoActivity.class);
@@ -167,6 +176,7 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(servoIntent);
                 finish();
                 break;
+
             // Redirect to admin activity
             case R.id.item_admin :
                 Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -174,6 +184,7 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+
             // Redirect to manual activity
             case R.id.item_manual_settings:
                 Intent manualIntent = new Intent(this, ManualActivity.class);
@@ -186,13 +197,13 @@ public class DashboardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show menu when click on the hamburger
     public void openMenu(View view) {
-        // Show menu when click on the hamburger
         this.toolbar.showOverflowMenu();
     }
 
+    // Refresh dashboard
     public void refreshInfo (View v) {
-        // Refresh dashboard
         Intent dashboardIntent = new Intent(this, DashboardActivity.class);
         dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(dashboardIntent);
@@ -200,6 +211,7 @@ public class DashboardActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
+    // This method allows us to toggle the PLC status from run to stop (or the opposite)
     public void togglePLCStatus (View v) {
 
         // Check if there is a network connectivity

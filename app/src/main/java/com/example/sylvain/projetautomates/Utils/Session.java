@@ -11,6 +11,8 @@ import com.example.sylvain.projetautomates.Activity.MainActivity;
 import com.example.sylvain.projetautomates.DB.User;
 import com.example.sylvain.projetautomates.DB.UserAccessDB;
 
+/* This class creates and closes the user session and allow to know if the user is connected */
+
 public class Session {
     // SharedPreferences to store the user and DB to get it
     private SharedPreferences prefs;

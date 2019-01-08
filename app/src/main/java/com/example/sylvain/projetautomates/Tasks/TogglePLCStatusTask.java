@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
 
+/* This class is used to change the state of the PLC */
 
 public class TogglePLCStatusTask {
 
@@ -44,7 +45,7 @@ public class TogglePLCStatusTask {
         this.readThread.interrupt();
     }
 
-    // Connection informations
+    // Connection information's
     public void start(String ip, String rack, String slot) {
 
         if (!this.readThread.isAlive()) {
@@ -55,7 +56,7 @@ public class TogglePLCStatusTask {
         }
     }
 
-    // Send the informations to the dashboard and change some properties
+    // Send the information's to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Integer status) {
         try {

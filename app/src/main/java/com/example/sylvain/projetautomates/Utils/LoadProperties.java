@@ -3,13 +3,13 @@ package com.example.sylvain.projetautomates.Utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-// Load properties file class
+/* This class retrieves the information in the "config.properties" file
+    that is in the "assets" folder outside the programming project */
+
 public class LoadProperties {
     public static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();

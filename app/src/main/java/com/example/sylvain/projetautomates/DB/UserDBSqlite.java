@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/* This class creates the database and retrieves the instances */
+
 public class UserDBSqlite extends SQLiteOpenHelper {
     private static final String TABLE_USER = "table_user";
     private static final String COL_ID = "ID";

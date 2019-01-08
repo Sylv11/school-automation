@@ -1,11 +1,12 @@
 package com.example.sylvain.projetautomates.Tasks;
 
-
 import com.example.sylvain.projetautomates.SimaticS7.S7;
 import com.example.sylvain.projetautomates.SimaticS7.S7Client;
 import com.example.sylvain.projetautomates.Utils.DataBlock;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+/* This class performs all writing actions */
 
 public class WriteTaskS7 {
     // bit and start
@@ -97,7 +98,6 @@ public class WriteTaskS7 {
                     // WriteArea(memoryArea, datablock address, variable location, number of variable to transfer, data)
                     comS7.WriteArea(S7.S7AreaDB, DataBlock.DB, start, 1, wordCommand);
 
-                    // Write the number of bottles in DB5.DBW18
                     if (writeBottles) {
                         bottlesValue = (int) (bottlesValue * Math.pow(256, 3));
                         S7.SetDIntAt(bottleCommand, 0, bottlesValue);
@@ -106,7 +106,6 @@ public class WriteTaskS7 {
                         writeBottles = false;
                     }
 
-                    // Write the liquid level in DB5.DBW24
                     if (writeLevel) {
                         levelValue = (int) (levelValue * Math.pow(256, 3));
                         S7.SetDIntAt(levelCommand, 0, levelValue);
@@ -115,7 +114,6 @@ public class WriteTaskS7 {
                         writeLevel = false;
                     }
 
-                    // Write auto in DB5.DBW26
                     if (writeAuto) {
                         autoValue = (int) (autoValue * Math.pow(256, 3));
                         S7.SetDIntAt(autoCommand, 0, autoValue);
@@ -124,7 +122,6 @@ public class WriteTaskS7 {
                         writeAuto = false;
                     }
 
-                    // Write manual in DB5.DBW28
                     if (writeManual) {
                         manualValue = (int) (manualValue * Math.pow(256, 3));
                         S7.SetDIntAt(manualCommand, 0, manualValue);
@@ -133,7 +130,6 @@ public class WriteTaskS7 {
                         writeManual = false;
                     }
 
-                    // Write the sluicegate word in DB5.DBW30
                     if (writeSluicegate) {
                         sluicegateValue = (int) (sluicegateValue * Math.pow(256, 3));
                         S7.SetDIntAt(sluicegateWordCommand, 0, sluicegateValue);

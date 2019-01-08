@@ -12,9 +12,13 @@ import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.Utils.EmailValidator;
 import com.example.sylvain.projetautomates.R;
 
+/* This activity allow to the new user to register in the application. He have to
+ * give his lastname, firstname, email, password. These information's are stored in the database */
+
+
 public class RegisterActivity extends AppCompatActivity {
 
-    // EditText user informations
+    // EditText user information's
 
     private EditText et_register_lastname;
     private EditText et_register_firstname;
@@ -54,15 +58,15 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    // This method checks the input value given by the user
     private void checkRegistration(String lastname, String firstname, String email, String password) {
-        // Form checks
         if (!lastname.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
             if (lastname.trim().length() >= 3) {
                 if (firstname.trim().length() >= 3) {
                     if (email.trim().length() >= 3) {
                         if (password.length() >= 4) {
                             if (EmailValidator.isValidEmail(email)) {
-                                // Check user informations and if user already exists
+                                // Check user information's and if user already exists
                                 UserAccessDB userDB = new UserAccessDB(this);
                                 userDB.openForRead();
                                 User userCheckExist = userDB.getUser(email);

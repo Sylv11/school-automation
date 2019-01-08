@@ -15,6 +15,9 @@ import com.example.sylvain.projetautomates.Utils.DataBlock;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/* This class provides the useful information's to the liquid level activity by reading it in the data block  */
+
+
 public class ReadServoDBTask {
     // Update message
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
@@ -105,7 +108,7 @@ public class ReadServoDBTask {
         }
     }
 
-    // Send the informations to the servo activity and change some properties
+    // Send the information's to the servo activity and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnProgressUpdate(boolean[] bitsStatus) {
 
@@ -254,16 +257,12 @@ public class ReadServoDBTask {
                         // Read data from PLC
                         int retInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, start, 1, datasPLC);
 
-                        // Read in DB5.DBW16
                         int levelInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 16, 1, dataLevel);
 
-                        // Read in DB5.DBW18
                         int autoInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 18, 1, dataAuto);
 
-                        // Read in DB5.DBW21
                         int manualInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 21, 1, dataManual);
 
-                        // Read in DB5.DBW23
                         int sluicegateInfo = comS7.ReadArea(S7.S7AreaDB, DataBlock.DB, 23, 1, dataSluicegate);
 
                         // If succeed
@@ -276,31 +275,23 @@ public class ReadServoDBTask {
                             sendProgressMessage(bitsStatus);
                         }
 
-                        // If succeed
                         if (levelInfo == 0) {
-                            // We get the Int
                             liquidLevel = (int) (S7.GetDIntAt(dataLevel, 0) / Math.pow(256, 2));
                             System.out.println(liquidLevel);
                             sendLiquidLevelMessage(liquidLevel);
                         }
 
-                        // If succeed
                         if (autoInfo == 0) {
-                            // We get the Int
                             autoOrderNumber = (int) (S7.GetDIntAt(dataAuto, 0) / Math.pow(256, 2));
                             sendAutoOrderMessage(autoOrderNumber);
                         }
 
-                        // If succeed
                         if (manualInfo == 0) {
-                            // We get the Int
                             manualOrderNumber = (int) (S7.GetDIntAt(dataManual, 0) / Math.pow(256, 3));
                             sendManualOrderMessage(manualOrderNumber);
                         }
 
-                        // If succeed
                         if (sluicegateInfo == 0) {
-                            // We get the Word
                             sluicegateWord = (int) (S7.GetDIntAt(dataSluicegate, 0) / Math.pow(256, 3));
                             sendSluicegateWordMessage(sluicegateWord);
                         }

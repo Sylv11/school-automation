@@ -12,11 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.sylvain.projetautomates.R;
@@ -26,6 +23,10 @@ import com.example.sylvain.projetautomates.Utils.LoadProperties;
 import com.example.sylvain.projetautomates.Utils.Network;
 import com.example.sylvain.projetautomates.Utils.Session;
 import com.example.sylvain.projetautomates.Utils.ToastUtil;
+
+/* This activity allow to the user to change manually the DB number and also to send
+ * a value in any addresses in the DB. */
+
 
 public class ManualActivity extends AppCompatActivity {
 
@@ -128,6 +129,7 @@ public class ManualActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // In the case of a click on a navigation item, we redirect to the right activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -137,18 +139,21 @@ public class ManualActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 finish();
                 break;
+
             // Logout and close user session
             case R.id.item_logout:
                 this.session.closeSession();
                 ToastUtil.show(this, "Déconnecté");
                 break;
-            // Redirect to pharma activity
+
+            // Redirect to pharmaceutic activity
             case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
                 finish();
                 break;
+
             // Redirect to servo level activity
             case R.id.item_servo_level:
                 Intent servoIntent = new Intent(this, LevelServoActivity.class);
@@ -156,6 +161,7 @@ public class ManualActivity extends AppCompatActivity {
                 startActivity(servoIntent);
                 finish();
                 break;
+
             // Redirect to admin activity
             case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -163,6 +169,7 @@ public class ManualActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+
             // Redirect to manual activity
             case R.id.item_manual_settings:
                 Intent manualIntent = new Intent(this, ManualActivity.class);
@@ -175,10 +182,13 @@ public class ManualActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show menu when click on the hamburger
     public void openMenu(View view) {
-        // Show menu when click on the hamburger
         this.toolbar.showOverflowMenu();
     }
+
+    /* This method listens when the user click on one of these item. Then, it calls a method from the DataBlock
+     * to set the data block or WriteTaskS7 to write in any addresses in the data block */
 
     public void onManualClickManager(View v) {
         // Check network
@@ -214,7 +224,7 @@ public class ManualActivity extends AppCompatActivity {
                                     this.addressNumber = Integer.valueOf(et_manual_address.getText().toString());
                                     this.value = Integer.valueOf(et_manual_value.getText().toString());
 
-                                    // Address value between 0 and 34
+                                    // If the address value is between 0 and 34 then we can write
                                     if (addressNumber >= 0 && addressNumber <= 34) {
 
                                         // WriteTask

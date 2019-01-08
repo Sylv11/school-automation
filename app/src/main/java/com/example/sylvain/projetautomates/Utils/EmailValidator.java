@@ -2,6 +2,8 @@ package com.example.sylvain.projetautomates.Utils;
 
 import java.util.regex.Pattern;
 
+/* This class checks with a regular expression the format of the email addresses entered during registration */
+
 public class EmailValidator {
     // Check the email with regex
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(

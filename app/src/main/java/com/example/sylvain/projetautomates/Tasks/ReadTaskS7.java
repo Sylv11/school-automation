@@ -21,8 +21,10 @@ import com.example.sylvain.projetautomates.Utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/* This class retrieves the information's about the CPU for the DashboardActivity activity */
+
 public class ReadTaskS7 {
-    // Update messsage for handler
+    // Update messages for handler
     private static final int MESSAGE_PRE_EXECUTE = 1;
 
     // TextView and Button of dashboard
@@ -80,7 +82,7 @@ public class ReadTaskS7 {
         }
     }
 
-    // Send the informations to the dashboard and change some properties
+    // Send the information's to the dashboard and change some properties
     @SuppressLint("SetTextI18n")
     private void downloadOnPreExecute(Object obj) {
         ArrayList<String> data = ((ArrayList<String>) obj);

@@ -26,6 +26,11 @@ import com.example.sylvain.projetautomates.Utils.ToastUtil;
 
 import java.util.ArrayList;
 
+/* This activity allow to the admin (Read/Write) to manage the users.
+   It displays all the application users and we can delete them or
+   change their rights.
+*/
+
 public class AdminActivity extends AppCompatActivity {
 
     // Ranks
@@ -55,7 +60,7 @@ public class AdminActivity extends AppCompatActivity {
 
         this.session = new Session(this);
 
-        // Check if the user is connected
+        // Check if the user is connected else close session and redirection
         if (this.session.isLogged()) {
             this.action_bar_title.setText("GESTION UTILISATEURS");
             // Current user session
@@ -80,6 +85,7 @@ public class AdminActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // In the case of a click on a navigation item, we redirect to the right activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -89,18 +95,21 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 finish();
                 break;
+
             // Logout and close user session
             case R.id.item_logout:
                 this.session.closeSession();
                 ToastUtil.show(this, "Déconnecté");
                 break;
-            // Redirect to pharma activity
+
+            // Redirect to pharmaceutic activity
             case R.id.item_pharmaceutical:
                 Intent pharmaIntent = new Intent(this, PharmaActivity.class);
                 pharmaIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(pharmaIntent);
                 finish();
                 break;
+
             // Redirect to servo level activity
             case R.id.item_servo_level:
                 Intent servoIntent = new Intent(this, LevelServoActivity.class);
@@ -108,6 +117,7 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(servoIntent);
                 finish();
                 break;
+
             // Redirect to admin activity
             case R.id.item_admin:
                 Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -115,6 +125,7 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(adminIntent);
                 finish();
                 break;
+
             // Redirect to manual activity
             case R.id.item_manual_settings:
                 Intent manualIntent = new Intent(this, ManualActivity.class);
@@ -127,16 +138,19 @@ public class AdminActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show menu when click on the hamburger
     public void openMenu(View view) {
-        // Show menu when click on the hamburger
         this.toolbar.showOverflowMenu();
     }
+
+    /* This method dynamically creates the TextView's user to display them.
+     * It also allow us to delete or change the rights of a user. */
 
     @SuppressLint("SetTextI18n")
     public void initUsersTextViews() {
         int i = 0;
 
-        // Read in DB to get all users
+        // Read in database to get all users
         UserAccessDB userDB = new UserAccessDB(this);
         userDB.openForRead();
         ArrayList<User> users = userDB.getUsers();
@@ -174,6 +188,7 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+    // This method sets an onClickListener on each button
     private void createDeleteButton(LinearLayout linearLayoutVertical, final User currentUser) {
         // Delete button
         final Button deleteButton = new Button(this);
@@ -211,6 +226,7 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
+    // This method sets an onClickListener on each button
     private void createRightsButton(LinearLayout linearLayoutVertical, final User currentUser) {
         // Change rights button
         final Button rightsButton = new Button(this);
@@ -261,6 +277,7 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
+    // This method creates the horizontal lines
     private void createLine(int i, LinearLayout linearLayout) {
         // Make an horizontal line
         View line = new View(this);
@@ -276,6 +293,7 @@ public class AdminActivity extends AppCompatActivity {
         linearLayout.addView(line);
     }
 
+    // This method displays the user firstname and lastname in the TextView's
     @SuppressLint("SetTextI18n")
     private void createUserTextView(User currentUser, LinearLayout linearLayoutVertical) {
         // TextView that contains a user

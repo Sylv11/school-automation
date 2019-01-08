@@ -14,6 +14,11 @@ import com.example.sylvain.projetautomates.DB.UserAccessDB;
 import com.example.sylvain.projetautomates.R;
 import com.example.sylvain.projetautomates.Utils.Session;
 
+
+/* This activity allow to the user to login into the application with his email and password.
+ * He can register to in the RegisterActivity. */
+
+
 public class MainActivity extends AppCompatActivity {
 
     // EditText of login and password of the user
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // It executes a method when the user click on a button
     public void onMainClickManager(View v) {
 
         switch (v.getId()) {
@@ -78,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // This method checks the input value given by the user
     private void checkLogin(String email, String password) {
-        // Form checks
         if (!email.isEmpty() && !password.isEmpty()) {
             if (email.trim().length() >= 3) {
                 if (password.length() >= 4) {
